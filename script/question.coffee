@@ -15,6 +15,9 @@ class WWWW.Question
 class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
+    @_mapDiv = document.getElementById("map")
+    marker = new WWWW.Marker(@_mapDiv)
+    marker.setPosition 50, 50
 
     @executePHPFunction "getQuestions", "", (json_string) =>
       @_questions = JSON.parse(json_string)
