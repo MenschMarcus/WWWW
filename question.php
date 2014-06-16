@@ -33,8 +33,8 @@
         <div class="phone-inner">
             <div class="timeline"></div>
             <div class="map" id="map"></div>
-            <div class="question-bar">
-                Wann und wo hat Felix zum ersten mal gekackt?
+            <div class="question-bar" id="question">
+                Wann war eigentlich was wo?
             </div>
             <div class="control-bar">
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
