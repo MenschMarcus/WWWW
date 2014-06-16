@@ -2,7 +2,7 @@
 <html lang="de">
 
 <head>
-  <script type="text/javascript" src="script/jquery-1.9.0.min.js"></script>
+  <script type="text/javascript" src="script/jquery-1.5.0.min.js"></script>
   <script type="text/javascript" src="script/jquery-ui.min.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
   <script type="text/javascript" src="build/marker.js"></script>

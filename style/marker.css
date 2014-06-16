@@ -1,8 +1,8 @@
 .marker {
-    position: absolute;
+    /*position: absolute;
     left: 0px;
     top: 0px;
-    z-index: 2;
+    z-index: 2;*/
     width: 50px;
     height: 50px;
     background: rgba(255, 0, 0, 0.5);

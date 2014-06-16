@@ -16,6 +16,7 @@ class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
     @_mapDiv = document.getElementById("map")
+    
     marker = new WWWW.Marker(@_mapDiv)
     marker.setPosition 50, 50
 
