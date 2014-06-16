@@ -24,16 +24,34 @@ body {
     height: 60px;
     bottom: 0px;
     width: 100%;
-    background-color: #eee;
+    background-color: #444;
     padding: 5px;
+}
+
+.progress {
+    position: absolute;
+    bottom: 10px;
+    margin: 10px 70px;
+    width: 310px;
 }
 
 .question-bar {
     position: absolute;
-    height: 150px;
+    height: 100px;
     bottom: 50px;
     width: 100%;
-    background-color: #d9f;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    font-size: 2em;
+}
+
+.map {
+    background-image: url("../img/map01.png");
+    top: 70px;
+    height: 590px;
+    width: 100%;
+    position: absolute;
+    /*background-color: #555;*/
 }
 
 .start {
