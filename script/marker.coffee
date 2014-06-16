@@ -8,6 +8,8 @@ class WWWW.Marker
     @_markerDiv.className = "marker"
     @_parentDiv.appendChild @_markerDiv
 
+    $(@_markerDiv).draggable()
+
   setPosition: (x, y) ->
     @_markerDiv.style.left = x + "px"
     @_markerDiv.style.top = y + "px"
