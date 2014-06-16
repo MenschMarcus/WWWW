@@ -35,8 +35,19 @@ class WWWW.QuestionHandler
       @_questionCount = @_questions?.length
       @_postNewQuestion()
 
-    $('#submit_answer').on 'click', () =>
+    @_toggle = false
+    $('#submit-answer').on 'click', () =>
       @_postNewQuestion()
+
+      bar = $('#progress-bar')
+      unless @_toggle
+        bar.removeClass 'progress-bar-animate progress-bar'
+        bar.css "width", "0"
+      else
+        bar.addClass 'progress-bar-animate progress-bar'
+        bar.css "width", "100%"
+
+      @_toggle = not @_toggle
 
   _postNewQuestion: =>
     if @_questions?
@@ -49,6 +60,7 @@ class WWWW.QuestionHandler
 
         @_askedQuestions.push new_question
         $('#question').html @_questions[new_question].text
+
 
 
   _executePHPFunction: (method, values, callBack=null) ->

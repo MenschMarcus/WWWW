@@ -38,9 +38,9 @@
             </div>
             <div class="control-bar">
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
-                <div id="submit_answer" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></div>
-                <div class="progress progress-striped active">
-                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                <div id="submit-answer" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></div>
+                <div id="progress-bar-container" class="progress progress-striped active">
+                    <div id="progress-bar" class="progress-bar progress-bar-animate" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                 </div>
             </div>
         </div>

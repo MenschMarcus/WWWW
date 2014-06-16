@@ -35,7 +35,7 @@ body {
     width: 310px;
 }
 
-.progress-bar {
+.progress-bar-animate {
     -webkit-transition: width 20.0s linear !important;
      -moz-transition: width 20.0s linear !important;
        -o-transition: width 20.0s linear !important;
