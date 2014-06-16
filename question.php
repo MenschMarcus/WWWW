@@ -16,7 +16,7 @@
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
 
-      $('#abort').modal();
+      // $('#abort').modal();
       $('#progress-bar').css({width:'100%'});
     });
   </script>
@@ -29,11 +29,11 @@
             <div class="timeline"></div>
             <div class="map" id="map"></div>
             <div class="question-bar">
-                Wann war eigentlich was wo?
+                Wann und wo hat Felix zum ersten mal gekackt?
             </div>
             <div class="control-bar">
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
-                <button class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" data-toggle="modal" data-target="#timeout-dialog" lass="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></button>
                 <div class="progress progress-striped active">
                     <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                 </div>
@@ -47,7 +47,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Spiel beenden?</h4>
+            <h4 class="modal-title">Spiel beenden?</h4>
           </div>
           <div class="modal-body">
             Willst du wirklich das aktuelle Spiel abbrechen?
@@ -55,6 +55,24 @@
           <div class="modal-footer">
             <a href="index.php" class="btn btn-default">Spiel beenden</a>
             <button type="button" class="btn btn-primary" data-dismiss="modal">Spiel fortsetzen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time out dialog -->
+    <div id="timeout-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Zeit abgelaufen!</h4>
+          </div>
+          <div class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <a href="question.php" class="btn btn-default">Nächste Frage!</a>
           </div>
         </div>
       </div>
