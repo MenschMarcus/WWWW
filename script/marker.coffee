@@ -11,6 +11,5 @@ class WWWW.Marker
     $(@_markerDiv).draggable()
 
   setPosition: (x, y) ->
-    #@_markerDiv.style.left = x + "px"
-    #@_markerDiv.style.top = y + "px"
-    console.log "try to set position"
+    @_markerDiv.style.left = x + "px"
+    @_markerDiv.style.top = y + "px"
