@@ -23,16 +23,12 @@ class database {
   }
 
   public function query($string) {
-    $result = mysql_query($string);
+    $result = mysql_query($string, $this->connection);
     if(!$result) {
       print "".mysql_error();
     } else {
       return $result;
     }
-  }
-
-  public function getConnection() {
-    return $this->connection;
   }
 }
 ?>
