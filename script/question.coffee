@@ -17,10 +17,9 @@ class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
 
-    @executePHPFunction "getQuestions", "",
-      (object) =>
-        @_questions = object
-        console.log @_questions
+    @executePHPFunction "getQuestions", "", (object) =>
+      @_questions = object
+      console.log @_questions
 
 
   executePHPFunction: (method, values, callBack=null) ->
