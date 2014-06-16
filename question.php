@@ -31,7 +31,7 @@
 <body>
     <div class="phone-outer">
         <div class="phone-inner">
-            <div class="timeline"></div>
+            <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
             <div class="question-bar" id="question">
                 Wann war eigentlich was wo?
