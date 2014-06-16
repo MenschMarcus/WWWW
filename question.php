@@ -21,9 +21,7 @@
 
     <div class="phone-outer">
         <div class="phone-inner">
-            <div class="start">
-                <a href="index.php">BEENDEN!</a>
-            </div>
+            <div class="timeline"></div>
             <div class="map"></div>
             <div class="question-bar">
                 Wann war eigentlich was wo?
