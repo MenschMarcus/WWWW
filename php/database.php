@@ -15,8 +15,8 @@ class database {
     private $connection;
 
     function __construct() {
-        $link = mysql_connect('host_here', 'user_here', 'password_here');
-        if(mysql_select_db ("db_name_here", $link))
+        $link = mysql_connect('histoglobe.com', 'wwww', '1q2w3e4r.');
+        if(mysql_select_db ("wwww", $link))
             $this->connection = $link;
         else
             $this->connection = false;
