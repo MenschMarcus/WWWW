@@ -31,18 +31,19 @@ class WWWW.QuestionHandler
       @_questionCount = @_questions?.length
       @_postNewQuestion()
 
+    $('#submit_answer').on 'click', () =>
+      @_postNewQuestion()
+
   _postNewQuestion: =>
     if @_questions?
       if @_askedQuestions.length is @_questionCount
-        console.log "All questions asked!"
+        $('#question').html "Sie haben alle Fragen beantwortet!"
       else
-        new_question = 0
+        new_question = getRandomInt 0, (@_questionCount - 1)
         while @_askedQuestions.indexOf(new_question) isnt -1
-          console.log new_question
           new_question = getRandomInt 0, (@_questionCount - 1)
 
         @_askedQuestions.push new_question
-        console.log @_questions[new_question].text
         $('#question').html @_questions[new_question].text
 
 
