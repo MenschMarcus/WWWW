@@ -1,0 +1,41 @@
+body {
+    background-color: #444;
+}
+
+.phone-outer {
+    position: relative;
+    width:500px;
+    height:800px;
+    margin: 20px auto;
+    background-color: #000;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.phone-inner {
+    position: absolute;
+    background-color: #fff;
+    height: 700px;
+    width: 460px;
+}
+
+.control-bar {
+    position: absolute;
+    height: 60px;
+    bottom: 0px;
+    width: 100%;
+    background-color: #eee;
+    padding: 5px;
+}
+
+.question-bar {
+    position: absolute;
+    height: 150px;
+    bottom: 50px;
+    width: 100%;
+    background-color: #d9f;
+}
+
+.start {
+
+}
