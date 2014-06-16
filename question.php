@@ -31,7 +31,7 @@
 <body>
     <div class="phone-outer">
         <div class="phone-inner">
-            <div class="timeline"></div>
+            <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
             <div class="question-bar" id="question">
                 Wann war eigentlich was wo?
@@ -70,11 +70,10 @@
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Zeit abgelaufen!</h4>
           </div>
           <div class="modal-body">
-
+            Du warst leider zu langsam!
           </div>
           <div class="modal-footer">
             <a href="question.php" class="btn btn-default">Nächste Frage!</a>

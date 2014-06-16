@@ -22,9 +22,13 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_questionCount = 0
     @_mapDiv = document.getElementById("map")
+    @_timeline = document.getElementById("timeline")
 
-    marker = new WWWW.Marker(@_mapDiv)
-    marker.setPosition 50, 50
+    map_marker = new WWWW.Marker(@_mapDiv)
+    map_marker.setPosition 50, 50
+
+    tl_marker = new WWWW.Marker(@_timeline, "x")
+    tl_marker.setPosition 10, 0
 
     @_executePHPFunction "getQuestions", "", (json_string) =>
       @_questions = JSON.parse(json_string)

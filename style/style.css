@@ -58,6 +58,7 @@ body {
     height: 590px;
     width: 100%;
     position: absolute;
+    overflow:hidden;
 }
 
 .timeline {
