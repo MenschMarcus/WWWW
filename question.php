@@ -2,8 +2,8 @@
 <html lang="de">
 
 <head>
-  <script type="text/javascript" src="script/jquery-1.9.0.min.js"></script>
-  <script type="text/javascript" src="script/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
   <script type="text/javascript" src="build/marker.js"></script>
 
@@ -17,6 +17,7 @@
       var theapp = new WWWW.QuestionHandler();
 
       $('#abort').modal();
+      $('#progress-bar').css({width:'100%'});
     });
   </script>
 </head>
@@ -34,7 +35,7 @@
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
                 <button class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></button>
                 <div class="progress progress-striped active">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
+                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                 </div>
             </div>
         </div>
