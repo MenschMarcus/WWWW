@@ -27,7 +27,7 @@
         <div class="phone-inner">
             <div class="timeline"></div>
             <div class="map" id="map"></div>
-            <div class="question-bar">
+            <div class="question-bar" id="question">
                 Wann war eigentlich was wo?
             </div>
             <div class="control-bar">
