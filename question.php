@@ -4,6 +4,7 @@
 <head>
   <script type="text/javascript" src="script/jquery-1.9.0.min.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
+  <script type="text/javascript" src="build/marker.js"></script>
   <script type="text/javascript">
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
