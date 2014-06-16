@@ -4,8 +4,8 @@
 <head>
   <script type="text/javascript" src="script/jquery-1.9.0.min.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
+  <script type="text/javascript" src="build/marker.js"></script>
 
-  <script type="text/javascript" src="script/jquery-1.9.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="style/bootstrap-theme.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
