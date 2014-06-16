@@ -55,5 +55,7 @@ body {
 }
 
 .start {
-
+    position: relative;
+    margin: 10px;
+    top: 400px;
 }

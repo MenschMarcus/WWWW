@@ -12,19 +12,9 @@
 <body>
     <div class="phone-outer">
         <div class="phone-inner">
-            <div class="start">
-                <a href="question.php">STARTEN!</a>
-            </div>
-            <div class="map"></div>
-            <div class="question-bar">
-                Wann war eigentlich was wo?
-            </div>
-            <div class="control-bar">
-                <div class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></div>
-                <div class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></div>
-                <div class="progress progress-striped active">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
-                </div>
+            <h1 class="text-center">Was War Wann Wo?</h1>
+            <div class="well start">
+                <a href="question.php" type="button" class="btn btn-primary btn-lg btn-block">Loslegen!</a>
             </div>
         </div>
     </div>
