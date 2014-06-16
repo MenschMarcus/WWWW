@@ -2,6 +2,8 @@
 <html lang="de">
 
 <head>
+  <meta charset="utf-8">
+
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
@@ -16,14 +18,17 @@
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
 
-      // $('#abort').modal();
       $('#progress-bar').css({width:'100%'});
+
+      setTimeout(function() {
+        $('#timeout-dialog').modal('show');
+      }, 20000);
+
     });
   </script>
 </head>
 
 <body>
-
     <div class="phone-outer">
         <div class="phone-inner">
             <div class="timeline"></div>
@@ -33,7 +38,7 @@
             </div>
             <div class="control-bar">
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
-                <button type="button" data-toggle="modal" data-target="#timeout-dialog" lass="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></button>
+                <a href="question.php" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></a>
                 <div class="progress progress-striped active">
                     <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                 </div>
