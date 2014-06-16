@@ -35,6 +35,13 @@ body {
     width: 310px;
 }
 
+.progress-bar {
+    -webkit-transition: width 20.0s linear !important;
+     -moz-transition: width 20.0s linear !important;
+       -o-transition: width 20.0s linear !important;
+          transition: width 20.0s linear !important;
+}
+
 .question-bar {
     position: absolute;
     height: 100px;

@@ -17,6 +17,7 @@
       var theapp = new WWWW.QuestionHandler();
 
       $('#abort').modal();
+      $('#progress-bar').css({width:'100%'});
     });
   </script>
 </head>
@@ -34,7 +35,7 @@
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
                 <button class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></button>
                 <div class="progress progress-striped active">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
+                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                 </div>
             </div>
         </div>
