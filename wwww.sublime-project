@@ -1,0 +1,21 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"./make.sh"
+			],
+			"file_regex": "^(..[^:]*):(.*)$",
+			"name": "wwww",
+			"working_dir": "${project_path}"
+		}
+	],
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		}
+	]
+}
