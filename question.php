@@ -20,9 +20,6 @@
 
       $('#progress-bar').css({width:'100%'});
 
-      // setTimeout(function() {
-      //   $('#timeout-dialog').modal('show');
-      // }, 20000);
 
     });
   </script>

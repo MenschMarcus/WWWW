@@ -23,6 +23,9 @@ class WWWW.QuestionHandler
     @_questionCount = 0
     @_mapDiv = document.getElementById("map")
     @_timeline = document.getElementById("timeline")
+    @_bar = $('#progress-bar')
+
+    @_question_answered = false
 
     map_marker = new WWWW.Marker(@_mapDiv)
     map_marker.setPosition 50, 50
@@ -33,33 +36,41 @@ class WWWW.QuestionHandler
     @_executePHPFunction "getQuestions", "", (json_string) =>
       @_questions = JSON.parse(json_string)
       @_questionCount = @_questions?.length
-      @_postNewQuestion()
+      @postNewQuestion()
 
-    @_toggle = false
+    # submit answer on click
     $('#submit-answer').on 'click', () =>
-      @_postNewQuestion()
+      @questionAnswered()
 
-      bar = $('#progress-bar')
-      unless @_toggle
-        bar.removeClass 'progress-bar-animate progress-bar'
-        bar.css "width", "0"
-      else
-        bar.addClass 'progress-bar-animate progress-bar'
-        bar.css "width", "100%"
+  questionAnswered: =>
+    unless @_question_answered
+      @_bar.removeClass 'progress-bar-animate progress-bar'
+      @_bar.css "width", "0"
 
-      @_toggle = not @_toggle
+      @_question_answered = true
+      window.setTimeout @postNewQuestion, 100
 
-  _postNewQuestion: =>
+  postNewQuestion: =>
     if @_questions?
       if @_askedQuestions.length is @_questionCount
-        $('#question').html "Sie haben alle Fragen beantwortet!"
+        $('#question').html "Du hast alle Fragen beantwortet!"
       else
+        @_question_answered = false
+        @_bar.addClass 'progress-bar-animate progress-bar'
+        @_bar.css "width", "100%"
         new_question = getRandomInt 0, (@_questionCount - 1)
         while @_askedQuestions.indexOf(new_question) isnt -1
           new_question = getRandomInt 0, (@_questionCount - 1)
 
         @_askedQuestions.push new_question
         $('#question').html @_questions[new_question].text
+
+        # submit answer when time is up
+        window.setTimeout () =>
+           @questionAnswered()
+        , 20000
+
+
 
 
 
