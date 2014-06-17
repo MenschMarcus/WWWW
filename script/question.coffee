@@ -1,19 +1,7 @@
 window.WWWW ?= {}
 
-#   -----------------------------------------------------------------
-class WWWW.Question
-  constructor: (id, text, map_img, tl_img, map_x, map_y, tl_x) ->
-    @id = id
-    @text = text
-    @map_img = map_img
-    @tl_img = tl_img
-    @map_x = map_x
-    @map_y = map_y
-    @tl_x = tl_x
-
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
-
 
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler

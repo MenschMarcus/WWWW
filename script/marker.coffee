@@ -14,9 +14,6 @@ class WWWW.Marker
     else
       $(@_markerDiv).draggable(containment: "parent")
 
-    @_parentDiv.onclick = (e) =>
-      e.pageX 
-
   setPosition: (x, y) ->
     @_markerDiv.style.left = x + "px"
     @_markerDiv.style.top = y + "px"
