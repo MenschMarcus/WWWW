@@ -16,6 +16,7 @@ class WWWW.QuestionHandler
     @_time_per_question = 20 #in seconds
 
     @_question_answered = false
+    @_question_timeout = null
 
     @_map_marker = new WWWW.Marker(@_mapDiv)
     @_map_marker.setPosition 50, 50
@@ -50,6 +51,8 @@ class WWWW.QuestionHandler
     unless @_question_answered
       @_bar.removeClass 'progress-bar-animate progress-bar'
       @_bar.css "width", "0"
+
+      window.clearTimeout @_question_timeout
 
       @_question_answered = true
       @showResults()
@@ -87,7 +90,7 @@ class WWWW.QuestionHandler
         @_tl_marker.release()
 
         # submit answer when time is up
-        window.setTimeout () =>
+        @_question_timeout = window.setTimeout () =>
            @questionAnswered()
         , @_time_per_question * 1000
 
