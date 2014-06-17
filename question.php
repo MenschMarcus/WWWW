@@ -62,18 +62,18 @@
       </div>
     </div>
 
-    <!-- Time out dialog -->
-    <div id="timeout-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <!-- Result dialog -->
+    <div id="result-display" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Zeit abgelaufen!</h4>
+            <h4 class="modal-title">Frage beantwortet!</h4>
           </div>
           <div class="modal-body">
-            Du warst leider zu langsam!
+            Bist du bereit für die nächste?
           </div>
           <div class="modal-footer">
-            <a href="question.php" class="btn btn-default">Nächste Frage!</a>
+            <div id="next-question" class="btn btn-default">Nächste Frage!</div>
           </div>
         </div>
       </div>

@@ -13,13 +13,25 @@ class WWWW.QuestionHandler
     @_timeline = document.getElementById("timeline")
     @_bar = $('#progress-bar')
 
+    @_time_per_question = 20 #in seconds
+
     @_question_answered = false
 
-    map_marker = new WWWW.Marker(@_mapDiv)
-    map_marker.setPosition 50, 50
+    @_map_marker = new WWWW.Marker(@_mapDiv)
+    @_map_marker.setPosition 50, 50
 
-    tl_marker = new WWWW.Marker(@_timeline, "x")
-    tl_marker.setPosition 10, 0
+    @_map_result_marker = new WWWW.Marker @_mapDiv, null, true
+    @_map_result_marker.setPosition 150, 150
+    @_map_result_marker.hide()
+    @_map_result_marker.lock()
+
+    @_tl_marker = new WWWW.Marker(@_timeline, "x")
+    @_tl_marker.setPosition 10, 0
+
+    @_tl_result_marker = new WWWW.Marker @_timeline, "x", true
+    @_tl_result_marker.setPosition 200, 0
+    @_tl_result_marker.hide()
+    @_tl_result_marker.lock()
 
     @_executePHPFunction "getQuestions", "", (json_string) =>
       @_questions = JSON.parse(json_string)
@@ -30,13 +42,26 @@ class WWWW.QuestionHandler
     $('#submit-answer').on 'click', () =>
       @questionAnswered()
 
+    # post new question on click
+    $('#next-question').on 'click', () =>
+      @postNewQuestion()
+
   questionAnswered: =>
     unless @_question_answered
       @_bar.removeClass 'progress-bar-animate progress-bar'
       @_bar.css "width", "0"
 
       @_question_answered = true
-      window.setTimeout @postNewQuestion, 100
+      @showResults()
+
+  showResults: =>
+    @_map_result_marker.show()
+    @_map_marker.lock()
+
+    @_tl_result_marker.show()
+    @_tl_marker.lock()
+
+    $('#result-display').modal('show');
 
   postNewQuestion: =>
     if @_questions?
@@ -53,10 +78,18 @@ class WWWW.QuestionHandler
         @_askedQuestions.push new_question
         $('#question').html @_questions[new_question].text
 
+        $('#result-display').modal('hide');
+
+        @_map_result_marker.hide()
+        @_map_marker.release()
+
+        @_tl_result_marker.hide()
+        @_tl_marker.release()
+
         # submit answer when time is up
         window.setTimeout () =>
            @questionAnswered()
-        , 20000
+        , @_time_per_question * 1000
 
 
 
