@@ -8,7 +8,9 @@ class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
     @_askedQuestions = []
-    @_questionCount = 0
+    @_totalQuestionCount = 0
+    @_questionsPerRound = 1
+    @_roundCount = 1
     @_mapDiv = document.getElementById("map")
     @_timeline = document.getElementById("timeline")
     @_bar = $('#progress-bar')
@@ -36,7 +38,9 @@ class WWWW.QuestionHandler
 
     @_executePHPFunction "getQuestions", "", (json_string) =>
       @_questions = JSON.parse(json_string)
-      @_questionCount = @_questions?.length
+      @_totalQuestionCount = @_questions?.length
+      if @_questionsPerRound > @_totalQuestionCount
+        @_questionsPerRound = @_totalQuestionCount
       @postNewQuestion()
 
     # submit answer on click
@@ -68,15 +72,16 @@ class WWWW.QuestionHandler
 
   postNewQuestion: =>
     if @_questions?
-      if @_askedQuestions.length is @_questionCount
-        $('#question').html "Du hast alle Fragen beantwortet!"
+      if (@_askedQuestions.length is @_questionsPerRound * @_roundCount) or (
+        @_askedQuestions.length is @_totalQuestionCount)
+        @roundEnd()
       else
         @_question_answered = false
         @_bar.addClass 'progress-bar-animate progress-bar'
         @_bar.css "width", "100%"
-        new_question = getRandomInt 0, (@_questionCount - 1)
+        new_question = getRandomInt 0, (@_totalQuestionCount - 1)
         while @_askedQuestions.indexOf(new_question) isnt -1
-          new_question = getRandomInt 0, (@_questionCount - 1)
+          new_question = getRandomInt 0, (@_totalQuestionCount - 1)
 
         @_askedQuestions.push new_question
         $('#question').html @_questions[new_question].text
@@ -95,7 +100,9 @@ class WWWW.QuestionHandler
         , @_time_per_question * 1000
 
 
-
+  roundEnd: =>
+    $('#question').html "Du hast alle Fragen beantwortet!"
+    @_roundCount++
 
 
   _executePHPFunction: (method, values, callBack=null) ->
