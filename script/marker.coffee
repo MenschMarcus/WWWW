@@ -20,7 +20,7 @@ class WWWW.Marker
       y : $(@_markerDiv).offset().top
 
   setPosition: (pos) ->
-    @_markerDiv.style.left = pos.x + "px"
+    @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
     @_markerDiv.style.top = pos.y + "px"
 
   hide: () ->

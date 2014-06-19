@@ -21,6 +21,15 @@ if(isset($_GET["getMaps"])) {
   print json_encode($rows);
 }
 
+if(isset($_GET["getTimelines"])) {
+  $result = $db->query("SELECT * FROM `timeline`;");
+  $rows = array();
+  while($row = mysql_fetch_assoc($result)) {
+     $rows[] = $row;
+   }
+  print json_encode($rows);
+}
+
 // if(isset($_GET["insertIntoDB"])) {
 //     $str_json = file_get_contents('php://input');
 //     $input = json_decode($str_json);

@@ -34,6 +34,10 @@ class WWWW.QuestionHandler
     @_map_result_marker.hide()
     @_map_result_marker.lock()
 
+
+    @_timelines = null
+    @_currentTimeline = null
+
     @_tl_marker = new WWWW.Marker(@_timelineDiv, "x")
     startPos =
       x : 10
@@ -59,17 +63,26 @@ class WWWW.QuestionHandler
 
         @_maps[map.id] = map
 
-      @_executePHPFunction "getQuestions", "", (question_string) =>
-        @_questions = JSON.parse question_string
-        for question in @_questions
-          question.latLng =
-            lat : parseInt(question.lat)
-            lng : parseInt(question.long)
+      @_executePHPFunction "getTimelines", "", (tl_string) =>
+        @_timelines = new Object()
+        tls = JSON.parse tl_string
 
-        @_totalQuestionCount = @_questions?.length
-        if @_questionsPerRound > @_totalQuestionCount
-          @_questionsPerRound = @_totalQuestionCount
-        @postNewQuestion()
+        for tl in tls
+          tl.min_year = parseInt(tl.min_year)
+          tl.max_year = parseInt(tl.max_year)
+          @_timelines[tl.id] = tl
+
+        @_executePHPFunction "getQuestions", "", (question_string) =>
+          @_questions = JSON.parse question_string
+          for question in @_questions
+            question.latLng =
+              lat : parseInt(question.lat)
+              lng : parseInt(question.long)
+
+          @_totalQuestionCount = @_questions?.length
+          if @_questionsPerRound > @_totalQuestionCount
+            @_questionsPerRound = @_totalQuestionCount
+          @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -98,9 +111,16 @@ class WWWW.QuestionHandler
 
     answerLatLng = @_pixelToLatLng @_map_marker.getPosition()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
-    console.log spatialDistance
 
-    $('#result-display').modal('show');
+    answerTime = @_pixelToTime @_tl_marker.getPosition()
+    timeDistance = Math.abs(answerTime - @_currentQuestion.year)
+
+    console.log spatialDistance
+    console.log timeDistance
+
+    window.setTimeout () =>
+      $('#result-display').modal('show')
+    , 2000
 
   postNewQuestion: =>
     if @_questions?
@@ -124,10 +144,12 @@ class WWWW.QuestionHandler
         @_askedQuestions.push newQuestionId
         @_currentQuestion = @_questions[newQuestionId]
         @_currentMap = @_maps[@_currentQuestion.map_id]
+        @_currentTimeline = @_timelines[@_currentQuestion.tl_id]
 
 
         $('#question').html @_currentQuestion.text
         $('#map').css "background-image", "url('img/#{@_currentMap.file_name}')"
+        $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
 
 
         # hide old result and update result markers
@@ -137,6 +159,7 @@ class WWWW.QuestionHandler
         @_map_result_marker.hide()
         @_map_marker.release()
 
+        @_tl_result_marker.setPosition @_timeToPixel(@_currentQuestion.year)
         @_tl_result_marker.hide()
         @_tl_marker.release()
 
@@ -203,18 +226,40 @@ class WWWW.QuestionHandler
   _getMeterDistance: (latLng1, latLng2) =>
     earthRadius = 6371 # in km
 
-    deg2rad = (degree) ->
+    degTorad = (degree) ->
       return degree * (Math.PI / 180)
 
-    deltaLat = deg2rad(latLng2.lat - latLng1.lat)
-    deltaLng = deg2rad(latLng2.lng - latLng1.lng)
+    deltaLat = degTorad(latLng2.lat - latLng1.lat)
+    deltaLng = degTorad(latLng2.lng - latLng1.lng)
 
 
     a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
-        Math.cos(deg2rad(latLng1.lat)) * Math.cos(deg2rad(latLng2.lat)) *
+        Math.cos(degTorad(latLng1.lat)) * Math.cos(degTorad(latLng2.lat)) *
         Math.sin(deltaLng/2) * Math.sin(deltaLng/2)
 
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
     dist = earthRadius * c
 
     return dist
+
+  _pixelToTime: (pos) =>
+    width = $("#timeline").width()
+    offset = $("#timeline").offset()
+    relX = (pos.x - offset.left) / width
+
+    timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
+    time = Math.round(relX * timeDiff + @_currentTimeline.min_year)
+
+    time
+
+
+  _timeToPixel: (time) =>
+    relTime = (time - @_currentTimeline.min_year) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
+
+    pos =
+      x : relTime * $("#timeline").width()
+      y : 0
+
+    pos
+
+
