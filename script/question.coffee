@@ -116,6 +116,7 @@ class WWWW.QuestionHandler
         # submit answer when time is up
         @_question_timeout = window.setTimeout () =>
            @questionAnswered()
+           @insertAnswer()
         , @_time_per_question * 1000
 
 
@@ -123,6 +124,13 @@ class WWWW.QuestionHandler
     $('#question').html "Du hast alle Fragen beantwortet!"
     @_roundCount++
 
+  insertAnswer: (session_id, start_time, end_time) =>
+    send =
+      table: "answer"
+      values: session_id + ", "+ start_time + ", " + end_time
+      names: "session_id" + ", " + "start_time" + ", " + "end_time"
+    @_executePHPFunction "insertIntoDB", send, (response) =>
+      console.log "answer was inserted | " + response
 
   _executePHPFunction: (method, values, callBack=null) ->
     if (window.XMLHttpRequest)
