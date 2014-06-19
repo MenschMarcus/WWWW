@@ -7,9 +7,10 @@ getRandomInt= (min, max) ->
 class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
+    @_maps = null
     @_askedQuestions = []
     @_totalQuestionCount = 0
-    @_questionsPerRound = 1
+    @_questionsPerRound = 5
     @_roundCount = 1
     @_mapDiv = document.getElementById("map")
     @_timeline = document.getElementById("timeline")
@@ -36,12 +37,20 @@ class WWWW.QuestionHandler
     @_tl_result_marker.hide()
     @_tl_result_marker.lock()
 
-    @_executePHPFunction "getQuestions", "", (json_string) =>
-      @_questions = JSON.parse(json_string)
-      @_totalQuestionCount = @_questions?.length
-      if @_questionsPerRound > @_totalQuestionCount
-        @_questionsPerRound = @_totalQuestionCount
-      @postNewQuestion()
+    @_executePHPFunction "getMaps", "", (map_string) =>
+      @_maps = new Object()
+      maps = JSON.parse map_string
+
+      for map in maps
+        console.log map
+        @_maps[map.id] = map
+
+      @_executePHPFunction "getQuestions", "", (question_string) =>
+        @_questions = JSON.parse question_string
+        @_totalQuestionCount = @_questions?.length
+        if @_questionsPerRound > @_totalQuestionCount
+          @_questionsPerRound = @_totalQuestionCount
+        @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -77,15 +86,25 @@ class WWWW.QuestionHandler
         @roundEnd()
       else
         @_question_answered = false
+
+        # reset loading bar
         @_bar.addClass 'progress-bar-animate progress-bar'
         @_bar.css "width", "100%"
+
+        # search for new question
         new_question = getRandomInt 0, (@_totalQuestionCount - 1)
         while @_askedQuestions.indexOf(new_question) isnt -1
           new_question = getRandomInt 0, (@_totalQuestionCount - 1)
 
+        currentMap = @_maps[@_questions[new_question].map_id]
+
+        # update question
         @_askedQuestions.push new_question
         $('#question').html @_questions[new_question].text
+        $('#map').css "background-image", "url('#{currentMap.file_name}')"
 
+
+        # hide result
         $('#result-display').modal('hide');
 
         @_map_result_marker.hide()
