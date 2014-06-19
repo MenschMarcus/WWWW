@@ -11,6 +11,8 @@ class WWWW.QuestionHandler
     @_currentQuestion = null
     @_totalQuestionCount = 0
     @_questionsPerRound = 5
+    @_maxScore = 1000
+    @_totalScore = 0
     @_roundCount = 1
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -92,6 +94,10 @@ class WWWW.QuestionHandler
     $('#next-question').on 'click', () =>
       @postNewQuestion()
 
+    # post new question on click
+    $('#next-round').on 'click', () =>
+      @postNewQuestion()
+
   questionAnswered: =>
     unless @_question_answered
       @_bar.removeClass 'progress-bar-animate progress-bar'
@@ -122,9 +128,12 @@ class WWWW.QuestionHandler
     lngScore = 1 - Math.abs((answerLatLng.lng - @_currentQuestion.latLng.lng) / (@_currentMap.long_max - @_currentMap.long_min))
     timeScore = 1 - (temporalDistance) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    score = Math.round(latScore * lngScore * timeScore * 1000)
+    score = Math.round((latScore + lngScore)/2 * timeScore * @_maxScore)
 
     $("#answer-score").html score
+    $("#answer-max-score").html @_maxScore
+
+    @_totalScore += score
 
     @insertAnswer()
 
@@ -164,6 +173,7 @@ class WWWW.QuestionHandler
 
         # hide old result and update result markers
         $('#result-display').modal('hide');
+        $('#round-end-display').modal('hide');
 
         @_map_result_marker.setPosition @_latLngToPixel(@_currentQuestion.latLng)
         @_map_result_marker.hide()
@@ -180,7 +190,14 @@ class WWWW.QuestionHandler
 
 
   roundEnd: =>
-    $('#question').html "Du hast alle Fragen beantwortet!"
+    $('#result-display').modal('hide')
+
+    $("#total-score").html @_totalScore
+    $("#total-max-score").html @_maxScore * @_questionsPerRound
+
+    $('#round-end-display').modal('show')
+
+    @_totalScore = 0
     @_roundCount++
 
   insertAnswer: (session_id, start_time, end_time) =>

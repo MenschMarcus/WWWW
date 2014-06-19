@@ -63,7 +63,7 @@
     </div>
 
     <!-- Result dialog -->
-    <div id="result-display" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div id="result-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
@@ -72,10 +72,28 @@
           <div class="modal-body">
             Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
             Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
-            Score: <span id="answer-score"></span>
+            Score: <span id="answer-score"></span> von <span id="answer-max-score"></span>
           </div>
           <div class="modal-footer">
             <div id="next-question" class="btn btn-default">Nächste Frage!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="round-end-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Runde beendet!</h4>
+          </div>
+          <div class="modal-body">
+            Du hast alle Fragen beantwortet!
+
+            Gesamtscore: <span id="total-score"></span> von <span id="total-max-score"></span>
+          </div>
+          <div class="modal-footer">
+            <div id="next-round" class="btn btn-default">Neue Runde!</div>
           </div>
         </div>
       </div>
