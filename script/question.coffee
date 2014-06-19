@@ -7,13 +7,13 @@ getRandomInt= (min, max) ->
 class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
-    @_maps = null
     @_askedQuestions = []
+    @_currentQuestion = null
     @_totalQuestionCount = 0
     @_questionsPerRound = 5
     @_roundCount = 1
     @_mapDiv = document.getElementById("map")
-    @_timeline = document.getElementById("timeline")
+    @_timelineDiv = document.getElementById("timeline")
     @_bar = $('#progress-bar')
 
     @_time_per_question = 20 #in seconds
@@ -21,19 +21,26 @@ class WWWW.QuestionHandler
     @_question_answered = false
     @_question_timeout = null
 
+    @_maps = null
+    @_currentMap = null
+
     @_map_marker = new WWWW.Marker(@_mapDiv)
-    @_map_marker.setPosition 50, 50
+    startPos =
+      x : 50
+      y : 50
+    @_map_marker.setPosition startPos
 
     @_map_result_marker = new WWWW.Marker @_mapDiv, null, true
-    @_map_result_marker.setPosition 150, 150
     @_map_result_marker.hide()
     @_map_result_marker.lock()
 
-    @_tl_marker = new WWWW.Marker(@_timeline, "x")
-    @_tl_marker.setPosition 10, 0
+    @_tl_marker = new WWWW.Marker(@_timelineDiv, "x")
+    startPos =
+      x : 10
+      y : 0
+    @_tl_marker.setPosition startPos
 
-    @_tl_result_marker = new WWWW.Marker @_timeline, "x", true
-    @_tl_result_marker.setPosition 200, 0
+    @_tl_result_marker = new WWWW.Marker @_timelineDiv, "x", true
     @_tl_result_marker.hide()
     @_tl_result_marker.lock()
 
@@ -42,11 +49,23 @@ class WWWW.QuestionHandler
       maps = JSON.parse map_string
 
       for map in maps
-        console.log map
+        map.minLatLng =
+          lat : parseInt(map.lat_min)
+          lng : parseInt(map.long_min)
+
+        map.maxLatLng =
+          lat : parseInt(map.lat_max)
+          lng : parseInt(map.long_max)
+
         @_maps[map.id] = map
 
       @_executePHPFunction "getQuestions", "", (question_string) =>
         @_questions = JSON.parse question_string
+        for question in @_questions
+          question.latLng =
+            lat : parseInt(question.lat)
+            lng : parseInt(question.long)
+
         @_totalQuestionCount = @_questions?.length
         if @_questionsPerRound > @_totalQuestionCount
           @_questionsPerRound = @_totalQuestionCount
@@ -77,6 +96,10 @@ class WWWW.QuestionHandler
     @_tl_result_marker.show()
     @_tl_marker.lock()
 
+    answerLatLng = @_pixelToLatLng @_map_marker.getPosition()
+    spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
+    console.log spatialDistance
+
     $('#result-display').modal('show');
 
   postNewQuestion: =>
@@ -92,21 +115,25 @@ class WWWW.QuestionHandler
         @_bar.css "width", "100%"
 
         # search for new question
-        new_question = getRandomInt 0, (@_totalQuestionCount - 1)
-        while @_askedQuestions.indexOf(new_question) isnt -1
-          new_question = getRandomInt 0, (@_totalQuestionCount - 1)
+        newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
+        while @_askedQuestions.indexOf(newQuestionId) isnt -1
+          newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
 
-        currentMap = @_maps[@_questions[new_question].map_id]
 
         # update question
-        @_askedQuestions.push new_question
-        $('#question').html @_questions[new_question].text
-        $('#map').css "background-image", "url('#{currentMap.file_name}')"
+        @_askedQuestions.push newQuestionId
+        @_currentQuestion = @_questions[newQuestionId]
+        @_currentMap = @_maps[@_currentQuestion.map_id]
 
 
-        # hide result
+        $('#question').html @_currentQuestion.text
+        $('#map').css "background-image", "url('img/#{@_currentMap.file_name}')"
+
+
+        # hide old result and update result markers
         $('#result-display').modal('hide');
 
+        @_map_result_marker.setPosition @_latLngToPixel(@_currentQuestion.latLng)
         @_map_result_marker.hide()
         @_map_marker.release()
 
@@ -115,8 +142,9 @@ class WWWW.QuestionHandler
 
         # submit answer when time is up
         @_question_timeout = window.setTimeout () =>
-           @questionAnswered()
-           @insertAnswer()
+           # @questionAnswered()
+           # @insertAnswer()
+           a = 2
         , @_time_per_question * 1000
 
 
@@ -125,12 +153,12 @@ class WWWW.QuestionHandler
     @_roundCount++
 
   insertAnswer: (session_id, start_time, end_time) =>
-    send =
-      table: "answer"
-      values: session_id + ", "+ start_time + ", " + end_time
-      names: "session_id" + ", " + "start_time" + ", " + "end_time"
-    @_executePHPFunction "insertIntoDB", send, (response) =>
-      console.log "answer was inserted | " + response
+    # send =
+    #   table: "answer"
+    #   values: session_id + ", "+ start_time + ", " + end_time
+    #   names: "session_id" + ", " + "start_time" + ", " + "end_time"
+    # @_executePHPFunction "insertIntoDB", send, (response) =>
+    #   console.log "answer was inserted | " + response
 
   _executePHPFunction: (method, values, callBack=null) ->
     if (window.XMLHttpRequest)
@@ -143,3 +171,50 @@ class WWWW.QuestionHandler
     xmlhttp.onreadystatechange= =>
       if (xmlhttp.readyState==4 && xmlhttp.status==200)
         callBack? xmlhttp.responseText
+
+  _pixelToLatLng: (pos) =>
+    width = $("#map").width()
+    height = $("#map").height()
+
+    offset = $("#map").offset()
+
+    relX = (pos.x - offset.left) / width
+    relY = (pos.y - offset.top) / height
+
+    latDiff = @_currentMap.maxLatLng.lat - @_currentMap.minLatLng.lat
+    lngDiff = @_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng
+
+    latLng =
+      lat : relY * latDiff + @_currentMap.minLatLng.lat
+      lng : relX * lngDiff + @_currentMap.minLatLng.lng
+
+    latLng
+
+  _latLngToPixel: (latLng) =>
+    relLat = (latLng.lat - @_currentMap.minLatLng.lat) / (@_currentMap.maxLatLng.lat - @_currentMap.minLatLng.lat)
+    relLng = (latLng.lng - @_currentMap.minLatLng.lng) / (@_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng)
+
+    pos =
+      x : relLng * $("#map").width()
+      y : relLat * $("#map").height()
+
+    pos
+
+  _getMeterDistance: (latLng1, latLng2) =>
+    earthRadius = 6371 # in km
+
+    deg2rad = (degree) ->
+      return degree * (Math.PI / 180)
+
+    deltaLat = deg2rad(latLng2.lat - latLng1.lat)
+    deltaLng = deg2rad(latLng2.lng - latLng1.lng)
+
+
+    a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+        Math.cos(deg2rad(latLng1.lat)) * Math.cos(deg2rad(latLng2.lat)) *
+        Math.sin(deltaLng/2) * Math.sin(deltaLng/2)
+
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    dist = earthRadius * c
+
+    return dist

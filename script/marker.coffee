@@ -14,9 +14,14 @@ class WWWW.Marker
     else
       $(@_markerDiv).draggable(containment: "parent")
 
-  setPosition: (x, y) ->
-    @_markerDiv.style.left = x + "px"
-    @_markerDiv.style.top = y + "px"
+  getPosition: () ->
+    pos =
+      x : $(@_markerDiv).offset().left
+      y : $(@_markerDiv).offset().top
+
+  setPosition: (pos) ->
+    @_markerDiv.style.left = pos.x + "px"
+    @_markerDiv.style.top = pos.y + "px"
 
   hide: () ->
     $(@_markerDiv).css "visibility", "hidden"
