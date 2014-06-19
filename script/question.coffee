@@ -113,10 +113,20 @@ class WWWW.QuestionHandler
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
     answerTime = @_pixelToTime @_tl_marker.getPosition()
-    timeDistance = Math.abs(answerTime - @_currentQuestion.year)
+    temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
 
-    console.log spatialDistance
-    console.log timeDistance
+    $("#answer-spatial-distance").html spatialDistance
+    $("#answer-temporal-distance").html temporalDistance
+
+    latScore = 1 - Math.abs((answerLatLng.lat - @_currentQuestion.latLng.lat) / (@_currentMap.lat_max - @_currentMap.lat_min))
+    lngScore = 1 - Math.abs((answerLatLng.lng - @_currentQuestion.latLng.lng) / (@_currentMap.long_max - @_currentMap.long_min))
+    timeScore = 1 - (temporalDistance) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
+
+    score = Math.round(latScore * lngScore * timeScore * 1000)
+
+    $("#answer-score").html score
+
+    @insertAnswer()
 
     window.setTimeout () =>
       $('#result-display').modal('show')
@@ -165,9 +175,7 @@ class WWWW.QuestionHandler
 
         # submit answer when time is up
         @_question_timeout = window.setTimeout () =>
-           # @questionAnswered()
-           # @insertAnswer()
-           a = 2
+           @questionAnswered()
         , @_time_per_question * 1000
 
 
@@ -240,7 +248,7 @@ class WWWW.QuestionHandler
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
     dist = earthRadius * c
 
-    return dist
+    Math.round(dist)
 
   _pixelToTime: (pos) =>
     width = $("#timeline").width()

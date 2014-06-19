@@ -70,7 +70,9 @@
             <h4 class="modal-title">Frage beantwortet!</h4>
           </div>
           <div class="modal-body">
-            Bist du bereit für die nächste?
+            Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
+            Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
+            Score: <span id="answer-score"></span>
           </div>
           <div class="modal-footer">
             <div id="next-question" class="btn btn-default">Nächste Frage!</div>
