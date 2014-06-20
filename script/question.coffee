@@ -4,6 +4,19 @@ getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
 
 #   -----------------------------------------------------------------
+class WWWW.Answer
+  constructor: () ->
+    @q_id = null
+    @round_count = null
+    @session_id = null
+    @lat = null
+    @long = null
+    @year = null
+    @score = null
+    @start_time = null
+    @end_time = null
+
+#   -----------------------------------------------------------------
 class WWWW.QuestionHandler
   constructor: () ->
     @_questions = null
@@ -14,14 +27,17 @@ class WWWW.QuestionHandler
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
+
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
-    @_bar = $('#progress-bar')
+    @_barDiv = $('#progress-bar')
 
     @_timePerQuestion = 20 #in seconds
 
     @_questionAnswered = false
     @_questionTimeout = null
+
+    @_currentAnswer = new WWWW.Answer()
 
     @_maps = null
     @_currentMap = null
@@ -118,12 +134,13 @@ class WWWW.QuestionHandler
 
   questionAnswered: =>
     unless @_questionAnswered
-      @_bar.removeClass 'progress-bar-animate progress-bar'
-      @_bar.css "width", "0"
+      @_barDiv.removeClass 'progress-bar-animate progress-bar'
+      @_barDiv.css "width", "0"
 
       window.clearTimeout @_questionTimeout
 
       @_questionAnswered = true
+      @_currentAnswer.end_time = (new Date()).getTime()
       @showResults()
 
   showResults: =>
@@ -153,7 +170,14 @@ class WWWW.QuestionHandler
 
     @_totalScore += score
 
-    @insertAnswer()
+    @_currentAnswer.score = score
+    @_currentAnswer.lat = answerLatLng.lat
+    @_currentAnswer.long = answerLatLng.lng
+    @_currentAnswer.year = answerTime
+    @_currentAnswer.round_count = @_roundCount
+    @_currentAnswer.q_id = @_currentQuestion.id
+
+    @submitAnswer()
 
     window.setTimeout () =>
       $('#result-display').modal('show')
@@ -168,8 +192,8 @@ class WWWW.QuestionHandler
         @_questionAnswered = false
 
         # reset loading bar
-        @_bar.addClass 'progress-bar-animate progress-bar'
-        @_bar.css "width", "100%"
+        @_barDiv.addClass 'progress-bar-animate progress-bar'
+        @_barDiv.css "width", "100%"
 
         # search for new question
         newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
@@ -204,6 +228,9 @@ class WWWW.QuestionHandler
         @_tlResultMarker.hide()
         @_tlMarker.release()
 
+        @_currentAnswer.session_id = 0
+        @_currentAnswer.start_time = (new Date()).getTime()
+
         # submit answer when time is up
         @_questionTimeout = window.setTimeout () =>
            @questionAnswered()
@@ -221,13 +248,15 @@ class WWWW.QuestionHandler
     @_totalScore = 0
     @_roundCount++
 
-  insertAnswer: (session_id, start_time, end_time) =>
-    # send =
-    #   table: "answer"
-    #   values: session_id + ", "+ start_time + ", " + end_time
-    #   names: "session_id" + ", " + "start_time" + ", " + "end_time"
-    # @_executePHPFunction "insertIntoDB", send, (response) =>
-    #   console.log "answer was inserted | " + response
+  submitAnswer: =>
+    a = @_currentAnswer
+    send =
+      table: "answer"
+      values: "#{a.q_id}, #{a.round_count}, #{a.session_id}, #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}"
+      names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`"
+
+    @_executePHPFunction "insertIntoDB", send, (response) =>
+      console.log "Answer was submitted with response #{response}"
 
   _executePHPFunction: (method, values, callBack=null) ->
     if (window.XMLHttpRequest)
