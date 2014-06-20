@@ -4,7 +4,7 @@
 
 <head>
     <title>WWWW</title>
-    <script type="text/javascript" src="script/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
     <link rel="stylesheet" type="text/css" href="style/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="style/bootstrap-theme.css">
     <link rel="stylesheet" type="text/css" href="style/style.css" />

@@ -18,37 +18,37 @@ class WWWW.QuestionHandler
     @_timelineDiv = document.getElementById("timeline")
     @_bar = $('#progress-bar')
 
-    @_time_per_question = 20 #in seconds
+    @_timePerQuestion = 20 #in seconds
 
-    @_question_answered = false
-    @_question_timeout = null
+    @_questionAnswered = false
+    @_questionTimeout = null
 
     @_maps = null
     @_currentMap = null
 
-    @_map_marker = new WWWW.Marker(@_mapDiv)
+    @_mapMarker = new WWWW.Marker(@_mapDiv)
     startPos =
       x : 50
       y : 50
-    @_map_marker.setPosition startPos
+    @_mapMarker.setPosition startPos
 
-    @_map_result_marker = new WWWW.Marker @_mapDiv, null, true
-    @_map_result_marker.hide()
-    @_map_result_marker.lock()
+    @_mapResultMarker = new WWWW.Marker @_mapDiv, null, true
+    @_mapResultMarker.hide()
+    @_mapResultMarker.lock()
 
 
     @_timelines = null
     @_currentTimeline = null
 
-    @_tl_marker = new WWWW.Marker(@_timelineDiv, "x")
+    @_tlMarker = new WWWW.Marker(@_timelineDiv, "x")
     startPos =
       x : 10
-      y : 0
-    @_tl_marker.setPosition startPos
+      y : $(@_tlMarker.getDiv()).height()
+    @_tlMarker.setPosition startPos
 
-    @_tl_result_marker = new WWWW.Marker @_timelineDiv, "x", true
-    @_tl_result_marker.hide()
-    @_tl_result_marker.lock()
+    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true
+    @_tlResultMarker.hide()
+    @_tlResultMarker.lock()
 
     @_executePHPFunction "getMaps", "", (map_string) =>
       @_maps = new Object()
@@ -98,27 +98,45 @@ class WWWW.QuestionHandler
     $('#next-round').on 'click', () =>
       @postNewQuestion()
 
+    # place map marker on click
+    $(@_mapDiv).on 'click', (event) =>
+      offset = $(@_mapDiv).offset()
+      newPos =
+        x : event.clientX - offset.left
+        y : event.clientY - offset.top
+
+      @_mapMarker.setPosition newPos
+
+    # place timeline marker on click
+    $(@_timelineDiv).on 'click', (event) =>
+      offset = $(@_timelineDiv).offset()
+      newPos =
+        x : event.clientX - offset.left
+        y : $(@_tlMarker.getDiv()).height()
+
+      @_tlMarker.setPosition newPos
+
   questionAnswered: =>
-    unless @_question_answered
+    unless @_questionAnswered
       @_bar.removeClass 'progress-bar-animate progress-bar'
       @_bar.css "width", "0"
 
-      window.clearTimeout @_question_timeout
+      window.clearTimeout @_questionTimeout
 
-      @_question_answered = true
+      @_questionAnswered = true
       @showResults()
 
   showResults: =>
-    @_map_result_marker.show()
-    @_map_marker.lock()
+    @_mapResultMarker.show()
+    @_mapMarker.lock()
 
-    @_tl_result_marker.show()
-    @_tl_marker.lock()
+    @_tlResultMarker.show()
+    @_tlMarker.lock()
 
-    answerLatLng = @_pixelToLatLng @_map_marker.getPosition()
+    answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
-    answerTime = @_pixelToTime @_tl_marker.getPosition()
+    answerTime = @_pixelToTime @_tlMarker.getPosition()
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
 
     $("#answer-spatial-distance").html spatialDistance
@@ -147,7 +165,7 @@ class WWWW.QuestionHandler
         @_askedQuestions.length is @_totalQuestionCount)
         @roundEnd()
       else
-        @_question_answered = false
+        @_questionAnswered = false
 
         # reset loading bar
         @_bar.addClass 'progress-bar-animate progress-bar'
@@ -175,18 +193,21 @@ class WWWW.QuestionHandler
         $('#result-display').modal('hide');
         $('#round-end-display').modal('hide');
 
-        @_map_result_marker.setPosition @_latLngToPixel(@_currentQuestion.latLng)
-        @_map_result_marker.hide()
-        @_map_marker.release()
+        @_mapResultMarker.setPosition @_latLngToPixel(@_currentQuestion.latLng)
+        @_mapResultMarker.hide()
+        @_mapMarker.release()
 
-        @_tl_result_marker.setPosition @_timeToPixel(@_currentQuestion.year)
-        @_tl_result_marker.hide()
-        @_tl_marker.release()
+        tlResultPos = @_timeToPixel(@_currentQuestion.year)
+        tlResultPos.y = $(@_tlMarker.getDiv()).height()
+
+        @_tlResultMarker.setPosition tlResultPos
+        @_tlResultMarker.hide()
+        @_tlMarker.release()
 
         # submit answer when time is up
-        @_question_timeout = window.setTimeout () =>
+        @_questionTimeout = window.setTimeout () =>
            @questionAnswered()
-        , @_time_per_question * 1000
+        , @_timePerQuestion * 1000
 
 
   roundEnd: =>
