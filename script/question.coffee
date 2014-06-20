@@ -249,14 +249,18 @@ class WWWW.QuestionHandler
     @_roundCount++
 
   submitAnswer: =>
-    a = @_currentAnswer
-    send =
-      table: "answer"
-      values: "#{a.q_id}, #{a.round_count}, #{a.session_id}, #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}"
-      names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`"
+    @_executePHPFunction "getSessionID", "", (s_id) =>
+      @_currentAnswer.session_id = parseInt(s_id)
 
-    @_executePHPFunction "insertIntoDB", send, (response) =>
-      console.log "Answer was submitted with response #{response}"
+      a = @_currentAnswer
+
+      send =
+        table: "answer"
+        values: "#{a.q_id}, #{a.round_count}, #{a.session_id}, #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}"
+        names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`"
+
+      @_executePHPFunction "insertIntoDB", send, (response) =>
+        console.log "Answer was submitted with response #{response}"
 
   _executePHPFunction: (method, values, callBack=null) ->
     if (window.XMLHttpRequest)

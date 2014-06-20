@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include "database.php";
 $db = new database();
 
@@ -31,13 +33,18 @@ if(isset($_GET["getTimelines"])) {
 }
 
 if(isset($_GET["insertIntoDB"])) {
-    $str_json = file_get_contents('php://input');
-    $input = json_decode($str_json);
-    $table = $input->table;
-    $names =  $input->names;
-    $values = $input->values;
-    $result = $db->query("INSERT INTO {$table} ({$names}) VALUES ({$values});");
-    echo $result;
+  $str_json = file_get_contents('php://input');
+  $input = json_decode($str_json);
+  $table = $input->table;
+  $names =  $input->names;
+  $values = $input->values;
+  $result = $db->query("INSERT INTO {$table} ({$names}) VALUES ({$values});");
+  echo $result;
+}
+
+if(isset($_GET["getSessionID"])) {
+  $s_id = session_id();
+  echo $s_id;
 }
 
 ?>
