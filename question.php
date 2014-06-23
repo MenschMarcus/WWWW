@@ -70,6 +70,8 @@
             <h4 class="modal-title">Frage beantwortet!</h4>
           </div>
           <div class="modal-body">
+            Richtiger Ort: <span id="answer-location"></span> <br/>
+            Richtiges Jahr: <span id="answer-year"></span> <br/>
             Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
             Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
             Score: <span id="answer-score"></span> von <span id="answer-max-score"></span>

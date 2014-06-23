@@ -75,10 +75,7 @@ class WWWW.QuestionHandler
     @_tlMarker.getDiv().appendChild yearDiv
 
     $(@_tlMarker.getDiv()).on "drag", (event, ui)=>
-      pos =
-        x : event.clientX
-        y : event.clientY
-      $(yearDiv).html @_pixelToTime pos
+      $(yearDiv).html @_pixelToTime @_tlMarker.getPosition()
 
     @_tlResultMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-result", "x", true
     @_tlResultMarker.lock()
@@ -106,6 +103,7 @@ class WWWW.QuestionHandler
           tl.min_year = parseInt(tl.min_year)
           tl.max_year = parseInt(tl.max_year)
           @_timelines[tl.id] = tl
+
 
         @_executePHPFunction "getQuestions", "", (question_string) =>
           @_questions = JSON.parse question_string
@@ -170,7 +168,7 @@ class WWWW.QuestionHandler
     @_mapMarker.lock()
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    tlResultPos.y = $(@_timelineDiv).height() - 10
+    tlResultPos.y = $(@_timelineDiv).height() - 20
     @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
     @_tlMarker.lock()
@@ -253,6 +251,7 @@ class WWWW.QuestionHandler
         @_currentTimeline = @_timelines[@_currentQuestion.tl_id]
 
 
+        $(yearDiv).html @_pixelToTime @_tlMarker.getPosition()
         $('#question').html @_currentQuestion.text
         $('#question-number').html @_questionCount
         $('#questions-per-round').html @_questionsPerRound
@@ -275,9 +274,9 @@ class WWWW.QuestionHandler
         @_currentAnswer.start_time = (new Date()).getTime()
 
         # submit answer when time is up
-        @_questionTimeout = window.setTimeout () =>
-           @questionAnswered()
-        , @_timePerQuestion * 1000
+        # @_questionTimeout = window.setTimeout () =>
+        #    @questionAnswered()
+        # , @_timePerQuestion * 1000
 
 
   roundEnd: =>
@@ -369,9 +368,7 @@ class WWWW.QuestionHandler
     Math.round(dist)
 
   _pixelToTime: (pos) =>
-    width = $("#timeline").width()
-    offset = $("#timeline").offset()
-    relX = (pos.x - offset.left) / width
+    relX = pos.x / $("#timeline").width()
 
     timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
     time = Math.round(relX * timeDiff + @_currentTimeline.min_year)

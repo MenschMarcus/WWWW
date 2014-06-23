@@ -40,3 +40,9 @@
   background-image: url(../img/marker_time_result.png);
 }
 
+#yearDiv {
+  color: #fff;
+  font-size: 1.3em;
+  padding-top: 20px;
+  padding-left: 16px;
+}
