@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 
-<?php
-  session_destroy();
-  session_start();
-?>
+<?php session_start(); ?>
 
 <head>
   <meta charset="utf-8">
@@ -41,21 +38,14 @@
         <div class="phone-inner">
             <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
-            <div class="question-bar">
-              <div id="round-info">
-                Frage <span id="question-number"></span> von <span id="questions-per-round"></span>:
-              </div>
-              <div id="question">
+            <div class="question-bar" id="question">
                 Wann war eigentlich was wo?
-              </div>
             </div>
             <div class="control-bar">
                 <div id="question-progress" class="question-progress animate"></div>
                 <div id="count-down" class="count-down">huhu</div>
-                <div>
-                <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
-                <div id="submit-answer" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></div>
-                </div>
+                <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
+                <div id="submit-answer" class="btn btn-success answer btn-lg"><span class="glyphicon glyphicon-ok"></span></div>
             </div>
         </div>
     </div>
@@ -87,8 +77,6 @@
             <h4 class="modal-title">Frage beantwortet!</h4>
           </div>
           <div class="modal-body">
-            Richtiger Ort: <span id="answer-location"></span><br/>
-            Richtiges Jahr: <span id="answer-year"></span><br/>
             Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
             Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
             Score: <span id="answer-score"></span> von <span id="answer-max-score"></span>

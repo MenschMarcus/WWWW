@@ -14,7 +14,7 @@
         <div class="phone-inner">
             <h1 class="text-center">Was War Wann Wo?</h1>
             <div class="well start">
-                <a href="question.php" type="button" class="btn btn-primary btn-lg btn-block">Loslegen!</a>
+                <a href="question.php" type="button" class="btn btn-success btn-lg btn-block">Loslegen!</a>
             </div>
         </div>
     </div>

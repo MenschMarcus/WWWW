@@ -52,11 +52,22 @@ body {
 .count-down {
     color: white;
     position: absolute;
-    bottom: 0px;
+    bottom: 15px;
     text-align: center;
     width: 100%;
-    height: 100%;
-    padding: 50px 10px;
+}
+
+.control-bar
+.answer {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+.control-bar
+.abort {
+    position: absolute;
+    left: 10px;
+    top: 5px;
 }
 
 .question-bar {
