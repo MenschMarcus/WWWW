@@ -1,0 +1,13 @@
+.feedback-answer {
+  font-size: 36px;
+  background-color: #DFFF89;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.feedback-fail {
+  font-size: 36px;
+  background-color: #FF9189;
+  padding: 15px;
+  border-radius: 10px;
+}

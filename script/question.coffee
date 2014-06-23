@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = true
+WWWW.DRY_RUN = false
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -91,7 +91,7 @@ class WWWW.QuestionHandler
     yearResultDiv.className = "yearDiv"
     @_tlResultMarker.getDiv().appendChild yearResultDiv
 
-    @_executePHPFunction "getMaps", "", (map_string) =>
+    WWWW.executePHPFunction "getMaps", "", (map_string) =>
       @_maps = new Object()
       maps = JSON.parse map_string
 
@@ -106,7 +106,7 @@ class WWWW.QuestionHandler
 
         @_maps[map.id] = map
 
-      @_executePHPFunction "getTimelines", "", (tl_string) =>
+      WWWW.executePHPFunction "getTimelines", "", (tl_string) =>
         @_timelines = new Object()
         tls = JSON.parse tl_string
 
@@ -119,7 +119,7 @@ class WWWW.QuestionHandler
           funny: Math.round(Math.random())
         @_currentAnswer.funny = send.funny
 
-        @_executePHPFunction "getQuestions", send, (question_string) =>
+        WWWW.executePHPFunction "getQuestions", send, (question_string) =>
           @_questions = JSON.parse question_string
           for question in @_questions
             question.latLng =
@@ -332,30 +332,17 @@ class WWWW.QuestionHandler
       @_askedQuestions = []
 
   submitAnswer: =>
-    @_executePHPFunction "getSessionID", "", (s_id) =>
+    WWWW.executePHPFunction "getSessionID", "", (s_id) =>
       @_currentAnswer.session_id = s_id
 
       a = @_currentAnswer
-      console.log a
       send =
         table: "answer"
         values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}', #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}, #{a.funny}"
         names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`, `funny`"
 
-      @_executePHPFunction "insertIntoDB", send, (response) =>
+      WWWW.executePHPFunction "insertIntoDB", send, (response) =>
         console.log "Answer was submitted with response #{response}"
-
-  _executePHPFunction: (method, values, callBack=null) ->
-    if (window.XMLHttpRequest)
-      xmlhttp = new XMLHttpRequest()
-    else
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
-    xmlhttp.open( "POST", "./php/execute.php?" + method + "=true", true );
-    xmlhttp.setRequestHeader( "Content-Type", "application/json" );
-    xmlhttp.send( JSON.stringify(values) );
-    xmlhttp.onreadystatechange= =>
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-        callBack? xmlhttp.responseText
 
   _pixelToLatLng: (pos) =>
 
@@ -428,3 +415,14 @@ class WWWW.QuestionHandler
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
 
+WWWW.executePHPFunction = (method, values, callBack=null) ->
+  if (window.XMLHttpRequest)
+    xmlhttp = new XMLHttpRequest()
+  else
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+  xmlhttp.open( "POST", "./php/execute.php?" + method + "=true", true );
+  xmlhttp.setRequestHeader( "Content-Type", "application/json" );
+  xmlhttp.send( JSON.stringify(values) );
+  xmlhttp.onreadystatechange= =>
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      callBack? xmlhttp.responseText

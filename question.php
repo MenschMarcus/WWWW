@@ -10,15 +10,21 @@
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
   <script type="text/javascript" src="build/marker.js"></script>
+  <script type="text/javascript" src="build/feedback.js"></script>
 
   <link rel="stylesheet" type="text/css" href="style/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="style/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="style/bootstrap-social.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
+  <link rel="stylesheet" type="text/css" href="style/feedback.css" />
+
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript">
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
+      var feedback = new WWWW.FeedbackHandler();
 
       $('#question-progress').css({width:'100%'});
 
@@ -81,31 +87,44 @@
           <div class="modal-body">
             <div id="score"><h1>
             Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
+            <br/>
+            <a class="btn btn-social-icon btn-twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a class="btn btn-social-icon btn-facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a class="btn btn-social-icon btn-google-plus">
+              <i class="fa fa-google-plus"></i>
+            </a>
             </h1></div>
 
             <div id="contact_form">
               <div class="row">
                 <div class="form-group col-xs-12 floating-label-form-group">
                   <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
-                  <textarea id="message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
+                  <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-xs-12 floating-label-form-group">
                   <label for="email">Willst du der Erste sein, der von Neuigkeiten zu WWWW erfährt?
-                    Lass' uns deine Email-Adresse da! Sie bleibt bei uns natürlich geheim ;-)</label>
-                  <input id="email" class="form-control" type="email" name="email" placeholder="Email-Adresse">
+                    Lass' uns deine Email-Adresse da! Wir geben sie natürlich nicht an andere weiter! </label>
+                  <input id="feedback-email" class="form-control" type="email" name="email" placeholder="Email-Adresse">
                 </div>
               </div>
+              <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
+              <div id="feedback-fail" class="feedback-fail"> Das geht leider noch nicht!</div>
               <br>
               <div class="row">
                 <div class="form-group col-xs-12">
-                  <button type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                  <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
+            <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
             <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
           </div>
         </div>
