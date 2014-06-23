@@ -2,20 +2,19 @@ window.WWWW ?= {}
 
 #   -----------------------------------------------------------------
 class WWWW.Marker
-  constructor: (parentDiv, axis=null, is_flipped=false, is_result=false) ->
+  constructor: (parentDiv, classString="", axis=null, isFlipped=false) ->
     @_parentDiv = parentDiv
     @_axis = axis
-    @_is_flipped = is_flipped
+    @_isFlipped = isFlipped
     @_markerDiv = document.createElement("div")
-    @_markerDiv.className = if is_result then "marker marker-result" else "marker marker-answer"
-    if @_is_flipped
-      @_markerDiv.className += " marker-flipped"
+    @_markerDiv.className = classString
     @_parentDiv.appendChild @_markerDiv
 
-    if @_axis?
-      $(@_markerDiv).draggable(containment: "parent", axis: @_axis)
-    else
-      $(@_markerDiv).draggable(containment: "parent")
+    $(@_markerDiv).draggable
+      containment: "parent"
+      axis: @_axis
+      drag: (event, ui) =>
+
 
     $(@_markerDiv).hide( { duration: 0 } );
 
@@ -24,12 +23,15 @@ class WWWW.Marker
 
   getPosition: ->
     pos =
-      x : $(@_markerDiv).offset().left + $(@_markerDiv).width() / 2
-      y : $(@_markerDiv).offset().top + if @_is_flipped then 0 else $(@_markerDiv).height()
+      x : $(@_markerDiv).position().left + $(@_markerDiv).width() / 2
+      y : $(@_markerDiv).position().top + if @_isFlipped then 0 else $(@_markerDiv).height()
 
   setPosition: (pos) ->
-    @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
-    @_markerDiv.style.top = pos.y + 9 - (if @_is_flipped then 0 else $(@_markerDiv).height()) + "px"
+    $(@_markerDiv).css
+      left: pos.x - $(@_markerDiv).width() / 2 + "px"
+      top: pos.y  + 9 - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
+    # @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
+    # @_markerDiv.style.top = pos.y  + 9 - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
 
   hide: () ->
     $(@_markerDiv).hide( "drop", { direction: "up" } );

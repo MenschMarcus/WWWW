@@ -49,28 +49,38 @@ class WWWW.QuestionHandler
     @_maps = null
     @_currentMap = null
 
-    @_mapMarker = new WWWW.Marker @_mapDiv
+    @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
     startPos =
       x : 50
       y : 50
     @_mapMarker.setPosition startPos
     @_mapMarker.show()
 
-    @_mapResultMarker = new WWWW.Marker @_mapDiv, null, false, true
+    @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.lock()
 
 
     @_timelines = null
     @_currentTimeline = null
 
-    @_tlMarker = new WWWW.Marker @_timelineDiv, "x", true
+    @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
     startPos =
       x : 10
-      y : $(@_tlMarker.getDiv()).height() - 10
+      y : $(@_timelineDiv).height() - 10
     @_tlMarker.setPosition startPos
     @_tlMarker.show()
 
-    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true, true
+    yearDiv = document.createElement "div"
+    yearDiv.id = "yearDiv"
+    @_tlMarker.getDiv().appendChild yearDiv
+
+    $(@_tlMarker.getDiv()).on "drag", (event, ui)=>
+      pos =
+        x : event.clientX
+        y : event.clientY
+      $(yearDiv).html @_pixelToTime pos
+
+    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-result", "x", true
     @_tlResultMarker.lock()
 
     @_executePHPFunction "getMaps", "", (map_string) =>
@@ -135,7 +145,7 @@ class WWWW.QuestionHandler
       offset = $(@_timelineDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : $(@_tlMarker.getDiv()).height() - 10
+        y : $(@_timelineDiv).height() - 10
 
       @_tlMarker.setPosition newPos
 
@@ -153,13 +163,17 @@ class WWWW.QuestionHandler
 
   showResults: =>
     mapResultPos = @_latLngToPixel @_currentQuestion.latLng
+
+    console.log @_pixelToLatLng mapResultPos
+    console.log @_currentQuestion.latLng
+
     # mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
     @_mapMarker.lock()
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    tlResultPos.y = $(@_tlResultMarker.getDiv()).height() - 10
+    tlResultPos.y = $(@_timelineDiv).height() - 10
     @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
     @_tlMarker.lock()
@@ -257,8 +271,6 @@ class WWWW.QuestionHandler
         @_mapResultMarker.hide()
         @_mapMarker.release()
 
-
-
         @_tlResultMarker.hide()
         @_tlMarker.release()
 
@@ -310,15 +322,20 @@ class WWWW.QuestionHandler
         callBack? xmlhttp.responseText
 
   _pixelToLatLng: (pos) =>
-    width = $("#map").width()
-    height = $("#map").height()
 
-    offset = $("#map").offset()
+    getMerc = (pos) =>
+      (Math.exp(-(pos-(0.5))/(2*Math.PI))-Math.tan((Math.PI/4))*2)/(Math.PI/180)
 
-    relX = (pos.x - offset.left) / width
-    relY = (pos.y - offset.top) / height
+    merc = getMerc pos.y/$("#map").height()
+    minMerc = getMerc 0
+    maxMerc = getMerc 1
+
+    relY = (merc - minMerc) / (maxMerc - minMerc)
 
     latDiff = @_currentMap.maxLatLng.lat - @_currentMap.minLatLng.lat
+
+
+    relX = pos.x / $("#map").width()
     lngDiff = @_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng
 
     latLng =
@@ -329,14 +346,20 @@ class WWWW.QuestionHandler
 
   _latLngToPixel: (latLng) =>
 
-    relLat = (latLng.lat - @_currentMap.minLatLng.lat) / (@_currentMap.maxLatLng.lat - @_currentMap.minLatLng.lat)
-    relLng = (latLng.lng - @_currentMap.minLatLng.lng) / (@_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng)
+    getMerc = (lat) =>
+      Math.log(Math.tan((Math.PI/4)+(lat*Math.PI/360)));
+
+    merc = getMerc(latLng.lat)
+    minMerc = getMerc(@_currentMap.minLatLng.lat)
+    maxMerc = getMerc(@_currentMap.maxLatLng.lat)
+
+    y_pos = (merc - minMerc) / (maxMerc - minMerc)
+    x_pos = (latLng.lng - @_currentMap.minLatLng.lng) / (@_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng)
 
     pos =
-      x : relLng * $("#map").width()
-      y : relLat * $("#map").height()
+      x : x_pos * $("#map").width()
+      y : y_pos * $("#map").height()
 
-    console.log latLng, pos, @_currentMap.minLatLng, @_currentMap.maxLatLng
     pos
 
   _getMeterDistance: (latLng1, latLng2) =>
