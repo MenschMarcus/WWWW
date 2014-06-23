@@ -31,14 +31,22 @@
         <div class="phone-inner">
             <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
-            <div class="question-bar" id="question">
-                Wann war eigentlich was wo?
+            <div class="question-bar">
+                <div id="question"></div>
+                <div id="results">
+                  Richtiger Ort: <span id="answer-location"></span> <br/>
+                  Richtiges Jahr: <span id="answer-year"></span> <br/>
+                  Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
+                  Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
+                  Score: <span id="answer-score"></span> von <span id="answer-max-score"></span>
+                </div>
             </div>
             <div class="control-bar">
                 <div id="question-progress" class="question-progress animate"></div>
                 <div id="count-down" class="count-down"></div>
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
                 <div id="submit-answer" class="btn btn-success answer btn-lg"><span class="glyphicon glyphicon-ok"></span></div>
+                <div id="next-question" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Nächste Frage!</div>
             </div>
         </div>
     </div>
@@ -57,27 +65,6 @@
           <div class="modal-footer">
             <a href="index.php" class="btn btn-default">Spiel beenden</a>
             <button type="button" class="btn btn-primary" data-dismiss="modal">Spiel fortsetzen</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Result dialog -->
-    <div id="result-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Frage beantwortet!</h4>
-          </div>
-          <div class="modal-body">
-            Richtiger Ort: <span id="answer-location"></span> <br/>
-            Richtiges Jahr: <span id="answer-year"></span> <br/>
-            Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
-            Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
-            Score: <span id="answer-score"></span> von <span id="answer-max-score"></span>
-          </div>
-          <div class="modal-footer">
-            <div id="next-question" class="btn btn-default">Nächste Frage!</div>
           </div>
         </div>
       </div>

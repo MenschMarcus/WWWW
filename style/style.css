@@ -49,10 +49,10 @@ body {
 
 .control-bar
 .question-progress.animate {
-    -webkit-transition: width 20.0s linear !important;
-       -moz-transition: width 20.0s linear !important;
-         -o-transition: width 20.0s linear !important;
-            transition: width 20.0s linear !important;
+    -webkit-transition: width 30.0s linear !important;
+       -moz-transition: width 30.0s linear !important;
+         -o-transition: width 30.0s linear !important;
+            transition: width 30.0s linear !important;
 }
 
 .control-bar
@@ -82,9 +82,12 @@ body {
     bottom: 60px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+}
+
+#question {
     text-align: center;
     font-size: 1.5em;
-    padding: 10px;
 }
 
 .map {
@@ -107,5 +110,5 @@ body {
 .start {
     position: relative;
     margin: 10px;
-    top: 400px;
+    top: 150px;
 }

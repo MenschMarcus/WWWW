@@ -32,12 +32,14 @@ class WWWW.QuestionHandler
     @_roundCount = 1
     @_questionCount = 1
 
+    $('#results').hide({duration: 0})
+
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
     @_countDownDiv = $('#count-down')
 
-    @_timePerQuestion = 20 #in seconds
+    @_timePerQuestion = 30 #in seconds
     @_remainingTime = 0 #in seconds
 
     @_questionAnswered = false
@@ -222,7 +224,10 @@ class WWWW.QuestionHandler
       @submitAnswer()
 
     window.setTimeout () =>
-      $('#result-display').modal('show')
+      $("#next-question").removeClass("invisible");
+      $("#submit-answer").addClass("invisible");
+      @_countDownDiv.text('');
+      $('#results').show(400)
     , 2000
 
   postNewQuestion: =>
@@ -239,6 +244,11 @@ class WWWW.QuestionHandler
 
         @_mapMarker.unfade()
         @_tlMarker.unfade()
+
+        $('#results').hide(400)
+
+        $("#next-question").addClass("invisible");
+        $("#submit-answer").removeClass("invisible");
 
         @_remainingTime = @_timePerQuestion
 
