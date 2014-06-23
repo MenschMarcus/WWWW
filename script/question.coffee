@@ -17,6 +17,7 @@ class WWWW.Answer
     @score = null
     @start_time = null
     @end_time = null
+    @funny = 0
 
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler
@@ -33,6 +34,7 @@ class WWWW.QuestionHandler
     @_questionCount = 1
 
     $('#results').hide({duration: 0})
+    @_answerPrecisionThreshold = 0.99 # time and space need to be 99% correct to achieve the maximum score
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -199,12 +201,25 @@ class WWWW.QuestionHandler
     $("#answer-year").html @_currentQuestion.year
     $("#answer-spatial-distance").html spatialDistance
     $("#answer-temporal-distance").html temporalDistance
+    $("#answer-info").html @_currentQuestion.answer
 
-    latScore = 1 - Math.abs((answerLatLng.lat - @_currentQuestion.latLng.lat) / (@_currentMap.lat_max - @_currentMap.lat_min))
-    lngScore = 1 - Math.abs((answerLatLng.lng - @_currentQuestion.latLng.lng) / (@_currentMap.long_max - @_currentMap.long_min))
+    latDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
+    latSpread = Math.abs (@_currentMap.lat_max - @_currentMap.lat_min)
+    latScore = 1 - latDist / latSpread
+
+    latScore = if latScore >= @_answerPrecisionThreshold then 1 else latScore
+
+    lngDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
+    lngSpread = Math.abs (@_currentMap.long_max - @_currentMap.long_min)
+    lngScore = 1 - lngDist / lngSpread
+
+    lngScore = if lngScore >= @_answerPrecisionThreshold then 1 else lngScore
+
     timeScore = 1 - (temporalDistance) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    score = Math.round((latScore + lngScore)/2 * timeScore * @_maxScore)
+    timeScore = if timeScore >= @_answerPrecisionThreshold then 1 else timeScore
+
+    score = Math.round( Math.pow(latScore, 2) * Math.pow(lngScore, 2) * Math.pow(timeScore, 2) * @_maxScore)
 
     $("#answer-score").html score
     $("#answer-max-score").html @_maxScore
