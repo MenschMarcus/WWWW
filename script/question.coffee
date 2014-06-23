@@ -210,7 +210,7 @@ class WWWW.QuestionHandler
 
     @_questionCount += 1
 
-    unless WWWW.DRY_RUN?
+    unless WWWW.DRY_RUN
       @submitAnswer()
 
     window.setTimeout () =>
