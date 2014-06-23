@@ -24,7 +24,7 @@ class WWWW.Marker
 
   setPosition: (pos) ->
     @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
-    @_markerDiv.style.top = pos.y + "px"# - $(@_markerDiv).height() + "px"
+    @_markerDiv.style.top = pos.y  - $(@_markerDiv).height() + "px"
 
   hide: () ->
     $(@_markerDiv).css "visibility", "hidden"

@@ -1,5 +1,7 @@
 window.WWWW ?= {}
 
+WWWW.DRY_RUN = true
+
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
 
@@ -19,6 +21,7 @@ class WWWW.Answer
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler
   constructor: () ->
+
     @_questions = null
     @_askedQuestions = []
     @_currentQuestion = null
@@ -27,6 +30,7 @@ class WWWW.QuestionHandler
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
+    @_questionCount = 1
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -62,7 +66,7 @@ class WWWW.QuestionHandler
     @_tlMarker = new WWWW.Marker(@_timelineDiv, "x")
     startPos =
       x : 10
-      y : 0
+      y : $(@_tlMarker.getDiv()).height()
     @_tlMarker.setPosition startPos
 
     @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true
@@ -131,7 +135,7 @@ class WWWW.QuestionHandler
       offset = $(@_timelineDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : 0
+        y : $(@_tlMarker.getDiv()).height()
 
       @_tlMarker.setPosition newPos
 
@@ -160,6 +164,8 @@ class WWWW.QuestionHandler
     answerTime = @_pixelToTime @_tlMarker.getPosition()
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
 
+    $("#answer-location").html @_currentQuestion.location
+    $("#answer-year").html @_currentQuestion.year
     $("#answer-spatial-distance").html spatialDistance
     $("#answer-temporal-distance").html temporalDistance
 
@@ -181,7 +187,10 @@ class WWWW.QuestionHandler
     @_currentAnswer.round_count = @_roundCount
     @_currentAnswer.q_id = @_currentQuestion.id
 
-    @submitAnswer()
+    @_questionCount += 1
+
+    unless WWWW.DRY_RUN?
+      @submitAnswer()
 
     window.setTimeout () =>
       $('#result-display').modal('show')
@@ -189,7 +198,7 @@ class WWWW.QuestionHandler
 
   postNewQuestion: =>
     if @_questions?
-      if (@_askedQuestions.length is @_questionsPerRound * @_roundCount) or (
+      if (@_questionCount is @_questionsPerRound + 1) or (
         @_askedQuestions.length is @_totalQuestionCount)
         @roundEnd()
       else
@@ -222,6 +231,8 @@ class WWWW.QuestionHandler
 
 
         $('#question').html @_currentQuestion.text
+        $('#question-number').html @_questionCount
+        $('#questions-per-round').html @_questionsPerRound
         $('#map').css "background-image", "url('img/#{@_currentMap.file_name}')"
         $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
 
@@ -230,12 +241,14 @@ class WWWW.QuestionHandler
         $('#result-display').modal('hide');
         $('#round-end-display').modal('hide');
 
-        @_mapResultMarker.setPosition @_latLngToPixel(@_currentQuestion.latLng)
+        mapResultPos = @_latLngToPixel @_currentQuestion.latLng
+        mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
+        @_mapResultMarker.setPosition mapResultPos
         @_mapResultMarker.hide()
         @_mapMarker.release()
 
         tlResultPos = @_timeToPixel(@_currentQuestion.year)
-        tlResultPos.y = 0
+        tlResultPos.y = $(@_tlMarker.getDiv()).height()
 
         @_tlResultMarker.setPosition tlResultPos
         @_tlResultMarker.hide()
@@ -260,10 +273,11 @@ class WWWW.QuestionHandler
 
     @_totalScore = 0
     @_roundCount++
+    @_questionCount = 1
 
   submitAnswer: =>
     @_executePHPFunction "getSessionID", "", (s_id) =>
-      @_currentAnswer.session_id = parseInt(s_id)
+      @_currentAnswer.session_id = s_id
 
       a = @_currentAnswer
 
