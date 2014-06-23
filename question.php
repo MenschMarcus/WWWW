@@ -38,7 +38,7 @@
                   <div id="score">
                     <h1><span id="answer-score"></span> Punkte!</h1>
                     <div><span id="answer-location"></span>, <span id="answer-year"></span></div>
-                    <div>Distanz: <span id="answer-spatial-distance"></span> km / <span id="answer-temporal-distance"></span> Jahre</div>
+                    <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
                   </div>
                   <div id="answer-info"></div>
                 </div>

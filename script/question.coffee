@@ -201,8 +201,8 @@ class WWWW.QuestionHandler
 
     $("#answer-location").html @_currentQuestion.location
     $("#answer-year").html @_currentQuestion.year
-    $("#answer-spatial-distance").html spatialDistance
-    $("#answer-temporal-distance").html temporalDistance
+    $("#answer-spatial-distance").html spatialDistance + " km"
+    $("#answer-temporal-distance").html temporalDistance + if temporalDistance is 1 then " Jahr" else " Jahre"
     $("#answer-info").html @_currentQuestion.answer
 
     latDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
