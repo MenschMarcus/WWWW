@@ -17,6 +17,8 @@ class WWWW.Marker
     else
       $(@_markerDiv).draggable(containment: "parent")
 
+    $(@_markerDiv).hide( { duration: 0 } );
+
   getDiv: ->
     @_markerDiv
 
@@ -30,10 +32,10 @@ class WWWW.Marker
     @_markerDiv.style.top = pos.y  - (if @_is_flipped then 0 else $(@_markerDiv).height()) + "px"
 
   hide: () ->
-    $(@_markerDiv).css "visibility", "hidden"
+    $(@_markerDiv).hide( "drop", { direction: "up" } );
 
   show: () ->
-    $(@_markerDiv).css "visibility", "visible"
+    $(@_markerDiv).show( "bounce", { times: 2, distance: 100 }, "slow" );
 
   fade: () ->
     $(@_markerDiv).addClass "fade"

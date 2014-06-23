@@ -54,9 +54,9 @@ class WWWW.QuestionHandler
       x : 50
       y : 50
     @_mapMarker.setPosition startPos
+    @_mapMarker.show()
 
     @_mapResultMarker = new WWWW.Marker @_mapDiv, null, false, true
-    @_mapResultMarker.hide()
     @_mapResultMarker.lock()
 
 
@@ -68,9 +68,9 @@ class WWWW.QuestionHandler
       x : 10
       y : $(@_tlMarker.getDiv()).height() - 10
     @_tlMarker.setPosition startPos
+    @_tlMarker.show()
 
     @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true, true
-    @_tlResultMarker.hide()
     @_tlResultMarker.lock()
 
     @_executePHPFunction "getMaps", "", (map_string) =>
@@ -152,9 +152,15 @@ class WWWW.QuestionHandler
       @showResults()
 
   showResults: =>
+    mapResultPos = @_latLngToPixel @_currentQuestion.latLng
+    mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
+    @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
     @_mapMarker.lock()
 
+    tlResultPos = @_timeToPixel(@_currentQuestion.year)
+    tlResultPos.y = $(@_tlResultMarker.getDiv()).height() - 10
+    @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
     @_tlMarker.lock()
 
@@ -247,16 +253,12 @@ class WWWW.QuestionHandler
         $('#result-display').modal('hide');
         $('#round-end-display').modal('hide');
 
-        mapResultPos = @_latLngToPixel @_currentQuestion.latLng
-        mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
-        @_mapResultMarker.setPosition mapResultPos
+
         @_mapResultMarker.hide()
         @_mapMarker.release()
 
-        tlResultPos = @_timeToPixel(@_currentQuestion.year)
-        tlResultPos.y = $(@_tlResultMarker.getDiv()).height() - 10
 
-        @_tlResultMarker.setPosition tlResultPos
+
         @_tlResultMarker.hide()
         @_tlMarker.release()
 
