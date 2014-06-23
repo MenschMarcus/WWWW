@@ -144,22 +144,24 @@ class WWWW.QuestionHandler
 
     # place map marker on click
     $(@_mapDiv).on 'click', (event) =>
-      offset = $(@_mapDiv).offset()
-      newPos =
-        x : event.clientX - offset.left
-        y : event.clientY - offset.top
+      unless @_mapMarker.isLocked()
+        offset = $(@_mapDiv).offset()
+        newPos =
+          x : event.clientX - offset.left
+          y : event.clientY - offset.top
 
-      @_mapMarker.setPosition newPos
+        @_mapMarker.setPosition newPos
 
     # place timeline marker on click
     $(@_timelineDiv).on 'click', (event) =>
-      offset = $(@_timelineDiv).offset()
-      newPos =
-        x : event.clientX - offset.left
-        y : $(@_timelineDiv).height() - 20
+      unless @_tlMarker.isLocked()
+        offset = $(@_timelineDiv).offset()
+        newPos =
+          x : event.clientX - offset.left
+          y : $(@_timelineDiv).height() - 20
 
-      @_tlMarker.setPosition newPos
-      $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+        @_tlMarker.setPosition newPos
+        $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
 
   questionAnswered: =>
     unless @_questionAnswered
