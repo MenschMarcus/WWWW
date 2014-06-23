@@ -63,6 +63,11 @@ class WWWW.QuestionHandler
     @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.lock()
 
+    locationDiv = document.createElement "div"
+    locationDiv.id = "locationResultDiv"
+    locationDiv.className = "locationDiv"
+    @_mapResultMarker.getDiv().appendChild locationDiv
+
 
     @_timelines = null
     @_currentTimeline = null
@@ -181,6 +186,7 @@ class WWWW.QuestionHandler
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
     @_mapMarker.lock()
+    $("#locationResultDiv").html @_currentQuestion.location
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)
     tlResultPos.y = $(@_timelineDiv).height() - 20
