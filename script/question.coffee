@@ -34,12 +34,15 @@ class WWWW.QuestionHandler
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
-    @_barDiv = $('#progress-bar')
+    @_barDiv = $('#question-progress')
+    @_countDownDiv = $('#count-down')
 
     @_timePerQuestion = 20 #in seconds
+    @_remainingTime = 0 #in seconds
 
     @_questionAnswered = false
     @_questionTimeout = null
+    @_countDownTimeout = null
 
     @_currentAnswer = new WWWW.Answer()
 
@@ -148,10 +151,11 @@ class WWWW.QuestionHandler
 
   questionAnswered: =>
     unless @_questionAnswered
-      @_barDiv.removeClass 'progress-bar-animate progress-bar'
-      @_barDiv.css "width", "0"
+      @_barDiv.removeClass 'animate'
+      @_barDiv.css "width", "100%"
 
       window.clearTimeout @_questionTimeout
+      window.clearTimeout @_countDownTimeout
 
       @_questionAnswered = true
       @_currentAnswer.end_time = (new Date()).getTime()
@@ -166,6 +170,9 @@ class WWWW.QuestionHandler
 
     answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
+
+    @_mapMarker.fade()
+    @_tlMarker.fade()
 
     answerTime = @_pixelToTime @_tlMarker.getPosition()
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
@@ -211,8 +218,20 @@ class WWWW.QuestionHandler
         @_questionAnswered = false
 
         # reset loading bar
-        @_barDiv.addClass 'progress-bar-animate progress-bar'
-        @_barDiv.css "width", "100%"
+        @_barDiv.addClass 'animate'
+        @_barDiv.css "width", "0%"
+
+        @_mapMarker.unfade()
+        @_tlMarker.unfade()
+
+        @_remainingTime = @_timePerQuestion
+
+        updateCountDown = () =>
+          if @_remainingTime--
+            @_countDownDiv.text(@_remainingTime + ' Sekunden');
+            @_countDownTimeout =  window.setTimeout updateCountDown, 1000
+
+        @_countDownTimeout = window.setTimeout updateCountDown, 0
 
         # search for new question
         newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
