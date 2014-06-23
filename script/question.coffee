@@ -51,8 +51,8 @@ class WWWW.QuestionHandler
 
     @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
     startPos =
-      x : 50
-      y : 50
+      x : $(@_mapDiv).width()/2
+      y : $(@_mapDiv).height()/2
     @_mapMarker.setPosition startPos
     @_mapMarker.show()
 
@@ -65,8 +65,8 @@ class WWWW.QuestionHandler
 
     @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
     startPos =
-      x : 10
-      y : $(@_timelineDiv).height() - 10
+      x : $(@_timelineDiv).width()/2
+      y : $(@_timelineDiv).height() - 20
     @_tlMarker.setPosition startPos
     @_tlMarker.show()
 
@@ -235,7 +235,7 @@ class WWWW.QuestionHandler
 
         updateCountDown = () =>
           if @_remainingTime--
-            @_countDownDiv.text(@_remainingTime + ' Sekunden');
+            @_countDownDiv.text(@_remainingTime + ' Sekunden verbleibend');
             @_countDownTimeout =  window.setTimeout updateCountDown, 1000
 
         @_countDownTimeout = window.setTimeout updateCountDown, 0

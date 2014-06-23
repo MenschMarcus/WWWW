@@ -36,7 +36,7 @@
             </div>
             <div class="control-bar">
                 <div id="question-progress" class="question-progress animate"></div>
-                <div id="count-down" class="count-down">huhu</div>
+                <div id="count-down" class="count-down"></div>
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
                 <div id="submit-answer" class="btn btn-success answer btn-lg"><span class="glyphicon glyphicon-ok"></span></div>
             </div>
