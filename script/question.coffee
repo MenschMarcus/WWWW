@@ -17,6 +17,7 @@ class WWWW.Answer
     @score = null
     @start_time = null
     @end_time = null
+    @funny = 0
 
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler
@@ -31,6 +32,8 @@ class WWWW.QuestionHandler
     @_totalScore = 0
     @_roundCount = 1
     @_questionCount = 1
+
+    @_answerPrecisionThreshold = 0.99 # time and space need to be 99% correct to achieve the maximum score
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -200,14 +203,22 @@ class WWWW.QuestionHandler
     $("#answer-info").html @_currentQuestion.answer
 
     latDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
-    latScore = 1 - latDist / (@_currentMap.lat_max - @_currentMap.lat_min)
+    latSpread = Math.abs (@_currentMap.lat_max - @_currentMap.lat_min)
+    latScore = 1 - latDist / latSpread
+
+    latScore = if latScore >= @_answerPrecisionThreshold then 1 else latScore
 
     lngDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
-    lngScore = 1 - lngDist / (@_currentMap.long_max - @_currentMap.long_min)
+    lngSpread = Math.abs (@_currentMap.long_max - @_currentMap.long_min)
+    lngScore = 1 - lngDist / lngSpread
+
+    lngScore = if lngScore >= @_answerPrecisionThreshold then 1 else lngScore
 
     timeScore = 1 - (temporalDistance) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    score = Math.round((Math.pow(latScore, 2) + Math.pow(lngScore, 2))/2 * Math.pow(timeScore, 2) * @_maxScore)
+    timeScore = if timeScore >= @_answerPrecisionThreshold then 1 else timeScore
+
+    score = Math.round( Math.pow(latScore, 2) * Math.pow(lngScore, 2) * Math.pow(timeScore, 2) * @_maxScore)
 
     $("#answer-score").html score
     $("#answer-max-score").html @_maxScore
