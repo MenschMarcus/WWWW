@@ -99,17 +99,18 @@ body {
 
 .map {
     background-image: url("../img/europe.png");
-    top: 55px;
+    top: 50px;
     height: 590px;
     width: 100%;
     position: absolute;
     overflow:hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .timeline {
     background-image: url("../img/tl01.png");
     top: 0px;
-    height: 55px;
+    height: 50px;
     width: 100%;
     position: absolute;
 }
