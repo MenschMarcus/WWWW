@@ -37,7 +37,8 @@
                 <div id="results" class="text-center">
                   <div id="score">
                     <h1><span id="answer-score"></span> Punkte!</h1>
-                    <div>(Distanz: <span id="answer-spatial-distance"></span> km / <span id="answer-temporal-distance"></span> Jahre)</div>
+                    <div><span id="answer-location"></span>, <span id="answer-year"></span></div>
+                    <div>Distanz: <span id="answer-spatial-distance"></span> km / <span id="answer-temporal-distance"></span> Jahre</div>
                   </div>
                   <div id="answer-info"></div>
                 </div>
@@ -72,18 +73,20 @@
     </div>
 
     <div id="round-end-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Runde beendet!</h4>
+            <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
           </div>
           <div class="modal-body">
-            Du hast alle Fragen beantwortet!
 
-            Gesamtscore: <span id="total-score"></span> von <span id="total-max-score"></span>
+
+            <div id="score"><h1>
+            Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
+            </h1></div>
           </div>
           <div class="modal-footer">
-            <div id="next-round" class="btn btn-default">Neue Runde!</div>
+            <div id="next-round" class="btn btn-default">Neue Runde starten!</div>
           </div>
         </div>
       </div>
