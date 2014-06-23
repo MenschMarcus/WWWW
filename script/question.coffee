@@ -1,5 +1,7 @@
 window.WWWW ?= {}
 
+WWWW.DRY_RUN = true
+
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
 
@@ -19,6 +21,7 @@ class WWWW.Answer
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler
   constructor: () ->
+
     @_questions = null
     @_askedQuestions = []
     @_currentQuestion = null
@@ -182,7 +185,8 @@ class WWWW.QuestionHandler
 
     @_questionCount += 1
 
-    @submitAnswer()
+    unless WWWW.DRY_RUN?
+      @submitAnswer()
 
     window.setTimeout () =>
       $('#result-display').modal('show')
