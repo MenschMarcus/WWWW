@@ -274,9 +274,9 @@ class WWWW.QuestionHandler
         @_currentAnswer.start_time = (new Date()).getTime()
 
         # submit answer when time is up
-        # @_questionTimeout = window.setTimeout () =>
-        #    @questionAnswered()
-        # , @_timePerQuestion * 1000
+        @_questionTimeout = window.setTimeout () =>
+           @questionAnswered()
+        , @_timePerQuestion * 1000
 
 
   roundEnd: =>
