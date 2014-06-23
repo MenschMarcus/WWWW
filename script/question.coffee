@@ -242,7 +242,7 @@ class WWWW.QuestionHandler
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
       @_countDownDiv.text('');
-      $('#results').show(400)
+      $("#results").animate({height: "show", opacity: "show"});
     , 2000
 
   postNewQuestion: =>
@@ -260,7 +260,7 @@ class WWWW.QuestionHandler
         @_mapMarker.unfade()
         @_tlMarker.unfade()
 
-        $('#results').hide(400)
+        $("#results").animate({height: "hide", opacity: "hide"});
 
         $("#next-question").addClass("invisible");
         $("#submit-answer").removeClass("invisible");
