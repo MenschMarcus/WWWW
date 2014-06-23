@@ -104,8 +104,11 @@ class WWWW.QuestionHandler
           tl.max_year = parseInt(tl.max_year)
           @_timelines[tl.id] = tl
 
+        send =
+          funny: Math.round(Math.random())
+        @_currentAnswer.funny = send.funny
 
-        @_executePHPFunction "getQuestions", "", (question_string) =>
+        @_executePHPFunction "getQuestions", send, (question_string) =>
           @_questions = JSON.parse question_string
           for question in @_questions
             question.latLng =
@@ -296,11 +299,11 @@ class WWWW.QuestionHandler
       @_currentAnswer.session_id = s_id
 
       a = @_currentAnswer
-
+      console.log a
       send =
         table: "answer"
-        values: "#{a.q_id}, #{a.round_count}, #{a.session_id}, #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}"
-        names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`"
+        values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}', #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}, #{a.funny}"
+        names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`, `funny`"
 
       @_executePHPFunction "insertIntoDB", send, (response) =>
         console.log "Answer was submitted with response #{response}"

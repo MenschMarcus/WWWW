@@ -6,7 +6,10 @@ include "database.php";
 $db = new database();
 
 if(isset($_GET["getQuestions"])) {
-  $result = $db->query("SELECT * FROM `question`;");
+  $str_json = file_get_contents('php://input');
+  $input = json_decode($str_json);
+  $funny =  $input->funny;
+  $result = $db->query("SELECT * FROM `question` WHERE `funny`={$funny};");
   $rows = array();
   while($row = mysql_fetch_assoc($result)) {
     $rows[] = $row;
