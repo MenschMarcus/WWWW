@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 
-<?php session_start(); ?>
+<?php
+  session_destroy();
+  session_start();
+?>
 
 <head>
   <meta charset="utf-8">
