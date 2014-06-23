@@ -72,6 +72,7 @@ class WWWW.QuestionHandler
 
     yearDiv = document.createElement "div"
     yearDiv.id = "yearDiv"
+    yearDiv.className = "yearDiv"
     @_tlMarker.getDiv().appendChild yearDiv
 
     $(@_tlMarker.getDiv()).on "drag", (event, ui)=>
@@ -79,6 +80,11 @@ class WWWW.QuestionHandler
 
     @_tlResultMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-result", "x", true
     @_tlResultMarker.lock()
+
+    yearResultDiv = document.createElement "div"
+    yearResultDiv.id = "yearResultDiv"
+    yearResultDiv.className = "yearDiv"
+    @_tlResultMarker.getDiv().appendChild yearResultDiv
 
     @_executePHPFunction "getMaps", "", (map_string) =>
       @_maps = new Object()
@@ -146,9 +152,10 @@ class WWWW.QuestionHandler
       offset = $(@_timelineDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : $(@_timelineDiv).height() - 10
+        y : $(@_timelineDiv).height() - 20
 
       @_tlMarker.setPosition newPos
+      $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
 
   questionAnswered: =>
     unless @_questionAnswered
@@ -165,7 +172,6 @@ class WWWW.QuestionHandler
   showResults: =>
     mapResultPos = @_latLngToPixel @_currentQuestion.latLng
 
-    # mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
     @_mapMarker.lock()
@@ -174,6 +180,8 @@ class WWWW.QuestionHandler
     tlResultPos.y = $(@_timelineDiv).height() - 20
     @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
+    $("#yearResultDiv").html @_pixelToTime tlResultPos
+
     @_tlMarker.lock()
 
     answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
@@ -254,7 +262,7 @@ class WWWW.QuestionHandler
         @_currentTimeline = @_timelines[@_currentQuestion.tl_id]
 
 
-        $(yearDiv).html @_pixelToTime @_tlMarker.getPosition()
+        $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
         $('#question').html @_currentQuestion.text
         $('#question-number').html @_questionCount
         $('#questions-per-round').html @_questionsPerRound
