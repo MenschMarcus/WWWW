@@ -197,12 +197,17 @@ class WWWW.QuestionHandler
     $("#answer-year").html @_currentQuestion.year
     $("#answer-spatial-distance").html spatialDistance
     $("#answer-temporal-distance").html temporalDistance
+    $("#answer-info").html @_currentQuestion.answer
 
-    latScore = 1 - Math.abs((answerLatLng.lat - @_currentQuestion.latLng.lat) / (@_currentMap.lat_max - @_currentMap.lat_min))
-    lngScore = 1 - Math.abs((answerLatLng.lng - @_currentQuestion.latLng.lng) / (@_currentMap.long_max - @_currentMap.long_min))
+    latDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
+    latScore = 1 - latDist / (@_currentMap.lat_max - @_currentMap.lat_min)
+
+    lngDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
+    lngScore = 1 - lngDist / (@_currentMap.long_max - @_currentMap.long_min)
+
     timeScore = 1 - (temporalDistance) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    score = Math.round((latScore + lngScore)/2 * timeScore * @_maxScore)
+    score = Math.round((Math.pow(latScore, 2) + Math.pow(lngScore, 2))/2 * Math.pow(timeScore, 2) * @_maxScore)
 
     $("#answer-score").html score
     $("#answer-max-score").html @_maxScore
