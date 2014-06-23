@@ -120,7 +120,7 @@ class WWWW.QuestionHandler
       offset = $(@_mapDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : event.clientY - offset.top + $(@_mapMarker.getDiv()).height()
+        y : event.clientY - offset.top
 
       @_mapMarker.setPosition newPos
 
@@ -260,7 +260,7 @@ class WWWW.QuestionHandler
 
   submitAnswer: =>
     @_executePHPFunction "getSessionID", "", (s_id) =>
-      @_currentAnswer.session_id = parseInt(s_id)
+      @_currentAnswer.session_id = s_id
 
       a = @_currentAnswer
 
