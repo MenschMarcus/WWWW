@@ -34,7 +34,7 @@ class WWWW.QuestionHandler
     @_questionCount = 1
 
     $('#results').hide({duration: 0})
-    @_answerPrecisionThreshold = 0.99 # time and space need to be 99% correct to achieve the maximum score
+    @_answerPrecisionThreshold = 0.95 # time and space need to be 99% correct to achieve the maximum score
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -144,22 +144,24 @@ class WWWW.QuestionHandler
 
     # place map marker on click
     $(@_mapDiv).on 'click', (event) =>
-      offset = $(@_mapDiv).offset()
-      newPos =
-        x : event.clientX - offset.left
-        y : event.clientY - offset.top
+      unless @_mapMarker.isLocked()
+        offset = $(@_mapDiv).offset()
+        newPos =
+          x : event.clientX - offset.left
+          y : event.clientY - offset.top
 
-      @_mapMarker.setPosition newPos
+        @_mapMarker.setPosition newPos
 
     # place timeline marker on click
     $(@_timelineDiv).on 'click', (event) =>
-      offset = $(@_timelineDiv).offset()
-      newPos =
-        x : event.clientX - offset.left
-        y : $(@_timelineDiv).height() - 20
+      unless @_tlMarker.isLocked()
+        offset = $(@_timelineDiv).offset()
+        newPos =
+          x : event.clientX - offset.left
+          y : $(@_timelineDiv).height() - 20
 
-      @_tlMarker.setPosition newPos
-      $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+        @_tlMarker.setPosition newPos
+        $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
 
   questionAnswered: =>
     unless @_questionAnswered
@@ -247,8 +249,7 @@ class WWWW.QuestionHandler
 
   postNewQuestion: =>
     if @_questions?
-      if (@_questionCount is @_questionsPerRound + 1) or (
-        @_askedQuestions.length is @_totalQuestionCount)
+      if @_questionCount is (@_questionsPerRound + 1)
         @roundEnd()
       else
         @_questionAnswered = false
@@ -326,6 +327,9 @@ class WWWW.QuestionHandler
     @_totalScore = 0
     @_roundCount++
     @_questionCount = 1
+
+    if @_askedQuestions.length is @_totalQuestionCount
+      @_askedQuestions = []
 
   submitAnswer: =>
     @_executePHPFunction "getSessionID", "", (s_id) =>

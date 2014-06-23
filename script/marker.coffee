@@ -6,6 +6,7 @@ class WWWW.Marker
     @_parentDiv = parentDiv
     @_axis = axis
     @_isFlipped = isFlipped
+    @_isLocked = false
     @_markerDiv = document.createElement("div")
     @_markerDiv.className = classString
     @_parentDiv.appendChild @_markerDiv
@@ -47,6 +48,11 @@ class WWWW.Marker
 
   lock: () ->
     $(@_markerDiv).draggable "disable"
+    @_isLocked = true
 
   release: () ->
     $(@_markerDiv).draggable "enable"
+    @_isLocked = false
+
+  isLocked: () ->
+    @_isLocked
