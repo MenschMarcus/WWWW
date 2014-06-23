@@ -16,23 +16,28 @@ class WWWW.Marker
       drag: (event, ui) =>
 
 
+    $(@_markerDiv).hide( { duration: 0 } );
+
   getDiv: ->
     @_markerDiv
 
   getPosition: ->
     pos =
-      x : $(@_markerDiv).offset().left + $(@_markerDiv).width() / 2
-      y : $(@_markerDiv).offset().top + if @_isFlipped then 0 else $(@_markerDiv).height()
+      x : $(@_markerDiv).position().left + $(@_markerDiv).width() / 2
+      y : $(@_markerDiv).position().top + if @_isFlipped then 0 else $(@_markerDiv).height()
 
   setPosition: (pos) ->
-    @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
-    @_markerDiv.style.top = pos.y  - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
+    $(@_markerDiv).css
+      left: pos.x - $(@_markerDiv).width() / 2 + "px"
+      top: pos.y  + 9 - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
+    # @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
+    # @_markerDiv.style.top = pos.y  + 9 - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
 
   hide: () ->
-    $(@_markerDiv).css "visibility", "hidden"
+    $(@_markerDiv).hide( "drop", { direction: "up" } );
 
   show: () ->
-    $(@_markerDiv).css "visibility", "visible"
+    $(@_markerDiv).show( "bounce", { times: 2, distance: 100 }, "slow" );
 
   fade: () ->
     $(@_markerDiv).addClass "fade"

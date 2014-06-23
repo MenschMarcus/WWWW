@@ -22,13 +22,6 @@
 
       $('#question-progress').css({width:'100%'});
 
-      t = 21;
-      function countDown() {
-
-      };
-
-      countDown();
-
     });
   </script>
 </head>
