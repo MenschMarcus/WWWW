@@ -29,7 +29,7 @@ class WWWW.Marker
 
   setPosition: (pos) ->
     @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
-    @_markerDiv.style.top = pos.y  - (if @_is_flipped then 0 else $(@_markerDiv).height()) + "px"
+    @_markerDiv.style.top = pos.y + 9 - (if @_is_flipped then 0 else $(@_markerDiv).height()) + "px"
 
   hide: () ->
     $(@_markerDiv).hide( "drop", { direction: "up" } );

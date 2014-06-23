@@ -153,7 +153,7 @@ class WWWW.QuestionHandler
 
   showResults: =>
     mapResultPos = @_latLngToPixel @_currentQuestion.latLng
-    mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
+    # mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
     @_mapMarker.lock()
@@ -328,6 +328,7 @@ class WWWW.QuestionHandler
     latLng
 
   _latLngToPixel: (latLng) =>
+
     relLat = (latLng.lat - @_currentMap.minLatLng.lat) / (@_currentMap.maxLatLng.lat - @_currentMap.minLatLng.lat)
     relLng = (latLng.lng - @_currentMap.minLatLng.lng) / (@_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng)
 
@@ -335,6 +336,7 @@ class WWWW.QuestionHandler
       x : relLng * $("#map").width()
       y : relLat * $("#map").height()
 
+    console.log latLng, pos, @_currentMap.minLatLng, @_currentMap.maxLatLng
     pos
 
   _getMeterDistance: (latLng1, latLng2) =>

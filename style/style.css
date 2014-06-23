@@ -79,8 +79,7 @@ body {
 
 .question-bar {
     position: absolute;
-    height: 100px;
-    bottom: 50px;
+    bottom: 60px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
