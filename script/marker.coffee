@@ -35,6 +35,12 @@ class WWWW.Marker
   show: () ->
     $(@_markerDiv).css "visibility", "visible"
 
+  fade: () ->
+    $(@_markerDiv).addClass "fade"
+
+  unfade: () ->
+    $(@_markerDiv).removeClass "fade"
+
   lock: () ->
     $(@_markerDiv).draggable "disable"
 

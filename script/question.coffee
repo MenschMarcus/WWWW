@@ -161,6 +161,9 @@ class WWWW.QuestionHandler
     answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
+    @_mapMarker.fade()
+    @_tlMarker.fade()
+
     answerTime = @_pixelToTime @_tlMarker.getPosition()
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
 
@@ -207,6 +210,9 @@ class WWWW.QuestionHandler
         # reset loading bar
         @_barDiv.addClass 'animate'
         @_barDiv.css "width", "0%"
+
+        @_mapMarker.unfade()
+        @_tlMarker.unfade()
 
         @_remainingTime = @_timePerQuestion
 

@@ -3,16 +3,20 @@
   left: 0px;
   top: 0px;
   z-index: 2;
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 100px;
   background-size: 100%;
 }
 
-.marker-answer{
+.marker-answer {
   background-image: url(../img/marker.png);
 }
 
-.marker-result{
+.marker-answer.fade {
+  opacity: 0.5;
+}
+
+.marker-result {
   background-image: url(../img/marker_result.png);
 }
 
