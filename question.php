@@ -31,8 +31,9 @@
         <div class="phone-inner">
             <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
-            <div class="question-bar" id="question">
-                Wann war eigentlich was wo?
+            <div class="question-bar">
+              Frage <span id="question-number">1</span> von <span id="questions-per-round'">5</span>:<br/>
+              <div id="question"></div>
             </div>
             <div class="control-bar">
                 <div id="question-progress" class="question-progress animate"></div>
