@@ -59,7 +59,7 @@ class WWWW.QuestionHandler
     @_tlMarker = new WWWW.Marker(@_timelineDiv, "x")
     startPos =
       x : 10
-      y : 0
+      y : $(@_tlMarker.getDiv()).height()
     @_tlMarker.setPosition startPos
 
     @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true
@@ -119,7 +119,7 @@ class WWWW.QuestionHandler
       offset = $(@_mapDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : event.clientY - offset.top
+        y : event.clientY - offset.top + $(@_mapMarker.getDiv()).height()
 
       @_mapMarker.setPosition newPos
 
@@ -128,7 +128,7 @@ class WWWW.QuestionHandler
       offset = $(@_timelineDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : 0
+        y : $(@_tlMarker.getDiv()).height()
 
       @_tlMarker.setPosition newPos
 
@@ -217,12 +217,14 @@ class WWWW.QuestionHandler
         $('#result-display').modal('hide');
         $('#round-end-display').modal('hide');
 
-        @_mapResultMarker.setPosition @_latLngToPixel(@_currentQuestion.latLng)
+        mapResultPos = @_latLngToPixel @_currentQuestion.latLng
+        mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
+        @_mapResultMarker.setPosition mapResultPos
         @_mapResultMarker.hide()
         @_mapMarker.release()
 
         tlResultPos = @_timeToPixel(@_currentQuestion.year)
-        tlResultPos.y = 0
+        tlResultPos.y = $(@_tlMarker.getDiv()).height()
 
         @_tlResultMarker.setPosition tlResultPos
         @_tlResultMarker.hide()
