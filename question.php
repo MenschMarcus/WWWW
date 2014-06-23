@@ -32,14 +32,13 @@
             <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
             <div class="question-bar">
-                <div class="text-center">Frage <span id="question-number">1</span> von <span id="questions-per-round'">5</span>:</div>
+                <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round'">5</span>:</div>
                 <div id="question"></div>
-                <div id="results">
-                  Richtiger Ort: <span id="answer-location"></span> <br/>
-                  Richtiges Jahr: <span id="answer-year"></span> <br/>
-                  Räumliche Distanz: <span id="answer-spatial-distance"></span> km <br/>
-                  Zeitliche Distanz: <span id="answer-temporal-distance"></span> Jahre <br/>
-                  Score: <span id="answer-score"></span> von <span id="answer-max-score"></span>
+                <div id="results" class="text-center">
+                  <div id="score">
+                    <h1><span id="answer-score"></span> Punkte!</h1>
+                    <div>(Distanz: <span id="answer-spatial-distance"></span> km / <span id="answer-temporal-distance"></span> Jahre)</div>
+                  </div>
                   <div id="answer-info"></div>
                 </div>
             </div>
