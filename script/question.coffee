@@ -52,7 +52,7 @@ class WWWW.QuestionHandler
       y : 50
     @_mapMarker.setPosition startPos
 
-    @_mapResultMarker = new WWWW.Marker @_mapDiv, null, false, true
+    @_mapResultMarker = new WWWW.Marker @_mapDiv, null, true
     @_mapResultMarker.hide()
     @_mapResultMarker.lock()
 
@@ -66,7 +66,17 @@ class WWWW.QuestionHandler
       y : $(@_tlMarker.getDiv()).height() - 10
     @_tlMarker.setPosition startPos
 
-    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true, true
+    yearDiv = document.createElement "div"
+    yearDiv.id = "yearDiv"
+    @_tlMarker.getDiv().appendChild yearDiv
+
+    $(@_tlMarker.getDiv()).on "drag", (event, ui)=>
+      pos =
+        x : event.clientX
+        y : event.clientY
+      $(yearDiv).html @_pixelToTime pos
+
+    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true
     @_tlResultMarker.hide()
     @_tlResultMarker.lock()
 
