@@ -32,7 +32,7 @@
             <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
             <div class="question-bar">
-                <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round'">5</span>:</div>
+                <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
                 <div id="question"></div>
                 <div id="results" class="text-center">
                   <div id="score">
@@ -79,14 +79,34 @@
             <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
           </div>
           <div class="modal-body">
-
-
             <div id="score"><h1>
             Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
             </h1></div>
+
+            <div id="contact_form">
+              <div class="row">
+                <div class="form-group col-xs-12 floating-label-form-group">
+                  <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
+                  <textarea id="message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-12 floating-label-form-group">
+                  <label for="email">Willst du der Erste sein, der von Neuigkeiten zu WWWW erfährt?
+                    Lass' uns deine Email-Adresse da! Sie bleibt bei uns natürlich geheim ;-)</label>
+                  <input id="email" class="form-control" type="email" name="email" placeholder="Email-Adresse">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <button type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <div id="next-round" class="btn btn-default">Neue Runde starten!</div>
+            <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
           </div>
         </div>
       </div>

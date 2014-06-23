@@ -35,6 +35,7 @@ class WWWW.QuestionHandler
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.95 # time and space need to be 99% correct to achieve the maximum score
+    @_answerChanceLevel = 0.5 # time and space need to be at least 50% correct to score any point
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -205,23 +206,19 @@ class WWWW.QuestionHandler
     $("#answer-temporal-distance").html temporalDistance + if temporalDistance is 1 then " Jahr" else " Jahre"
     $("#answer-info").html @_currentQuestion.answer
 
-    latDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
-    latSpread = Math.abs (@_currentMap.lat_max - @_currentMap.lat_min)
-    latScore = 1 - latDist / latSpread
+    spatialSpread = @_getMeterDistance @_currentMap.minLatLng, @_currentMap.maxLatLng
+    spatialScore = 1 - spatialDistance/spatialSpread
 
-    latScore = if latScore >= @_answerPrecisionThreshold then 1 else latScore
+    spatialScore = if spatialScore >= @_answerChanceLevel then spatialScore else 0
+    spatialScore = if spatialScore >= @_answerPrecisionThreshold then 1 else spatialScore
 
-    lngDist = Math.abs (answerLatLng.lat - @_currentQuestion.latLng.lat)
-    lngSpread = Math.abs (@_currentMap.long_max - @_currentMap.long_min)
-    lngScore = 1 - lngDist / lngSpread
 
-    lngScore = if lngScore >= @_answerPrecisionThreshold then 1 else lngScore
+    timeScore = 1 - temporalDistance / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    timeScore = 1 - (temporalDistance) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
-
+    timeScore = if timeScore >= @_answerChanceLevel then timeScore else 0
     timeScore = if timeScore >= @_answerPrecisionThreshold then 1 else timeScore
 
-    score = Math.round( Math.pow(latScore, 2) * Math.pow(lngScore, 2) * Math.pow(timeScore, 2) * @_maxScore)
+    score = Math.round( (Math.pow(spatialScore, 2) + Math.pow(timeScore, 2)) / 2 * @_maxScore)
 
     $("#answer-score").html score
     $("#answer-max-score").html @_maxScore
