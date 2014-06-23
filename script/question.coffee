@@ -234,6 +234,8 @@ class WWWW.QuestionHandler
 
     @_questionCount += 1
 
+    $("#submit-answer").addClass("disabled");
+
     unless WWWW.DRY_RUN
       @submitAnswer()
 
@@ -262,6 +264,7 @@ class WWWW.QuestionHandler
 
         $("#next-question").addClass("invisible");
         $("#submit-answer").removeClass("invisible");
+        $("#submit-answer").removeClass("disabled");
 
         @_remainingTime = @_timePerQuestion
 
