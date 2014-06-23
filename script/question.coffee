@@ -34,7 +34,7 @@ class WWWW.QuestionHandler
     @_questionCount = 1
 
     $('#results').hide({duration: 0})
-    @_answerPrecisionThreshold = 0.98 # time and space need to be 99% correct to achieve the maximum score
+    @_answerPrecisionThreshold = 0.9 # time and space need to be 99% correct to achieve the maximum score
     @_answerChanceLevel = 0.6 # time and space need to be at least 50% correct to score any point
 
     @_mapDiv = document.getElementById("map")
@@ -209,14 +209,15 @@ class WWWW.QuestionHandler
     spatialSpread = @_getMeterDistance @_currentMap.minLatLng, @_currentMap.maxLatLng
     spatialScore = 1 - spatialDistance/spatialSpread
 
-    spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel)/ @_answerChanceLevel else 0
-    spatialScore = if spatialScore >= @_answerPrecisionThreshold then 1 else spatialScore
+    spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel) / (1-@_answerChanceLevel) else 0
+    spatialScore = (Math.min(1.0, (spatialScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
 
     timeScore = 1 - temporalDistance / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    timeScore = if timeScore >= @_answerChanceLevel then (timeScore - @_answerChanceLevel)/ @_answerChanceLevel else 0
-    timeScore = if timeScore >= @_answerPrecisionThreshold then 1 else timeScore
+    timeScore = if timeScore >= @_answerChanceLevel then (timeScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
+    timeScore = (Math.min(1.0, (timeScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
+
 
     score = Math.round( (Math.pow(spatialScore, 3) + Math.pow(timeScore, 3)) / 2 * @_maxScore)
 
