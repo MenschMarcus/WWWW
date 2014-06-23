@@ -1,23 +1,25 @@
 .marker {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 2;
-    width: 50px;
-    height: 50px;
-    background-image: url(../img/marker.png);
-    background-size: 100%;
-    /*background-color: rgba(255, 0, 0, 0.5);*/
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 2;
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
 }
 
-.marker-result {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 2;
-    width: 50px;
-    height: 50px;
-    background-image: url(../img/marker_result.png);
-    background-size: 100%;
-    /*background-color: rgba(255, 0, 0, 0.5);*/
+.marker-answer{
+  background-image: url(../img/marker.png);
+}
+
+.marker-result{
+  background-image: url(../img/marker_result.png);
+}
+
+.marker-flipped {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
