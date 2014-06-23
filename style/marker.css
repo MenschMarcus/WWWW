@@ -3,19 +3,40 @@
   left: 0px;
   top: 0px;
   z-index: 2;
-  width: 80px;
-  height: 100px;
   background-size: 100%;
 }
 
-.marker-answer {
-  background-image: url(../img/marker.png);
+.marker-map {
+  width: 80px;
+  height: 100px;
 }
 
-.marker-answer.fade {
+.marker-map-answer {
+  background-image: url(../img/marker_map.png);
+}
+
+.marker-map-answer.fade {
   opacity: 0.5;
 }
 
-.marker-result {
-  background-image: url(../img/marker_result.png);
+.marker-map-result {
+  background-image: url(../img/marker_map_result.png);
 }
+
+.marker-time {
+  width: 80px;
+  height: 100px;
+}
+
+.marker-time-answer {
+  background-image: url(../img/marker_time.png);
+}
+
+.marker-time-answer.fade {
+  opacity: 0.5;
+}
+
+.marker-time-result {
+  background-image: url(../img/marker_time_result.png);
+}
+

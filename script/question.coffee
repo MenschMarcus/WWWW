@@ -49,13 +49,13 @@ class WWWW.QuestionHandler
     @_maps = null
     @_currentMap = null
 
-    @_mapMarker = new WWWW.Marker @_mapDiv
+    @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
     startPos =
       x : 50
       y : 50
     @_mapMarker.setPosition startPos
 
-    @_mapResultMarker = new WWWW.Marker @_mapDiv, null, true
+    @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.hide()
     @_mapResultMarker.lock()
 
@@ -63,10 +63,10 @@ class WWWW.QuestionHandler
     @_timelines = null
     @_currentTimeline = null
 
-    @_tlMarker = new WWWW.Marker @_timelineDiv, "x", true
+    @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
     startPos =
       x : 10
-      y : $(@_tlMarker.getDiv()).height() - 10
+      y : $(@_timelineDiv).height() - 10
     @_tlMarker.setPosition startPos
 
     yearDiv = document.createElement "div"
@@ -79,7 +79,7 @@ class WWWW.QuestionHandler
         y : event.clientY
       $(yearDiv).html @_pixelToTime pos
 
-    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "x", true
+    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-result", "x", true
     @_tlResultMarker.hide()
     @_tlResultMarker.lock()
 
@@ -145,7 +145,7 @@ class WWWW.QuestionHandler
       offset = $(@_timelineDiv).offset()
       newPos =
         x : event.clientX - offset.left
-        y : $(@_tlMarker.getDiv()).height() - 10
+        y : $(@_timelineDiv).height() - 10
 
       @_tlMarker.setPosition newPos
 

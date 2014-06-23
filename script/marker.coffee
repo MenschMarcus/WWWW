@@ -2,11 +2,12 @@ window.WWWW ?= {}
 
 #   -----------------------------------------------------------------
 class WWWW.Marker
-  constructor: (parentDiv, axis=null, is_result=false) ->
+  constructor: (parentDiv, classString="", axis=null, isFlipped=false) ->
     @_parentDiv = parentDiv
     @_axis = axis
+    @_isFlipped = isFlipped
     @_markerDiv = document.createElement("div")
-    @_markerDiv.className = if is_result then "marker marker-result" else "marker marker-answer"
+    @_markerDiv.className = classString
     @_parentDiv.appendChild @_markerDiv
 
     $(@_markerDiv).draggable
@@ -21,11 +22,11 @@ class WWWW.Marker
   getPosition: ->
     pos =
       x : $(@_markerDiv).offset().left + $(@_markerDiv).width() / 2
-      y : $(@_markerDiv).offset().top + $(@_markerDiv).height()
+      y : $(@_markerDiv).offset().top + if @_isFlipped then 0 else $(@_markerDiv).height()
 
   setPosition: (pos) ->
     @_markerDiv.style.left = pos.x - $(@_markerDiv).width() / 2 + "px"
-    @_markerDiv.style.top = pos.y  - $(@_markerDiv).height() + "px"
+    @_markerDiv.style.top = pos.y  - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
 
   hide: () ->
     $(@_markerDiv).css "visibility", "hidden"
