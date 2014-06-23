@@ -164,9 +164,6 @@ class WWWW.QuestionHandler
   showResults: =>
     mapResultPos = @_latLngToPixel @_currentQuestion.latLng
 
-    console.log @_pixelToLatLng mapResultPos
-    console.log @_currentQuestion.latLng
-
     # mapResultPos.y += $(@_mapResultMarker.getDiv()).height()
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
@@ -323,24 +320,17 @@ class WWWW.QuestionHandler
 
   _pixelToLatLng: (pos) =>
 
-    getMerc = (pos) =>
-      (Math.exp(-(pos-(0.5))/(2*Math.PI))-Math.tan((Math.PI/4))*2)/(Math.PI/180)
-
-    merc = getMerc pos.y/$("#map").height()
-    minMerc = getMerc 0
-    maxMerc = getMerc 1
-
-    relY = (merc - minMerc) / (maxMerc - minMerc)
-
-    latDiff = @_currentMap.maxLatLng.lat - @_currentMap.minLatLng.lat
-
-
-    relX = pos.x / $("#map").width()
     lngDiff = @_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng
+    globalRadius = $("#map").width() / lngDiff * 360/(2 * Math.PI)
+
+    mapLatBottomRadian = @_degToRad @_currentMap.maxLatLng.lat
+    offsetY = globalRadius / 2 * Math.log( (1 + Math.sin(mapLatBottomRadian) ) / (1 - Math.sin(mapLatBottomRadian))  )
+    equatorY = $("#map").height() + offsetY
+    a = (equatorY - pos.y )/ globalRadius
 
     latLng =
-      lat : relY * latDiff + @_currentMap.minLatLng.lat
-      lng : relX * lngDiff + @_currentMap.minLatLng.lng
+      lat : 180/Math.PI * (2 * Math.atan(Math.exp(a)) - Math.PI/2);
+      lng :  @_currentMap.minLatLng.lng + pos.x / $("#map").width() * lngDiff;
 
     latLng
 
@@ -365,15 +355,12 @@ class WWWW.QuestionHandler
   _getMeterDistance: (latLng1, latLng2) =>
     earthRadius = 6371 # in km
 
-    degTorad = (degree) ->
-      return degree * (Math.PI / 180)
-
-    deltaLat = degTorad(latLng2.lat - latLng1.lat)
-    deltaLng = degTorad(latLng2.lng - latLng1.lng)
+    deltaLat = @_degToRad(latLng2.lat - latLng1.lat)
+    deltaLng = @_degToRad(latLng2.lng - latLng1.lng)
 
 
     a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
-        Math.cos(degTorad(latLng1.lat)) * Math.cos(degTorad(latLng2.lat)) *
+        Math.cos(@_degToRad(latLng1.lat)) * Math.cos(@_degToRad(latLng2.lat)) *
         Math.sin(deltaLng/2) * Math.sin(deltaLng/2)
 
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
@@ -401,4 +388,6 @@ class WWWW.QuestionHandler
 
     pos
 
+  _degToRad: (degree) ->
+    return degree * (Math.PI / 180)
 
