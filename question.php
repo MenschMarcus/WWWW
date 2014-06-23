@@ -20,8 +20,14 @@
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
 
-      $('#progress-bar').css({width:'100%'});
+      $('#question-progress').css({width:'100%'});
 
+      t = 21;
+      function countDown() {
+
+      };
+
+      countDown();
 
     });
   </script>
@@ -36,10 +42,11 @@
                 Wann war eigentlich was wo?
             </div>
             <div class="control-bar">
+                <div id="question-progress" class="question-progress animate"></div>
+                <div id="count-down" class="count-down">huhu</div>
+                <div>
                 <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
                 <div id="submit-answer" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span></div>
-                <div id="progress-bar-container" class="progress progress-striped active">
-                    <div id="progress-bar" class="progress-bar progress-bar-animate" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                 </div>
             </div>
         </div>
