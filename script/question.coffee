@@ -54,6 +54,8 @@ class WWWW.QuestionHandler
     @_maps = null
     @_currentMap = null
 
+    @_browserDetector = new WWWW.BrowserDetector()
+
     @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
     startPos =
       x : $(@_mapDiv).width()/2
@@ -339,8 +341,14 @@ class WWWW.QuestionHandler
       a = @_currentAnswer
       send =
         table: "answer"
-        values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}', #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time}, #{a.end_time}, #{a.funny}"
-        names: "`q_id`, `round_count`, `session_id`, `lat`, `long`, `year`, `score`, `start_time`, `end_time`, `funny`"
+        values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}',
+                 #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time},
+                 #{a.end_time}, #{a.funny}, '#{@_browserDetector.platform}',
+                 '#{@_browserDetector.browser}', '#{@_browserDetector.version}'"
+        names: "`q_id`, `round_count`, `session_id`,
+                `lat`, `long`, `year`, `score`, `start_time`,
+                `end_time`, `funny`, `platform`,
+                `browser`, `version`"
 
       WWWW.executePHPFunction "insertIntoDB", send, (response) =>
         console.log "Answer was submitted with response #{response}"

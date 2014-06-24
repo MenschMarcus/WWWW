@@ -8,6 +8,9 @@
 
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
+  <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
+
+  <script type="text/javascript" src="build/BrowserDetector.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
   <script type="text/javascript" src="build/marker.js"></script>
   <script type="text/javascript" src="build/feedback.js"></script>
