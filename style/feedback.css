@@ -11,3 +11,13 @@
   padding: 15px;
   border-radius: 10px;
 }
+
+.feedback-start-fail {
+  font-size: 2em;
+  background-color: #FF9189;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
