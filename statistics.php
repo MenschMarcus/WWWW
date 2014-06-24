@@ -101,8 +101,16 @@
           for (i=0; i<len; i++) {
             timesum += parseInt(obj[i].end_time) - parseInt(obj[i].start_time);
           }
-          var average = (timesum/len) / 1000;
-          $("#time-per-question").html(average);
+          var average = timesum/len;
+          $("#time-per-question").html(average / 1000);
+
+          var squared_diff_sum = 0;
+          for (i=0; i<len; i++) {
+            squared_diff_sum += Math.pow(parseInt(obj[i].end_time) - parseInt(obj[i].start_time) - average, 2);
+          }
+
+          var standardDev = Math.sqrt(squared_diff_sum/len);
+          $("#time-per-question-standard-deviation").html(standardDev / 1000);
         }
       );
 
@@ -118,8 +126,16 @@
           for (i=0; i<len; i++) {
             timesum += parseInt(obj[i].end_time) - parseInt(obj[i].start_time);
           }
-          var average = (timesum/len) / 1000;
-          $("#time-per-question-funny").html(average);
+          var average = timesum/len;
+          $("#time-per-question-funny").html(average / 1000);
+
+          var squared_diff_sum = 0;
+          for (i=0; i<len; i++) {
+            squared_diff_sum += Math.pow(parseInt(obj[i].end_time) - parseInt(obj[i].start_time) - average, 2);
+          }
+
+          var standardDev = Math.sqrt(squared_diff_sum/len);
+          $("#time-per-question-standard-deviation-funny").html(standardDev / 1000);
         }
       );
 
@@ -135,8 +151,38 @@
           for (i=0; i<len; i++) {
             timesum += parseInt(obj[i].end_time) - parseInt(obj[i].start_time);
           }
-          var average = (timesum/len) / 1000;
-          $("#time-per-question-normal").html(average);
+          var average = timesum/len;
+          $("#time-per-question-normal").html(average / 1000);
+
+          var squared_diff_sum = 0;
+          for (i=0; i<len; i++) {
+            squared_diff_sum += Math.pow(parseInt(obj[i].end_time) - parseInt(obj[i].start_time) - average, 2);
+          }
+
+          var standardDev = Math.sqrt(squared_diff_sum/len);
+          $("#time-per-question-standard-deviation-normal").html(standardDev / 1000);
+        }
+      );
+
+      var send9 = {
+        query: "SELECT COUNT(`id`) FROM answer WHERE `platform`='Windows';"
+      };
+
+      WWWW.executePHPFunction("manualSQLQuery", send9,
+        function(response) {
+          var obj = JSON.parse(response);
+          $("#user-count-windows").html(obj[0]["COUNT(`id`)"]);
+        }
+      );
+
+      var send9 = {
+        query: "SELECT COUNT(`id`) FROM answer WHERE `platform`='Linux';"
+      };
+
+      WWWW.executePHPFunction("manualSQLQuery", send9,
+        function(response) {
+          var obj = JSON.parse(response);
+          $("#user-count-linux").html(obj[0]["COUNT(`id`)"]);
         }
       );
 
@@ -158,6 +204,18 @@
       Durchschnittliche Zeit pro Frage (in s): <span id="time-per-question" class="stat-col-right"></span>
     </div>
 
+    <div class="stat-row stat-row-grey">
+      Standardabweichung der Zeit pro Frage: <span id="time-per-question-standard-deviation" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row ">
+      Anzahl der Nutzer mit Windows: <span id="user-count-windows" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row stat-row-grey">
+      Anzahl der Nutzer mit Linux: <span id="user-count-linux" class="stat-col-right"></span>
+    </div>
+
 
 
     <div class="stat-row">
@@ -176,6 +234,10 @@
       Durchschnittliche Zeit pro Frage (in s): <span id="time-per-question-funny" class="stat-col-right"></span>
     </div>
 
+    <div class="stat-row">
+      Standardabweichung der Zeit pro Frage: <span id="time-per-question-standard-deviation-funny" class="stat-col-right"></span>
+    </div>
+
 
 
     <div class="stat-row">
@@ -192,6 +254,10 @@
 
     <div class="stat-row stat-row-grey">
       Durchschnittliche Zeit pro Frage (in s): <span id="time-per-question-normal" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row">
+      Standardabweichung der Zeit pro Frage: <span id="time-per-question-standard-deviation-normal" class="stat-col-right"></span>
     </div>
 
   </div>
