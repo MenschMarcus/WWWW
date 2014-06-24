@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = false
+WWWW.DRY_RUN = true
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -423,15 +423,3 @@ class WWWW.QuestionHandler
 
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
-
-WWWW.executePHPFunction = (method, values, callBack=null) ->
-  if (window.XMLHttpRequest)
-    xmlhttp = new XMLHttpRequest()
-  else
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
-  xmlhttp.open( "POST", "./php/execute.php?" + method + "=true", true );
-  xmlhttp.setRequestHeader( "Content-Type", "application/json" );
-  xmlhttp.send( JSON.stringify(values) );
-  xmlhttp.onreadystatechange= =>
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      callBack? xmlhttp.responseText

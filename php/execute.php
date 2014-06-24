@@ -50,4 +50,15 @@ if(isset($_GET["getSessionID"])) {
   echo $s_id;
 }
 
+if(isset($_GET["manualSQLQuery"])) {
+  $str_json = file_get_contents('php://input');
+  $input = json_decode($str_json);
+  $result = $db->query($input->query);
+  $rows = array();
+  while($row = mysql_fetch_assoc($result)) {
+     $rows[] = $row;
+   }
+  print json_encode($rows);
+}
+
 ?>
