@@ -14,7 +14,7 @@
         <div class="phone-inner">
             <h1 class="text-center">Was War Wann Wo?</h1>
             <p class="text-center" style="margin-top:200px"><img src="img/marker_map.png" /></p>
-            <h3 class="text-center">Zieh beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
+            <h3 class="text-center">Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
             <div class="well start">
                 <a href="question.php" type="button" class="btn btn-success btn-lg btn-block">Spiel starten!</a>
             </div>
