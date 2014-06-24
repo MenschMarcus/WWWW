@@ -31,8 +31,8 @@ class WWWW.FeedbackHandler
           unless @_socialClicked
             send =
               table: "feedback"
-              values: true
-              names: "`social_clicked`"
+              values: "'#{session_id}', 1"
+              names: "`session_id`, `social_clicked`"
 
             WWWW.executePHPFunction "insertIntoDB", send, (response) =>
               @_socialClicked = true
