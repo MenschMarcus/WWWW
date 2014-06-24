@@ -69,7 +69,7 @@
           for (i=0; i<len; i++) {
             sum += parseInt(obj[i].round_count);
           }
-          $("#round-count-funny").html(sum/len);
+          $("#round-count-funny").html((sum/len).toFixed(3));
         }
       );
 
@@ -85,7 +85,7 @@
           for (i=0; i<len; i++) {
             sum += parseInt(obj[i].round_count);
           }
-          $("#round-count-normal").html(sum/len);
+          $("#round-count-normal").html((sum/len).toFixed(3));
         }
       );
 
@@ -102,7 +102,7 @@
             timesum += parseInt(obj[i].end_time) - parseInt(obj[i].start_time);
           }
           var average = timesum/len;
-          $("#time-per-question").html(average / 1000);
+          $("#time-per-question").html((average / 1000).toFixed(3));
 
           var squared_diff_sum = 0;
           for (i=0; i<len; i++) {
@@ -110,7 +110,7 @@
           }
 
           var standardDev = Math.sqrt(squared_diff_sum/len);
-          $("#time-per-question-standard-deviation").html(standardDev / 1000);
+          $("#time-per-question-standard-deviation").html((standardDev / 1000).toFixed(3));
         }
       );
 
@@ -127,7 +127,7 @@
             timesum += parseInt(obj[i].end_time) - parseInt(obj[i].start_time);
           }
           var average = timesum/len;
-          $("#time-per-question-funny").html(average / 1000);
+          $("#time-per-question-funny").html((average / 1000).toFixed(3));
 
           var squared_diff_sum = 0;
           for (i=0; i<len; i++) {
@@ -135,7 +135,7 @@
           }
 
           var standardDev = Math.sqrt(squared_diff_sum/len);
-          $("#time-per-question-standard-deviation-funny").html(standardDev / 1000);
+          $("#time-per-question-standard-deviation-funny").html((standardDev / 1000).toFixed(3));
         }
       );
 
@@ -152,7 +152,7 @@
             timesum += parseInt(obj[i].end_time) - parseInt(obj[i].start_time);
           }
           var average = timesum/len;
-          $("#time-per-question-normal").html(average / 1000);
+          $("#time-per-question-normal").html((average / 1000).toFixed(3));
 
           var squared_diff_sum = 0;
           for (i=0; i<len; i++) {
@@ -160,7 +160,7 @@
           }
 
           var standardDev = Math.sqrt(squared_diff_sum/len);
-          $("#time-per-question-standard-deviation-normal").html(standardDev / 1000);
+          $("#time-per-question-standard-deviation-normal").html((standardDev / 1000).toFixed(3));
         }
       );
 
