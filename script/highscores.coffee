@@ -3,7 +3,8 @@ window.WWWW ?= {}
 class WWWW.HighscoreHandler
 
   constructor: ->
+  	@_score_list = {}
 
   getScoreList: =>
   	WWWW.executePHPFunction "getScoreList", null, (response) =>
-  		list = JSON.parse(response)
+  		@_score_list = JSON.parse(response)

@@ -75,4 +75,13 @@ if(isset($_GET["manualSQLQuery"])) {
   print json_encode($rows);
 }
 
+if(isset($_GET["getScoreList"])) {
+  $result = $db->query("SELECT `nickname`, `score` FROM score  ORDER BY `score`;");
+  $rows = array();
+  while($row = mysql_fetch_assoc($result)) {
+    $rows[] = $row;
+  }
+  print json_encode($rows);
+}
+
 ?>
