@@ -37,8 +37,8 @@ class WWWW.QuestionHandler
     @_highscoreHandler = new WWWW.HighscoreHandler()
 
     $('#results').hide({duration: 0})
-    @_answerPrecisionThreshold = 0.95 # time and space need to be 99% correct to achieve the maximum score
-    @_answerChanceLevel = 0.5 # time and space need to be at least 50% correct to score any point
+    @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
+    @_answerChanceLevel = 0.8 # time and space need to be at least 75% correct to score any point
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
