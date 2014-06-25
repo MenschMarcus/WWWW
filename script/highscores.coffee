@@ -3,17 +3,28 @@ window.WWWW ?= {}
 class WWWW.HighscoreHandler
 
   constructor: ->
-  	@score_list = {}
+  	@score_list = []
 
   update: (own_score)=>
-  	WWWW.executePHPFunction "getScoreList", null, (response) =>
+  	WWWW.executePHPFunction "getScoreList", null, (response) => 		
+  		$("#highscore-list").empty()
+
   		@score_list = JSON.parse(response)
   		add_at = @score_list.length
   		for score_obj, i in @score_list
-  			if parseInt(score_obj.score) > own_score
+  			score_obj.score = parseInt(score_obj.score) 
+  			if score_obj.score < own_score
   				add_at = i
-  		@score_list.splice(i, 0, "Lene");
+  				break
+
+  		@score_list.splice add_at, 0,
+  			nickname: "<div></div>"
+  			score: own_score
+
   		console.log @score_list
+
+  		for score_obj, i in @score_list
+  			@_postRow i + 1, score_obj.nickname, score_obj.score
 
   _postRow: (rank, name, score) ->
     row = document.createElement "tr"
