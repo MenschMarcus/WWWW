@@ -31,7 +31,7 @@
 </head>
 <body>
   <div class="phone-outer">
-    <div class="phone-inner">
+    <div class="phone-inner title-image">
       <div id="instructions">
         <p class="text-center" style="margin-top:300px"><img src="img/marker_map.png" /></p>
         <h3 class="text-center well">Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>

@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = true
+WWWW.DRY_RUN = false
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -27,15 +27,14 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 0
+    @_questionsPerRound = 5
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
     @_questionCount = 1
     @_session_id = null
 
-    HiHa = new WWWW.HighscoreHandler()
-    HiHa.update(5000)
+    @_highscoreHandler = new WWWW.HighscoreHandler()
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 99% correct to achieve the maximum score
@@ -61,11 +60,7 @@ class WWWW.QuestionHandler
     @_browserDetector = new WWWW.BrowserDetector()
 
     @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
-    startPos =
-      x : $(@_mapDiv).width()/2
-      y : $(@_mapDiv).height()/2
-    @_mapMarker.setPosition startPos
-    @_mapMarker.show()
+
 
     @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.lock()
@@ -75,11 +70,10 @@ class WWWW.QuestionHandler
     @_currentTimeline = null
 
     @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
-    startPos =
-      x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 20
-    @_tlMarker.setPosition startPos
+
+    @_resetMarkers()
     @_tlMarker.show()
+    @_mapMarker.show()
 
     yearDiv = document.createElement "div"
     yearDiv.id = "yearDiv"
@@ -277,6 +271,7 @@ class WWWW.QuestionHandler
       if @_questionCount is (@_questionsPerRound + 1)
         @roundEnd()
       else
+        @_resetMarkers()
         @_questionAnswered = false
 
         # reset loading bar
@@ -350,6 +345,8 @@ class WWWW.QuestionHandler
     $("#total-max-score").html @_maxScore * @_questionsPerRound
 
     $('#round-end-display').modal('show')
+
+    @_highscoreHandler.update @_totalScore
 
     @_totalScore = 0
     @_roundCount++
@@ -444,3 +441,13 @@ class WWWW.QuestionHandler
 
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
+
+  _resetMarkers: () ->
+    startPos =
+      x : $(@_mapDiv).width()/2
+      y : $(@_mapDiv).height()/2
+    @_mapMarker.setPosition startPos
+    startPos =
+      x : $(@_timelineDiv).width()/2
+      y : $(@_timelineDiv).height() - 20
+    @_tlMarker.setPosition startPos

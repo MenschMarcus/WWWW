@@ -22,7 +22,7 @@ class WWWW.FeedbackHandler
 
               WWWW.executePHPFunction "insertIntoDB", send, (response) =>
                 @_feedbackSubmitted = true
-                console.log "Feedback was submitted with response #{response}"
+                console.log "feedback was submitted with response #{response}"
                 $("#feedback-fail").slideUp()
                 $("#feedback-answer").hide().slideDown()
 

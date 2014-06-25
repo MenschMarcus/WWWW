@@ -7,7 +7,7 @@ class WWWW.HighscoreHandler
     @score_list = []
     @_nameEmailShown = false
 
-  update: (own_score)=>
+  update: (currentScore)=>
     WWWW.executePHPFunction "getScoreList", null, (response) =>
       $("#highscore-list").empty()
 
@@ -19,7 +19,7 @@ class WWWW.HighscoreHandler
 
       $(nameButton).popover
         html: true,
-        title: "Bitte Name und Email-Adresse eintragen!",
+        title: "Bitte trage Name und Email-Adresse ein!",
         content: nameEmailDisplay,
         placement: "top"
         container: "#round-end-display"
@@ -30,26 +30,35 @@ class WWWW.HighscoreHandler
           nameEmailDisplay.show()
           $(nameButton).popover "show"
           @_nameEmailShown = true
+        else
+          $(nameButton).popover "hide"
+          @_nameEmailShown = false
 
       $("#submit-name-email").click ()=>
         name = $('input[name=name]').val()
         email = $('input[name=email]').val()
 
         if name isnt "" and email isnt ""
+          $("#name-group").removeClass "has-error"
+          $("#email-group").removeClass "has-error"
           $(nameButton).html name
           nameButton.className = ""
           $(nameButton).popover "hide"
 
-        #   send =
-        #     table: "feedback"
-        #     values: "'#{session_id}', '#{message}'"
-        #     names: "`session_id`, `message`"
+          send =
+            table: "score"
+            values: "'#{name}', '#{email}', '#{currentScore}'"
+            names: "`nickname`, `email`, `score`"
 
-        #   WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-        #     @_feedbackSubmitted = true
-        #     console.log "Feedback was submitted with response #{response}"
-        #     $("#feedback-fail").slideUp()
-        #     $("#feedback-answer").hide().slideDown()
+          WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+            console.log "highscore was submitted with response #{response}"
+
+        else
+          if name is ""
+            $("#name-group").addClass "has-error"
+          if email is ""
+            $("#email-group").addClass "has-error"
+
 
 
       $("#next-round").click () =>
@@ -62,13 +71,13 @@ class WWWW.HighscoreHandler
       add_at = @score_list.length
       for score_obj, i in @score_list
       	score_obj.score = parseInt(score_obj.score)
-      	if score_obj.score < own_score
+      	if score_obj.score < currentScore
       		add_at = i
       		break
 
       @score_list.splice add_at, 0,
       	nickname: nameButton
-      	score: own_score
+      	score: currentScore
 
       for score_obj, i in @score_list
       	@_postRow i + 1, score_obj.nickname, score_obj.score
