@@ -45,6 +45,20 @@ if(isset($_GET["insertIntoDB"])) {
   echo $result;
 }
 
+if(isset($_GET["userIsFunny"])) {
+  $str_json = file_get_contents('php://input');
+  $input = json_decode($str_json);
+  $session_id = $input->session_id;
+  $result = $db->query("SELECT `funny` FROM user WHERE `session_id` = '{$session_id}';");
+  $rows = array();
+  if($result) {
+    while($row = mysql_fetch_assoc($result)) {
+      $rows[] = $row;
+    }
+  }
+  print json_encode($rows);
+}
+
 if(isset($_GET["getSessionID"])) {
   $s_id = session_id();
   echo $s_id;

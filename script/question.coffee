@@ -32,6 +32,7 @@ class WWWW.QuestionHandler
     @_totalScore = 0
     @_roundCount = 1
     @_questionCount = 1
+    @_session_id = null
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 99% correct to achieve the maximum score
@@ -93,45 +94,64 @@ class WWWW.QuestionHandler
     yearResultDiv.className = "yearDiv"
     @_tlResultMarker.getDiv().appendChild yearResultDiv
 
-    WWWW.executePHPFunction "getMaps", "", (map_string) =>
-      @_maps = new Object()
-      maps = JSON.parse map_string
+    WWWW.executePHPFunction "getSessionID", "", (s_id) =>
+      @_currentAnswer.session_id = s_id
+      @_session_id = s_id
 
-      for map in maps
-        map.minLatLng =
-          lat : parseInt(map.lat_min)
-          lng : parseInt(map.long_min)
+      WWWW.executePHPFunction "getMaps", "", (map_string) =>
+        @_maps = new Object()
+        maps = JSON.parse map_string
 
-        map.maxLatLng =
-          lat : parseInt(map.lat_max)
-          lng : parseInt(map.long_max)
+        for map in maps
+          map.minLatLng =
+            lat : parseInt(map.lat_min)
+            lng : parseInt(map.long_min)
 
-        @_maps[map.id] = map
+          map.maxLatLng =
+            lat : parseInt(map.lat_max)
+            lng : parseInt(map.long_max)
 
-      WWWW.executePHPFunction "getTimelines", "", (tl_string) =>
-        @_timelines = new Object()
-        tls = JSON.parse tl_string
+          @_maps[map.id] = map
 
-        for tl in tls
-          tl.min_year = parseInt(tl.min_year)
-          tl.max_year = parseInt(tl.max_year)
-          @_timelines[tl.id] = tl
+        WWWW.executePHPFunction "getTimelines", "", (tl_string) =>
+          @_timelines = new Object()
+          tls = JSON.parse tl_string
 
-        send =
-          funny: Math.round(Math.random())
-        @_currentAnswer.funny = send.funny
+          for tl in tls
+            tl.min_year = parseInt(tl.min_year)
+            tl.max_year = parseInt(tl.max_year)
+            @_timelines[tl.id] = tl
 
-        WWWW.executePHPFunction "getQuestions", send, (question_string) =>
-          @_questions = JSON.parse question_string
-          for question in @_questions
-            question.latLng =
-              lat : parseInt(question.lat)
-              lng : parseInt(question.long)
+          send =
+            session_id: "#{@_session_id}"
+          WWWW.executePHPFunction "userIsFunny", send, (response) =>
+            rep = JSON.parse(response)
+            send = {}
+            if !rep? or rep.length == 0
+              send =
+                funny: Math.round(Math.random())
+              @_currentAnswer.funny = send.funny
+              add_user_send =
+                table: "user"
+                values: "'#{@_session_id}', #{send.funny}"
+                names: "`session_id`, `funny`"
+              WWWW.executePHPFunction "insertIntoDB", add_user_send, null
+            else
+              send =
+                funny: parseInt(rep[0].funny)
+              @_currentAnswer.funny = send.funny
 
-          @_totalQuestionCount = @_questions?.length
-          if @_questionsPerRound > @_totalQuestionCount
-            @_questionsPerRound = @_totalQuestionCount
-          @postNewQuestion()
+            WWWW.executePHPFunction "getQuestions", send, (question_string) =>
+              @_questions = JSON.parse question_string
+              for question in @_questions
+                question.latLng =
+                  lat : parseInt(question.lat)
+                  lng : parseInt(question.long)
+
+              @_totalQuestionCount = @_questions?.length
+              if @_questionsPerRound > @_totalQuestionCount
+                @_questionsPerRound = @_totalQuestionCount
+              @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -335,23 +355,20 @@ class WWWW.QuestionHandler
       @_askedQuestions = []
 
   submitAnswer: =>
-    WWWW.executePHPFunction "getSessionID", "", (s_id) =>
-      @_currentAnswer.session_id = s_id
+    a = @_currentAnswer
+    send =
+      table: "answer"
+      values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}',
+               #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time},
+               #{a.end_time}, #{a.funny}, '#{@_browserDetector.platform}',
+               '#{@_browserDetector.browser}', '#{@_browserDetector.version}'"
+      names: "`q_id`, `round_count`, `session_id`,
+              `lat`, `long`, `year`, `score`, `start_time`,
+              `end_time`, `funny`, `platform`,
+              `browser`, `version`"
 
-      a = @_currentAnswer
-      send =
-        table: "answer"
-        values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}',
-                 #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time},
-                 #{a.end_time}, #{a.funny}, '#{@_browserDetector.platform}',
-                 '#{@_browserDetector.browser}', '#{@_browserDetector.version}'"
-        names: "`q_id`, `round_count`, `session_id`,
-                `lat`, `long`, `year`, `score`, `start_time`,
-                `end_time`, `funny`, `platform`,
-                `browser`, `version`"
-
-      WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-        console.log "Answer was submitted with response #{response}"
+    WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+      console.log "Answer was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
 
