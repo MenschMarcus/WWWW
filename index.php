@@ -32,10 +32,9 @@
 <body>
   <div class="phone-outer">
     <div class="phone-inner">
-      <h1 class="text-center">Was War Wann Wo?</h1>
       <div id="instructions">
-        <p class="text-center" style="margin-top:200px"><img src="img/marker_map.png" /></p>
-        <h3 class="text-center">Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
+        <p class="text-center" style="margin-top:300px"><img src="img/marker_map.png" /></p>
+        <h3 class="text-center well">Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
       <div id="start-button" class="well start">

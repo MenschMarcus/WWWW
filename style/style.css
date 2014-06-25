@@ -17,6 +17,13 @@ body {
     background-color: #fff;
     height: 700px;
     width: 460px;
+    background-image: url("../img/title.png");
+}
+.well {
+    background-color: rgba(0, 0, 0, 0.7);
+    background-image: none;
+    border: none;
+    color: white;
 }
 
 .control-bar {
@@ -117,7 +124,6 @@ body {
 
 .start {
     position: relative;
-    margin: 10px;
-    top: 150px;
+    top: 50px;
 }
 
