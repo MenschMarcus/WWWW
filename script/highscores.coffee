@@ -85,7 +85,11 @@ class WWWW.HighscoreHandler
       window.setTimeout () =>
         offset = $(nameButton).offset().top
         parent = $('#hsc-scroll-table').offset().top
-        $('#hsc-scroll-table').animate({scrollTop:offset - parent - 100}, 1500)
+        parent_top = $('#hsc-scroll-table').scrollTop()
+        scroll = offset - parent + parent_top
+
+        if offset isnt 0
+          $('#hsc-scroll-table').animate({scrollTop:scroll - 100}, 1500)
       , 1500
 
 
