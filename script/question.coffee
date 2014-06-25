@@ -356,6 +356,7 @@ class WWWW.QuestionHandler
       @_askedQuestions = []
 
   submitAnswer: =>
+    @_currentAnswer.session_id = @_session_id
     a = @_currentAnswer
     send =
       table: "answer"
