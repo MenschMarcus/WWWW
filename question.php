@@ -108,7 +108,7 @@
           <div class="modal-body">
             <div id="score">
             <h1>
-            Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
+            Gesamtpunkte: <span id="total-score"></span>
             </h1>
             </div>
 

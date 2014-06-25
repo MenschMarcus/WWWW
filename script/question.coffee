@@ -342,7 +342,7 @@ class WWWW.QuestionHandler
     $('#result-display').modal('hide')
 
     $("#total-score").html @_totalScore
-    $("#total-max-score").html @_maxScore * @_questionsPerRound
+    # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
     $('#round-end-display').modal('show')
 
