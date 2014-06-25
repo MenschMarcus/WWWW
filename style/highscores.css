@@ -1,5 +1,5 @@
-.hsc-scroll-table {
-  height: 150px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+#hsc-scroll-table {
+    height: 200px;
+    overflow: auto;
+    width: 558px;
 }

@@ -35,7 +35,7 @@ class WWWW.QuestionHandler
     @_session_id = null
 
     HiHa = new WWWW.HighscoreHandler()
-    HiHa.update(1000)
+    HiHa.update(5000)
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 99% correct to achieve the maximum score
@@ -342,7 +342,7 @@ class WWWW.QuestionHandler
         , @_timePerQuestion * 1000
 
 
-  roundEnd: =>  
+  roundEnd: =>
 
     $('#result-display').modal('hide')
 

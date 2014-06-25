@@ -73,6 +73,14 @@ class WWWW.HighscoreHandler
       for score_obj, i in @score_list
       	@_postRow i + 1, score_obj.nickname, score_obj.score
 
+      window.setTimeout () =>
+        offset = $(nameButton).offset().top
+        parent = $('#hsc-scroll-table').offset().top
+        $('#hsc-scroll-table').animate({scrollTop:offset - parent - 100}, 2000)
+      , 2000
+
+
+
   _postRow: (rank, name, score) ->
     row = document.createElement "tr"
     row.className = "table-striped"
@@ -89,3 +97,4 @@ class WWWW.HighscoreHandler
     $(scoreCol).html score
 
     $("#highscore-list").append row
+

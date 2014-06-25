@@ -110,22 +110,19 @@
             </div>
 
             <h2>Bestenliste</h2>
+            <div id="hsc-scroll-table">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Rang</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody id="highscore-list"> </tbody>
+              </table>
+            </div>
             <div id="contact_form">
-              <div class="row">
-                <div class="form-group col-xs-12 floating-label-form-group hsc-scroll-table">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Rang</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                      </tr>
-                    </thead>
-                    <tbody id="highscore-list"> </tbody>
-                  </table>
-                </div>
-              </div>
-
               <div class="row">
                 <div class="form-group col-xs-12 floating-label-form-group">
                   <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
@@ -143,6 +140,8 @@
             </div>
           </div>
           <div class="modal-footer">
+            <div style="float:left">
+
             <a class="btn btn-social-icon btn-twitter">
               <i class="fa fa-twitter"></i>
             </a>
@@ -152,6 +151,7 @@
             <a class="btn btn-social-icon btn-google-plus">
               <i class="fa fa-google-plus"></i>
             </a>
+            </div>
             <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
             <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
           </div>
