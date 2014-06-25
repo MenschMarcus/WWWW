@@ -91,16 +91,6 @@
           <div class="modal-body">
             <div id="score"><h1>
             Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
-            <br/>
-            <a class="btn btn-social-icon btn-twitter">
-              <i class="fa fa-twitter"></i>
-            </a>
-            <a class="btn btn-social-icon btn-facebook">
-              <i class="fa fa-facebook"></i>
-            </a>
-            <a class="btn btn-social-icon btn-google-plus">
-              <i class="fa fa-google-plus"></i>
-            </a>
             </h1></div>
 
             <div id="contact_form">
@@ -108,13 +98,6 @@
                 <div class="form-group col-xs-12 floating-label-form-group">
                   <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
                   <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-xs-12 floating-label-form-group">
-                  <label for="email">Willst du der Erste sein, der von Neuigkeiten zu WWWW erfährt?
-                    Lass' uns deine Email-Adresse da! Wir geben sie natürlich nicht an andere weiter! </label>
-                  <input id="feedback-email" class="form-control" type="email" name="email" placeholder="Email-Adresse">
                 </div>
               </div>
               <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
@@ -128,6 +111,15 @@
             </div>
           </div>
           <div class="modal-footer">
+            <a class="btn btn-social-icon btn-twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a class="btn btn-social-icon btn-facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a class="btn btn-social-icon btn-google-plus">
+              <i class="fa fa-google-plus"></i>
+            </a>
             <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
             <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
           </div>
