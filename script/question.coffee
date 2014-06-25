@@ -369,7 +369,7 @@ class WWWW.QuestionHandler
               `browser`, `version`"
 
     WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-      console.log "Answer was submitted with response #{response}"
+      console.log "answer was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
 
