@@ -14,3 +14,20 @@ class WWWW.HighscoreHandler
   				add_at = i
   		@score_list.splice(i, 0, "Lene");
   		console.log @score_list
+
+  _postRow: (rank, name, score) ->
+    row = document.createElement "tr"
+    row.className = "table-striped"
+    rankCol = document.createElement "td"
+    nameCol = document.createElement "td"
+    scoreCol = document.createElement "td"
+
+    row.appendChild rankCol
+    row.appendChild nameCol
+    row.appendChild scoreCol
+
+    $(rankCol).html rank
+    $(nameCol).html name
+    $(scoreCol).html score
+
+    $("#highscore-list").append row
