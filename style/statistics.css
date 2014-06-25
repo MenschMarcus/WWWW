@@ -1,10 +1,9 @@
-.stat {
-  position: absolute;
+.stat-group {
   background-color: #fff;
   border-radius: 5px;
   width: 96%;
-  height: 100%;
   margin-left: 2%;
+  padding-bottom: 15px;
 }
 
 .stat-row {

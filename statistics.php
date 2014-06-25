@@ -165,24 +165,132 @@
       );
 
       var send9 = {
-        query: "SELECT COUNT(`id`) FROM answer WHERE `platform`='Windows';"
+        query: "SELECT COUNT(DISTINCT `session_id`) FROM answer WHERE `platform`='Windows';"
       };
 
       WWWW.executePHPFunction("manualSQLQuery", send9,
         function(response) {
           var obj = JSON.parse(response);
-          $("#user-count-windows").html(obj[0]["COUNT(`id`)"]);
+          $("#user-count-windows").html(obj[0]["COUNT(DISTINCT `session_id`)"]);
         }
       );
 
       var send9 = {
-        query: "SELECT COUNT(`id`) FROM answer WHERE `platform`='Linux';"
+        query: "SELECT COUNT(DISTINCT `session_id`) FROM answer WHERE `platform`='Linux';"
       };
 
       WWWW.executePHPFunction("manualSQLQuery", send9,
         function(response) {
           var obj = JSON.parse(response);
-          $("#user-count-linux").html(obj[0]["COUNT(`id`)"]);
+          $("#user-count-linux").html(obj[0]["COUNT(DISTINCT `session_id`)"]);
+        }
+      );
+
+      var send10 = {
+        query: "SELECT COUNT(`q_id`), `session_id` FROM answer GROUP BY session_id;"
+      };
+
+      WWWW.executePHPFunction("manualSQLQuery", send10,
+        function(response) {
+          var obj = JSON.parse(response);
+          var len = obj.length;
+          var sum = 0;
+          var numberOfElements = 0;
+          for (i=0; i<len; i++) {
+            var count = parseInt(obj[i]["COUNT(`q_id`)"]);
+
+            if (count >= 5) {
+              sum += count;
+              numberOfElements += 1;
+            }
+          }
+
+          var average = sum/numberOfElements;
+          $("#average-questions").html(average.toFixed(3));
+
+          var squared_diff_sum = 0;
+          for (i=0; i<len; i++) {
+            var count = parseInt(obj[i]["COUNT(`q_id`)"]);
+
+              if (count >= 5) {
+                squared_diff_sum += Math.pow(count - average, 2);
+              }
+          }
+
+          var standardDev = Math.sqrt(squared_diff_sum/len);
+          $("#question-standard-deviation").html(standardDev.toFixed(3));
+        }
+      );
+
+      var send11 = {
+        query: "SELECT COUNT(`q_id`) FROM answer WHERE `funny`=1 GROUP BY session_id;"
+      };
+
+      WWWW.executePHPFunction("manualSQLQuery", send11,
+       function(response) {
+          var obj = JSON.parse(response);
+          var len = obj.length;
+          var sum = 0;
+          var numberOfElements = 0;
+          for (i=0; i<len; i++) {
+            var count = parseInt(obj[i]["COUNT(`q_id`)"]);
+
+            if (count >= 5) {
+              sum += count;
+              numberOfElements += 1;
+            }
+          }
+
+          var average = sum/numberOfElements;
+          $("#average-questions-funny").html(average.toFixed(3));
+
+          var squared_diff_sum = 0;
+          for (i=0; i<len; i++) {
+            var count = parseInt(obj[i]["COUNT(`q_id`)"]);
+
+              if (count >= 5) {
+                squared_diff_sum += Math.pow(count - average, 2);
+              }
+          }
+
+          var standardDev = Math.sqrt(squared_diff_sum/len);
+          $("#question-standard-deviation-funny").html(standardDev.toFixed(3));
+        }
+      );
+
+      var send11 = {
+        query: "SELECT COUNT(`q_id`) FROM answer WHERE `funny`!=1 GROUP BY session_id;"
+      };
+
+      WWWW.executePHPFunction("manualSQLQuery", send11,
+        function(response) {
+          var obj = JSON.parse(response);
+          var len = obj.length;
+          var sum = 0;
+          var numberOfElements = 0;
+          for (i=0; i<len; i++) {
+            var count = parseInt(obj[i]["COUNT(`q_id`)"]);
+
+            if (count >= 5) {
+              sum += count;
+              numberOfElements += 1;
+            }
+          }
+
+          var average = sum/numberOfElements;
+          $("#average-questions-normal").html(average.toFixed(3));
+
+          var squared_diff_sum = 0;
+          for (i=0; i<len; i++) {
+            var count = parseInt(obj[i]["COUNT(`q_id`)"]);
+
+              if (count >= 5) {
+                squared_diff_sum += Math.pow(count - average, 2);
+              }
+          }
+
+          var standardDev = Math.sqrt(squared_diff_sum/len);
+          $("#question-standard-deviation-normal").html(standardDev.toFixed(3));
         }
       );
 
@@ -192,7 +300,7 @@
 </head>
 
 <body>
-  <div class="stat">
+  <div class="stat-group">
     <div class="stat-row">
       <h3>Allgemein</h3>
     </div>
@@ -201,11 +309,19 @@
     </div>
 
     <div class="stat-row ">
+      Durchschnittliche Anzahl gespielter Fragen (bei mind. 5): <span id="average-questions" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row stat-row-grey ">
+      Standardabweichung gespielter Fragen (bei mind. 5): <span id="question-standard-deviation" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row ">
       Durchschnittliche Zeit pro Frage (in s): <span id="time-per-question" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row stat-row-grey">
-      Standardabweichung der Zeit pro Frage: <span id="time-per-question-standard-deviation" class="stat-col-right"></span>
+      Standardabweichung der Zeit pro Frage (in s): <span id="time-per-question-standard-deviation" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row ">
@@ -215,9 +331,10 @@
     <div class="stat-row stat-row-grey">
       Anzahl der Nutzer mit Linux: <span id="user-count-linux" class="stat-col-right"></span>
     </div>
+  </div>
 
 
-
+  <div class="stat-group">
     <div class="stat-row">
       <h3>Kuriose Fragen</h3>
     </div>
@@ -231,15 +348,23 @@
     </div>
 
     <div class="stat-row stat-row-grey">
+      Durchschnittliche Anzahl gespielter Fragen: <span id="average-questions-funny" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row">
+      Standardabweichung gespielter Fragen: <span id="question-standard-deviation-funny" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row stat-row-grey">
       Durchschnittliche Zeit pro Frage (in s): <span id="time-per-question-funny" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row">
-      Standardabweichung der Zeit pro Frage: <span id="time-per-question-standard-deviation-funny" class="stat-col-right"></span>
+      Standardabweichung der Zeit pro Frage (in s): <span id="time-per-question-standard-deviation-funny" class="stat-col-right"></span>
     </div>
+  </div>
 
-
-
+  <div class="stat-group">
     <div class="stat-row">
       <h3>Normale Fragen</h3>
     </div>
@@ -253,14 +378,22 @@
     </div>
 
     <div class="stat-row stat-row-grey">
+      Durchschnittliche Anzahl gespielter Fragen: <span id="average-questions-normal" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row">
+      Standardabweichung gespielter Fragen: <span id="question-standard-deviation-normal" class="stat-col-right"></span>
+    </div>
+
+    <div class="stat-row stat-row-grey">
       Durchschnittliche Zeit pro Frage (in s): <span id="time-per-question-normal" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row">
-      Standardabweichung der Zeit pro Frage: <span id="time-per-question-standard-deviation-normal" class="stat-col-right"></span>
+      Standardabweichung der Zeit pro Frage (in s): <span id="time-per-question-standard-deviation-normal" class="stat-col-right"></span>
     </div>
-
   </div>
+
     <script src="js/bootstrap.min.js"></script>
 </body>
 
