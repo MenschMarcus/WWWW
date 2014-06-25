@@ -27,15 +27,14 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 0
+    @_questionsPerRound = 5
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
     @_questionCount = 1
     @_session_id = null
 
-    HiHa = new WWWW.HighscoreHandler()
-    HiHa.update(1000)
+    @_highscoreHandler = new WWWW.HighscoreHandler()
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 99% correct to achieve the maximum score
@@ -342,7 +341,7 @@ class WWWW.QuestionHandler
         , @_timePerQuestion * 1000
 
 
-  roundEnd: =>  
+  roundEnd: =>
 
     $('#result-display').modal('hide')
 
@@ -350,6 +349,8 @@ class WWWW.QuestionHandler
     $("#total-max-score").html @_maxScore * @_questionsPerRound
 
     $('#round-end-display').modal('show')
+
+    @_highscoreHandler.update @_totalScore
 
     @_totalScore = 0
     @_roundCount++

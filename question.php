@@ -85,12 +85,15 @@
     </div>
 
     <div id="name-email-display" >
-      <div class="form-group col-xs-12 floating-label-form-group">
-        <label for="message">Name</label>
+      <div id="name-group" class="form-group col-xs-12 floating-label-form-group">
+        <label class="control-label" for="name">Name</label>
         <input id="name" class="form-control" type="text" name="name" placeholder="Name">
+      </div>
         <br/>
-        <label for="message">Email-Adresse</label>
+      <div  id="email-group" class="form-group col-xs-12 floating-label-form-group">
+        <label class="control-label" for="email">Email-Adresse (bleibt geheim)</label>
         <input id="email" class="form-control" type="text" name="email" placeholder="Email-Adresse">
+      </div>
         <br/>
         <button id="submit-name-email" type="submit_button" class="btn btn-success">Los!</button>
       </div>
