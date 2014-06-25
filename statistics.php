@@ -348,11 +348,11 @@
     </div>
 
     <div class="stat-row stat-row-grey">
-      Durchschnittliche Anzahl gespielter Fragen: <span id="average-questions-funny" class="stat-col-right"></span>
+      Durchschnittliche Anzahl gespielter Fragen (bei mind. 5): <span id="average-questions-funny" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row">
-      Standardabweichung gespielter Fragen: <span id="question-standard-deviation-funny" class="stat-col-right"></span>
+      Standardabweichung gespielter Fragen (bei mind. 5): <span id="question-standard-deviation-funny" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row stat-row-grey">
@@ -378,11 +378,11 @@
     </div>
 
     <div class="stat-row stat-row-grey">
-      Durchschnittliche Anzahl gespielter Fragen: <span id="average-questions-normal" class="stat-col-right"></span>
+      Durchschnittliche Anzahl gespielter Fragen (bei mind. 5): <span id="average-questions-normal" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row">
-      Standardabweichung gespielter Fragen: <span id="question-standard-deviation-normal" class="stat-col-right"></span>
+      Standardabweichung gespielter Fragen (bei mind. 5): <span id="question-standard-deviation-normal" class="stat-col-right"></span>
     </div>
 
     <div class="stat-row stat-row-grey">
