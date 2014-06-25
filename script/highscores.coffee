@@ -4,8 +4,9 @@ class WWWW.HighscoreHandler
 
   constructor: ->
     $("#name-email-display").hide()
-    @score_list = []
+    @_scoreList = []
     @_nameEmailShown = false
+    @_scoreSubmitted = false
 
   update: (currentScore)=>
     WWWW.executePHPFunction "getScoreList", null, (response) =>
@@ -35,51 +36,54 @@ class WWWW.HighscoreHandler
           @_nameEmailShown = false
 
       $("#submit-name-email").click ()=>
-        name = $('input[name=name]').val()
-        email = $('input[name=email]').val()
+        unless @_scoreSubmitted
+          @_scoreSubmitted = true
+          name = $('input[name=name]').val()
+          email = $('input[name=email]').val()
 
-        if name isnt "" and email isnt ""
-          $("#name-group").removeClass "has-error"
-          $("#email-group").removeClass "has-error"
-          $(nameButton).html name
-          nameButton.className = ""
-          $(nameButton).popover "hide"
+          if name isnt "" and email isnt ""
+            $("#name-group").removeClass "has-error"
+            $("#email-group").removeClass "has-error"
+            $(nameButton).html name
+            nameButton.className = ""
+            $(nameButton).popover "hide"
 
-          send =
-            table: "score"
-            values: "'#{name}', '#{email}', '#{currentScore}'"
-            names: "`nickname`, `email`, `score`"
+            send =
+              table: "score"
+              values: "'#{name}', '#{email}', '#{currentScore}'"
+              names: "`nickname`, `email`, `score`"
 
-          WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-            console.log "highscore was submitted with response #{response}"
+            WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+              console.log "highscore was submitted with response #{response}"
 
-        else
-          if name is ""
-            $("#name-group").addClass "has-error"
-          if email is ""
-            $("#email-group").addClass "has-error"
+          else
+            if name is ""
+              $("#name-group").addClass "has-error"
+            if email is ""
+              $("#email-group").addClass "has-error"
 
 
 
       $("#next-round").click () =>
+        @_scoreSubmitted = false
         @_nameEmailShown = false
         $("body").append nameEmailDisplay
         nameEmailDisplay.hide()
         $(nameButton).popover "hide"
 
-      @score_list = JSON.parse(response)
-      add_at = @score_list.length
-      for score_obj, i in @score_list
+      @_scoreList = JSON.parse(response)
+      add_at = @_scoreList.length
+      for score_obj, i in @_scoreList
       	score_obj.score = parseInt(score_obj.score)
       	if score_obj.score < currentScore
       		add_at = i
       		break
 
-      @score_list.splice add_at, 0,
+      @_scoreList.splice add_at, 0,
       	nickname: nameButton
       	score: currentScore
 
-      for score_obj, i in @score_list
+      for score_obj, i in @_scoreList
       	@_postRow i + 1, score_obj.nickname, score_obj.score
 
       window.setTimeout () =>

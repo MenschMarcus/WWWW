@@ -42,4 +42,6 @@ class WWWW.FeedbackHandler
         $("#next-round").click () =>
           @_feedbackSubmitted = false
           @_socialClicked = false
+          $("#feedback-answer").hide()
+          $("#feedback-fail").hide()
 

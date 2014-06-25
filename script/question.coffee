@@ -27,7 +27,7 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 5
+    @_questionsPerRound = 1
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
@@ -369,7 +369,7 @@ class WWWW.QuestionHandler
               `browser`, `version`"
 
     WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-      console.log "Answer was submitted with response #{response}"
+      console.log "answer was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
 
