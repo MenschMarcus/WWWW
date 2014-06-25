@@ -22,6 +22,7 @@
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
+  <link rel="stylesheet" type="text/css" href="style/highscores.css" />
 
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -94,6 +95,60 @@
             </h1></div>
 
             <div id="contact_form">
+              <div class="row">
+                <div class="form-group col-xs-12 floating-label-form-group hsc-scroll-table">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Rang</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+
+                    <tbody id="highscore-list">
+                      <tr class="table-striped">
+                        <td>1</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+
+                      <tr class="table-striped">
+                        <td>2</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+
+                      <tr class="table-striped">
+                        <td>3</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+                      <tr class="table-striped">
+                        <td>3</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+                      <tr class="table-striped">
+                        <td>3</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+                      <tr class="table-striped">
+                        <td>3</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+                      <tr class="table-striped">
+                        <td>3</td>
+                        <td>Hugo</td>
+                        <td>4000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="form-group col-xs-12 floating-label-form-group">
                   <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
