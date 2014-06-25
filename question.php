@@ -77,8 +77,8 @@
             Willst du wirklich das aktuelle Spiel abbrechen?
           </div>
           <div class="modal-footer">
-            <a href="index.php" class="btn btn-default">Spiel beenden</a>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Spiel fortsetzen</button>
+            <a href="index.php" class="btn btn-danger">Spiel beenden</a>
+            <button type="button" class="btn btn-success" data-dismiss="modal">Spiel fortsetzen</button>
           </div>
         </div>
       </div>

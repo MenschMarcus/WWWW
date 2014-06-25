@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = true
+WWWW.DRY_RUN = false
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -60,11 +60,7 @@ class WWWW.QuestionHandler
     @_browserDetector = new WWWW.BrowserDetector()
 
     @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
-    startPos =
-      x : $(@_mapDiv).width()/2
-      y : $(@_mapDiv).height()/2
-    @_mapMarker.setPosition startPos
-    @_mapMarker.show()
+
 
     @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.lock()
@@ -74,11 +70,10 @@ class WWWW.QuestionHandler
     @_currentTimeline = null
 
     @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
-    startPos =
-      x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 20
-    @_tlMarker.setPosition startPos
+
+    @_resetMarkers()
     @_tlMarker.show()
+    @_mapMarker.show()
 
     yearDiv = document.createElement "div"
     yearDiv.id = "yearDiv"
@@ -276,6 +271,7 @@ class WWWW.QuestionHandler
       if @_questionCount is (@_questionsPerRound + 1)
         @roundEnd()
       else
+        @_resetMarkers()
         @_questionAnswered = false
 
         # reset loading bar
@@ -445,3 +441,13 @@ class WWWW.QuestionHandler
 
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
+
+  _resetMarkers: () ->
+    startPos =
+      x : $(@_mapDiv).width()/2
+      y : $(@_mapDiv).height()/2
+    @_mapMarker.setPosition startPos
+    startPos =
+      x : $(@_timelineDiv).width()/2
+      y : $(@_timelineDiv).height() - 20
+    @_tlMarker.setPosition startPos

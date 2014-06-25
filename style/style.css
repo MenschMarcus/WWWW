@@ -17,8 +17,12 @@ body {
     background-color: #fff;
     height: 700px;
     width: 460px;
+}
+
+.title-image {
     background-image: url("../img/title.png");
 }
+
 .well {
     background-color: rgba(0, 0, 0, 0.7);
     background-image: none;
