@@ -90,10 +90,13 @@
             <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
           </div>
           <div class="modal-body">
-            <div id="score"><h1>
+            <div id="score">
+            <h1>
             Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
-            </h1></div>
+            </h1>
+            </div>
 
+            <h2>Bestenliste</h2>
             <div id="contact_form">
               <div class="row">
                 <div class="form-group col-xs-12 floating-label-form-group hsc-scroll-table">
@@ -105,46 +108,7 @@
                         <th>Score</th>
                       </tr>
                     </thead>
-
-                    <tbody id="highscore-list">
-                      <tr class="table-striped">
-                        <td>1</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-
-                      <tr class="table-striped">
-                        <td>2</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                    </tbody>
+                    <tbody id="highscore-list"> </tbody>
                   </table>
                 </div>
               </div>
