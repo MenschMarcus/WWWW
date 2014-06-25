@@ -12,6 +12,7 @@
 
   <script type="text/javascript" src="build/executePHPFunction.js"></script>
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
+  <script type="text/javascript" src="build/highscores.js"></script>
   <script type="text/javascript" src="build/question.js"></script>
   <script type="text/javascript" src="build/marker.js"></script>
   <script type="text/javascript" src="build/feedback.js"></script>
