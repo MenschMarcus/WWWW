@@ -6,25 +6,27 @@ class WWWW.HighscoreHandler
   	@score_list = []
 
   update: (own_score)=>
-  	WWWW.executePHPFunction "getScoreList", null, (response) => 		
-  		$("#highscore-list").empty()
+  	WWWW.executePHPFunction "getScoreList", null, (response) =>
+      $("#highscore-list").empty()
 
-  		@score_list = JSON.parse(response)
-  		add_at = @score_list.length
-  		for score_obj, i in @score_list
-  			score_obj.score = parseInt(score_obj.score) 
-  			if score_obj.score < own_score
-  				add_at = i
-  				break
+      nameButton = document.createElement "div"
+      $(nameButton).html "Eintragen!"
+      nameButton.className = "btn btn-success"
 
-  		@score_list.splice add_at, 0,
-  			nickname: "<div></div>"
-  			score: own_score
+      @score_list = JSON.parse(response)
+      add_at = @score_list.length
+      for score_obj, i in @score_list
+      	score_obj.score = parseInt(score_obj.score)
+      	if score_obj.score < own_score
+      		add_at = i
+      		break
 
-  		console.log @score_list
+      @score_list.splice add_at, 0,
+      	nickname: nameButton
+      	score: own_score
 
-  		for score_obj, i in @score_list
-  			@_postRow i + 1, score_obj.nickname, score_obj.score
+      for score_obj, i in @score_list
+      	@_postRow i + 1, score_obj.nickname, score_obj.score
 
   _postRow: (rank, name, score) ->
     row = document.createElement "tr"
