@@ -84,6 +84,18 @@
       </div>
     </div>
 
+    <div id="name-email-display" >
+      <div class="form-group col-xs-12 floating-label-form-group">
+        <label for="message">Name</label>
+        <input id="name" class="form-control" type="text" name="name" placeholder="Name">
+        <br/>
+        <label for="message">Email-Adresse</label>
+        <input id="email" class="form-control" type="text" name="email" placeholder="Email-Adresse">
+        <br/>
+        <button id="submit-name-email" type="submit_button" class="btn btn-success">Los!</button>
+      </div>
+    </div>
+
     <div id="round-end-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">

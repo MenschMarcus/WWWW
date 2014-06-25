@@ -12,14 +12,13 @@ class WWWW.FeedbackHandler
       unless WWWW.DRY_RUN
         $("#submit-feedback").click () =>
           unless @_feedbackSubmitted
-            email = $('input[name=email]').val()
             message = $('textarea[name=message]').val()
 
-            if email isnt "" or message isnt ""
+            if message isnt ""
               send =
                 table: "feedback"
-                values: "'#{session_id}', '#{email}', '#{message}'"
-                names: "`session_id`, `email`, `message`"
+                values: "'#{session_id}', '#{message}'"
+                names: "`session_id`, `message`"
 
               WWWW.executePHPFunction "insertIntoDB", send, (response) =>
                 @_feedbackSubmitted = true

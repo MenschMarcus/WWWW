@@ -3,15 +3,60 @@ window.WWWW ?= {}
 class WWWW.HighscoreHandler
 
   constructor: ->
-  	@score_list = []
+    $("#name-email-display").hide()
+    @score_list = []
+    @_nameEmailShown = false
 
   update: (own_score)=>
-  	WWWW.executePHPFunction "getScoreList", null, (response) =>
+    WWWW.executePHPFunction "getScoreList", null, (response) =>
       $("#highscore-list").empty()
 
       nameButton = document.createElement "div"
-      $(nameButton).html "Eintragen!"
+      $(nameButton).html "Deinen Namen eintragen!"
       nameButton.className = "btn btn-success"
+
+      nameEmailDisplay = $("#name-email-display")
+
+      $(nameButton).popover
+        html: true,
+        title: "Bitte Name und Email-Adresse eintragen!",
+        content: nameEmailDisplay,
+        placement: "top"
+        container: "#round-end-display"
+        trigger: "manual"
+
+      $(nameButton).click () =>
+        unless @_nameEmailShown
+          nameEmailDisplay.show()
+          $(nameButton).popover "show"
+          @_nameEmailShown = true
+
+      $("#submit-name-email").click ()=>
+        name = $('input[name=name]').val()
+        email = $('input[name=email]').val()
+
+        if name isnt "" and email isnt ""
+          $(nameButton).html name
+          nameButton.className = ""
+          $(nameButton).popover "hide"
+
+        #   send =
+        #     table: "feedback"
+        #     values: "'#{session_id}', '#{message}'"
+        #     names: "`session_id`, `message`"
+
+        #   WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+        #     @_feedbackSubmitted = true
+        #     console.log "Feedback was submitted with response #{response}"
+        #     $("#feedback-fail").slideUp()
+        #     $("#feedback-answer").hide().slideDown()
+
+
+      $("#next-round").click () =>
+        @_nameEmailShown = false
+        $("body").append nameEmailDisplay
+        nameEmailDisplay.hide()
+        $(nameButton).popover "hide"
 
       @score_list = JSON.parse(response)
       add_at = @score_list.length
