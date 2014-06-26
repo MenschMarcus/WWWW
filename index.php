@@ -21,7 +21,7 @@
       var browserDetector = new WWWW.BrowserDetector();
       var p = browserDetector.platform;
 
-      if (p=="Android" || p=="iPhone" || p=="iPad" || p=="unknown") {
+      if (p=="Android" || p=="iPhone" || p=="iPad" || p=="iPhone/iPod" || p=="unknown") {
         $("#start-button").hide()
         $("#instructions").hide()
         $("#feedback-fail").hide().slideDown()
