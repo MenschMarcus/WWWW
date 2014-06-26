@@ -42,6 +42,9 @@
       </div>
     </div>
   </div>
+  <div id="link-imprint">
+    <p>&copy; HistoGlobe GbR 2014 - <a href="imprint.php">Impressum</a></p>
+  </div>
 
   <script src="js/bootstrap.min.js"></script>
 </body>
