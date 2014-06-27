@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = false
+WWWW.DRY_RUN = true
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
