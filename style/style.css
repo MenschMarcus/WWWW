@@ -131,3 +131,16 @@ body {
     top: 50px;
 }
 
+#link-imprint {
+    color: #BBBBBB;
+    position: absolute;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: 60px;
+    font-size: 0.8em;
+}
+
+#imprint {
+    color: #BBBBBB;
+    margin: 5px 5px 5px 5px;
+}
