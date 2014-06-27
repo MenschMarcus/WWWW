@@ -36,7 +36,7 @@
       $("#sure-send").click(
         function() {
           var send = {
-            table: "question_testing",
+            table: "question",
             values: "'"+fields[0].val()+"',"+
                     "'"+fields[7].val()+"',"+
                     "'"+fields[6].val()+"',"+
