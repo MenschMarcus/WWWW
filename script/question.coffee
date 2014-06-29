@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = true
+WWWW.DRY_RUN = false
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -27,7 +27,7 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 0
+    @_questionsPerRound = 5
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
