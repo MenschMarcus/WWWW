@@ -127,7 +127,14 @@
             </h1>
             </div>
 
-            <h2>Bestenliste</h2>
+            <h2 style="float:left">Bestenliste</h2>
+            <div style="float:right; margin-top: 26px">
+              <div style="display:inline !important; float:left !important;">
+                <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+              </div>
+              <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+            </div>
             <div id="hsc-scroll-table">
               <table class="table table-striped">
                 <thead>
@@ -153,14 +160,6 @@
               <div class="row">
                 <div class="form-group col-xs-12">
                   <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
-                  <div style="float:right; padding-top: 10px">
-                    <div style="display:inline !important; float:left !important;">
-                      <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
-                    </div>
-                    <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
-                  </div>
-
                 </div>
               </div>
             </div>
