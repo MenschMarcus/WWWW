@@ -38,6 +38,7 @@
 
     });
   </script>
+
 </head>
 
 <body>
@@ -156,8 +157,8 @@
                     <div style="display:inline !important; float:left !important;">
                       <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
                     </div>
-                    <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/"></div> -->
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Tweet</a>
+                    <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
                   </div>
 
                 </div>
@@ -175,13 +176,13 @@
 
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      // window.___gcfg = {lang: 'de'};
+      window.___gcfg = {lang: 'de'};
 
-      // (function() {
-      //   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-      //   po.src = 'https://apis.google.com/js/platform.js';
-      //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      // })();
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
     </script>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </body>
