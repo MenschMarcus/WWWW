@@ -10,6 +10,8 @@
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
 
+  <script src="https://apis.google.com/js/plusone.js"></script>
+
   <script type="text/javascript" src="build/executePHPFunction.js"></script>
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
   <script type="text/javascript" src="build/highscores.js"></script>
@@ -39,6 +41,18 @@
 </head>
 
 <body>
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
     <div class="phone-outer">
         <div class="phone-inner">
             <div class="timeline" id="timeline"></div>
@@ -138,23 +152,20 @@
               <div class="row">
                 <div class="form-group col-xs-12">
                   <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                  <div style="float:right; padding-top: 10px">
+                    <div style="display:inline !important; float:left !important;">
+                      <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+                    </div>
+                    <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/"></div> -->
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Tweet</a>
+                  </div>
+
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <div style="float:left">
 
-            <a class="btn btn-social-icon btn-twitter">
-              <i class="fa fa-twitter"></i>
-            </a>
-            <a class="btn btn-social-icon btn-facebook">
-              <i class="fa fa-facebook"></i>
-            </a>
-            <a class="btn btn-social-icon btn-google-plus">
-              <i class="fa fa-google-plus"></i>
-            </a>
-            </div>
             <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
             <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
           </div>
@@ -163,6 +174,16 @@
     </div>
 
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      // window.___gcfg = {lang: 'de'};
+
+      // (function() {
+      //   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      //   po.src = 'https://apis.google.com/js/platform.js';
+      //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      // })();
+    </script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </body>
 
 </html>
