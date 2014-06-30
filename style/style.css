@@ -19,6 +19,17 @@ body {
     width: 460px;
 }
 
+.title-image {
+    background-image: url("../img/title.jpg");
+}
+
+.well {
+    background-color: rgba(0, 0, 0, 0.7);
+    background-image: none;
+    border: none;
+    color: white;
+}
+
 .control-bar {
     position: absolute;
     height: 60px;
@@ -94,11 +105,11 @@ body {
 
 #score {
     color: #272;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .map {
-    background-image: url("../img/europe.png");
+    background-image: url("../img/europe.jpg");
     top: 50px;
     height: 590px;
     width: 100%;
@@ -117,7 +128,19 @@ body {
 
 .start {
     position: relative;
-    margin: 10px;
-    top: 150px;
+    top: 50px;
 }
 
+#link-imprint {
+    color: #BBBBBB;
+    position: absolute;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: 60px;
+    font-size: 0.8em;
+}
+
+#imprint {
+    color: #BBBBBB;
+    margin: 5px 5px 5px 5px;
+}

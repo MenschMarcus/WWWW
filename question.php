@@ -10,6 +10,8 @@
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
 
+  <script src="https://apis.google.com/js/plusone.js"></script>
+
   <script type="text/javascript" src="build/executePHPFunction.js"></script>
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
   <script type="text/javascript" src="build/highscores.js"></script>
@@ -36,9 +38,22 @@
 
     });
   </script>
+
 </head>
 
 <body>
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
     <div class="phone-outer">
         <div class="phone-inner">
             <div class="timeline" id="timeline"></div>
@@ -77,10 +92,25 @@
             Willst du wirklich das aktuelle Spiel abbrechen?
           </div>
           <div class="modal-footer">
-            <a href="index.php" class="btn btn-default">Spiel beenden</a>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Spiel fortsetzen</button>
+            <a href="index.php" class="btn btn-danger">Spiel beenden</a>
+            <button type="button" class="btn btn-success" data-dismiss="modal">Spiel fortsetzen</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="name-email-display" >
+      <div id="name-group" class="form-group col-xs-12 floating-label-form-group">
+        <label class="control-label" for="name">Name</label>
+        <input id="name" class="form-control" type="text" name="name" placeholder="Name">
+      </div>
+        <br/>
+      <div  id="email-group" class="form-group col-xs-12 floating-label-form-group">
+        <label class="control-label" for="email">Email-Adresse (bleibt geheim)</label>
+        <input id="email" class="form-control" type="text" name="email" placeholder="Email-Adresse">
+      </div>
+        <br/>
+        <button id="submit-name-email" type="submit_button" class="btn btn-success">Los!</button>
       </div>
     </div>
 
@@ -91,65 +121,32 @@
             <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
           </div>
           <div class="modal-body">
-            <div id="score"><h1>
-            Gesamtpunkte: <span id="total-score"></span> von <span id="total-max-score">!</span>
-            </h1></div>
-
-            <div id="contact_form">
-              <div class="row">
-                <div id="highscore-list-table-div" class="form-group col-xs-12 floating-label-form-group hsc-scroll-table">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Rang</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                      </tr>
-                    </thead>
-
-                    <tbody id="highscore-list">
-                      <tr class="table-striped">
-                        <td>1</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-
-                      <tr class="table-striped">
-                        <td>2</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                      <tr class="table-striped">
-                        <td>3</td>
-                        <td>Hugo</td>
-                        <td>4000</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+            <div id="score">
+            <h1>
+            Gesamtpunkte: <span id="total-score"></span>
+            </h1>
+            </div>
+            <h2 style="float:left">Bestenliste</h2>
+            <div style="float:right; margin-top: 26px">
+              <div style="display:inline !important; float:left !important;">
+                <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
               </div>
-
+              <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+            </div>
+            <div id="hsc-scroll-table">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Rang</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody id="highscore-list"> </tbody>
+              </table>
+            </div>
+            <div id="contact_form">
               <div class="row">
                 <div class="form-group col-xs-12 floating-label-form-group">
                   <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
@@ -167,15 +164,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <a class="btn btn-social-icon btn-twitter">
-              <i class="fa fa-twitter"></i>
-            </a>
-            <a class="btn btn-social-icon btn-facebook">
-              <i class="fa fa-facebook"></i>
-            </a>
-            <a class="btn btn-social-icon btn-google-plus">
-              <i class="fa fa-google-plus"></i>
-            </a>
+
             <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
             <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
           </div>
@@ -184,6 +173,16 @@
     </div>
 
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      window.___gcfg = {lang: 'de'};
+
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </body>
 
 </html>

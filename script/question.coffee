@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = true
+WWWW.DRY_RUN = false
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -34,12 +34,16 @@ class WWWW.QuestionHandler
     @_questionCount = 1
     @_session_id = null
 
+<<<<<<< HEAD
     HiHa = new WWWW.HighscoreHandler()
     HiHa.update(10)
+=======
+    @_highscoreHandler = new WWWW.HighscoreHandler()
+>>>>>>> 81b3a8f4f278fb417c504edeec61dc9758c4c92c
 
     $('#results').hide({duration: 0})
-    @_answerPrecisionThreshold = 0.9 # time and space need to be 99% correct to achieve the maximum score
-    @_answerChanceLevel = 0.6 # time and space need to be at least 50% correct to score any point
+    @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
+    @_answerChanceLevel = 0.8 # time and space need to be at least 75% correct to score any point
 
     @_mapDiv = document.getElementById("map")
     @_timelineDiv = document.getElementById("timeline")
@@ -61,11 +65,7 @@ class WWWW.QuestionHandler
     @_browserDetector = new WWWW.BrowserDetector()
 
     @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
-    startPos =
-      x : $(@_mapDiv).width()/2
-      y : $(@_mapDiv).height()/2
-    @_mapMarker.setPosition startPos
-    @_mapMarker.show()
+
 
     @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.lock()
@@ -75,11 +75,10 @@ class WWWW.QuestionHandler
     @_currentTimeline = null
 
     @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
-    startPos =
-      x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 20
-    @_tlMarker.setPosition startPos
+
+    @_resetMarkers()
     @_tlMarker.show()
+    @_mapMarker.show()
 
     yearDiv = document.createElement "div"
     yearDiv.id = "yearDiv"
@@ -277,6 +276,7 @@ class WWWW.QuestionHandler
       if @_questionCount is (@_questionsPerRound + 1)
         @roundEnd()
       else
+        @_resetMarkers()
         @_questionAnswered = false
 
         # reset loading bar
@@ -342,14 +342,16 @@ class WWWW.QuestionHandler
         , @_timePerQuestion * 1000
 
 
-  roundEnd: =>  
+  roundEnd: =>
 
     $('#result-display').modal('hide')
 
     $("#total-score").html @_totalScore
-    $("#total-max-score").html @_maxScore * @_questionsPerRound
+    # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
     $('#round-end-display').modal('show')
+
+    @_highscoreHandler.update @_totalScore
 
     @_totalScore = 0
     @_roundCount++
@@ -359,6 +361,7 @@ class WWWW.QuestionHandler
       @_askedQuestions = []
 
   submitAnswer: =>
+    @_currentAnswer.session_id = @_session_id
     a = @_currentAnswer
     send =
       table: "answer"
@@ -372,7 +375,7 @@ class WWWW.QuestionHandler
               `browser`, `version`"
 
     WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-      console.log "Answer was submitted with response #{response}"
+      console.log "answer was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
 
@@ -444,3 +447,13 @@ class WWWW.QuestionHandler
 
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
+
+  _resetMarkers: () ->
+    startPos =
+      x : $(@_mapDiv).width()/2
+      y : $(@_mapDiv).height()/2
+    @_mapMarker.setPosition startPos
+    startPos =
+      x : $(@_timelineDiv).width()/2
+      y : $(@_timelineDiv).height() - 20
+    @_tlMarker.setPosition startPos

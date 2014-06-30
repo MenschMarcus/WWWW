@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Bitte Einloggen!"
+AuthUserFile "/var/www/vhosts/lvps5-35-242-120.dedicated.hosteurope.de/httpdocs/wwww/admin/.htpasswd"
+Require valid-user

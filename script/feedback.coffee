@@ -14,18 +14,17 @@ class WWWW.FeedbackHandler
       unless WWWW.DRY_RUN
         $("#submit-feedback").click () =>
           unless @_feedbackSubmitted
-            email = $('input[name=email]').val()
             message = $('textarea[name=message]').val()
 
-            if email isnt "" or message isnt ""
+            if message isnt ""
               send =
                 table: "feedback"
-                values: "'#{session_id}', '#{email}', '#{message}'"
-                names: "`session_id`, `email`, `message`"
+                values: "'#{session_id}', '#{message}'"
+                names: "`session_id`, `message`"
 
               WWWW.executePHPFunction "insertIntoDB", send, (response) =>
                 @_feedbackSubmitted = true
-                console.log "Feedback was submitted with response #{response}"
+                console.log "feedback was submitted with response #{response}"
                 $("#feedback-fail").slideUp()
                 $("#feedback-answer").hide().slideDown()
 
@@ -44,4 +43,11 @@ class WWWW.FeedbackHandler
 
         $("#next-round").click () =>
           @_feedbackSubmitted = false
+<<<<<<< HEAD
           @_socialClicked = false
+=======
+          @_socialClicked = false
+          $("#feedback-answer").hide()
+          $("#feedback-fail").hide()
+
+>>>>>>> 81b3a8f4f278fb417c504edeec61dc9758c4c92c

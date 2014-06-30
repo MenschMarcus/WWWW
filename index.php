@@ -21,7 +21,7 @@
       var browserDetector = new WWWW.BrowserDetector();
       var p = browserDetector.platform;
 
-      if (p=="Android" || p=="iPhone" || p=="iPad" || p=="unknown") {
+      if (p=="Android" || p=="iPhone" || p=="iPad" || p=="iPhone/iPod" || p=="unknown") {
         $("#start-button").hide()
         $("#instructions").hide()
         $("#feedback-fail").hide().slideDown()
@@ -31,17 +31,19 @@
 </head>
 <body>
   <div class="phone-outer">
-    <div class="phone-inner">
-      <h1 class="text-center">Was War Wann Wo?</h1>
+    <div class="phone-inner title-image">
       <div id="instructions">
-        <p class="text-center" style="margin-top:200px"><img src="img/marker_map.png" /></p>
-        <h3 class="text-center">Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
+        <p class="text-center" style="margin-top:300px"><img src="img/marker_map.png" /></p>
+        <h3 class="text-center well">Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
       <div id="start-button" class="well start">
         <a href="question.php" type="button" class="btn btn-success btn-lg btn-block">Spiel starten!</a>
       </div>
     </div>
+  </div>
+  <div id="link-imprint">
+    <p>&copy; HistoGlobe GbR 2014 - <a href="imprint.php">Impressum</a></p>
   </div>
 
   <script src="js/bootstrap.min.js"></script>
