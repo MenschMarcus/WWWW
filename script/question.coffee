@@ -29,8 +29,9 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 1
+    @_questionsPerRound = 5
     @_maxScore = 1000
+    @_maxTimeBonus = 10 # in percent of the achieved score
     @_totalScore = 0
     @_roundCount = 1
     @_questionCount = 1
@@ -41,6 +42,7 @@ class WWWW.QuestionHandler
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
     @_answerChanceLevel = 0.8 # time and space need to be at least 75% correct to score any point
+    @_timeBonusThreshold = 5 # time in seconds that may pass before time bonus is reduced
 
     @_mapDiv = document.getElementById("map")
     @_map = L.map 'map',
@@ -240,11 +242,23 @@ class WWWW.QuestionHandler
     yearScore = if yearScore >= @_answerChanceLevel then (yearScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
     yearScore = (Math.min(1.0, (yearScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
-    timeNeeded = 0
+    timeLeft = @_timePerQuestion - (@_currentAnswer.end_time - @_currentAnswer.start_time) / 1000
+    timeBonus = 0
+    if timeLeft >= (@_timePerQuestion - @_timeBonusThreshold)
+      timeBonus = @_maxTimeBonus
+    else
+      timeBonus = timeLeft / (@_timePerQuestion - @_timeBonusThreshold) * @_maxTimeBonus
 
-    score = Math.round( (Math.pow(spatialScore, 3) + Math.pow(yearScore, 3)) / 2 * @_maxScore)
+    score = Math.round((Math.pow(spatialScore, 3) + Math.pow(yearScore, 3)) / 2 * @_maxScore)
 
-    $("#answer-score").html score
+    timeBonus = Math.round(timeBonus/100 * score)
+
+    # $("#answer-score").html score + if score is 1 then " Punkt" else " Punkte"
+    # $("#answer-time-bonus").html timeBonus + (if score is 1 then " Punkt" else " Punkte") + " Zeitbonus"
+
+    # score += timeBonus
+
+    $("#answer-total-score").html score + if score is 1 then " Punkt" else " Punkte"
     $("#answer-max-score").html @_maxScore
 
     @_totalScore += score
