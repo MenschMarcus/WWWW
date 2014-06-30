@@ -1,34 +1,26 @@
 body {
-    background-color: #444;
+    height: 100%;
+    background-image: url("../img/bg.png");
 }
 
 .phone-outer {
     position: relative;
-    width:500px;
-    height:800px;
-    margin: 20px auto;
+    width:430px;
+    height:650px;
+    margin: 10px auto;
     background-color: #000;
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
+    box-shadow: 0 0 10px #000;
 }
 
 .phone-inner {
-    position: absolute;
+    position: relative;
     background-color: #fff;
-    height: 700px;
-    width: 460px;
+    height: 100%;
+    width: 100%;
 }
 
-.title-image {
-    background-image: url("../img/title.jpg");
-}
-
-.well {
-    background-color: rgba(0, 0, 0, 0.7);
-    background-image: none;
-    border: none;
-    color: white;
-}
 
 .control-bar {
     position: absolute;
@@ -36,8 +28,8 @@ body {
     bottom: 0px;
     width: 100%;
     background-color: #333;
-    /*padding: 5px;*/
-    font-size: 1.5em;
+    font-size: 1.2em;
+    z-index: 3;
 }
 
 .control-bar
@@ -92,15 +84,20 @@ body {
     position: absolute;
     bottom: 60px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 10px;
-    z-index: 3;
+    z-index: 2;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.1em;
+    border-top: 1px solid #fff;
 }
 
 #answer-info,
 #question {
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    color: #333;
 }
 
 #score {
@@ -108,22 +105,32 @@ body {
     margin-bottom: 10px;
 }
 
+.map-area {
+    position: relative;
+    top: 0px;
+    height: 100%;
+    padding-bottom: 60px;
+}
+
 .map {
-    background-image: url("../img/europe.jpg");
-    top: 50px;
-    height: 590px;
-    width: 100%;
-    position: absolute;
-    overflow:hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer !important;
+    height: 100%;
 }
 
 .timeline {
-    background-image: url("../img/tl01.png");
     top: 0px;
-    height: 50px;
+    height: 40px;
     width: 100%;
     position: absolute;
+
+    background-color: rgba(255, 255, 255, 0.9);
+    background-size: 100% auto;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+    border-bottom: 1px solid #bbb;
 }
 
 .start {
@@ -131,13 +138,34 @@ body {
     top: 50px;
 }
 
+.title-image {
+    background-image: url("../img/title.jpg");
+    background-size: cover;
+}
+
+.well {
+    background-color: rgba(0, 0, 0, 0.7);
+    background-image: none;
+    border: none;
+    color: white;
+}
+
+#instructions {
+    position: absolute;
+}
+
 #link-imprint {
     color: #BBBBBB;
     position: absolute;
-    left: 50%;
-    margin-top: -15px;
-    margin-left: 60px;
+    right: 0;
+    bottom: 0;
+    margin-bottom: -30px;
     font-size: 0.8em;
+}
+
+h3 {
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 #imprint {

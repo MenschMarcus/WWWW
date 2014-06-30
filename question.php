@@ -9,6 +9,8 @@
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
 
   <script src="https://apis.google.com/js/plusone.js"></script>
 
@@ -19,9 +21,10 @@
   <script type="text/javascript" src="build/marker.js"></script>
   <script type="text/javascript" src="build/feedback.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="style/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap-theme.css">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap-social.css">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
@@ -68,8 +71,10 @@
 
     <div class="phone-outer">
       <div class="phone-inner">
+        <div class="map-area">
+          <div class="map" id="map"></div>
+        </div>
         <div class="timeline" id="timeline"></div>
-        <div class="map" id="map"></div>
         <div class="question-bar">
           <div id="question-bar">
             <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
@@ -237,7 +242,70 @@
       </div>
     </div>
 
-    <script src="js/bootstrap.min.js"></script>
+    <div id="round-end-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
+          </div>
+          <div class="modal-body">
+            <div id="score">
+            <h1>
+            Gesamtpunkte: <span id="total-score"></span>
+            </h1>
+            </div>
+
+            <h2>Bestenliste</h2>
+            <div id="hsc-scroll-table">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Rang</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody id="highscore-list"> </tbody>
+              </table>
+            </div>
+            <div id="contact_form">
+              <div class="row">
+                <div class="form-group col-xs-12 floating-label-form-group">
+                  <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
+                  <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
+                </div>
+              </div>
+              <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
+              <div id="feedback-fail" class="feedback-fail"> Das geht leider noch nicht!</div>
+              <br>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div style="float:left">
+
+            <a class="btn btn-social-icon btn-twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a class="btn btn-social-icon btn-facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a class="btn btn-social-icon btn-google-plus">
+              <i class="fa fa-google-plus"></i>
+            </a>
+            </div>
+            <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
+            <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script/third-party/bootstrap.min.js"></script>
 </body>
 
 </html>

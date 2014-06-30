@@ -5,9 +5,9 @@
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap-theme.css">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap-social.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -59,7 +59,7 @@
   <p>Quelle: <a href="http://www.haftungsausschluss-vorlage.de/haftungsausschluss/">Haftungsausschluss Vorlage</a></p>
 
   <h1><a href="index.php">Zurück zum Spiel</a></h1>
-  <script src="js/bootstrap.min.js"></script>
+  <script src="script/third-party/bootstrap.min.js"></script>
 </body>
 
 </html>

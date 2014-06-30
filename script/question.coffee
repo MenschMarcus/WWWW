@@ -2,8 +2,11 @@ window.WWWW ?= {}
 
 WWWW.DRY_RUN = true
 
-getRandomInt= (min, max) ->
+getRandomInt = (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
+
+getRandomFloat = (min, max) ->
+  return Math.random() * (max - min) + min
 
 #   -----------------------------------------------------------------
 class WWWW.Answer
@@ -40,6 +43,22 @@ class WWWW.QuestionHandler
     @_answerChanceLevel = 0.8 # time and space need to be at least 75% correct to score any point
 
     @_mapDiv = document.getElementById("map")
+    @_map = L.map 'map',
+      maxZoom: 4
+      zoomControl: false
+      dragging: false
+      touchZoom: false
+      scrollWheelZoom: false
+      doubleClickZoom: false
+      boxZoom: false
+      keyboard: false
+
+
+    @_map.setView([51.505, -0.09], 4)
+    tiles = L.tileLayer "http://waswarwannwo.histoglobe.com/tiles/{z}/{x}/{y}.png"
+    tiles.addTo @_map
+    @_map.attributionControl.setPrefix ''
+
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
     @_countDownDiv = $('#count-down')
@@ -311,7 +330,43 @@ class WWWW.QuestionHandler
         $('#question').html @_currentQuestion.text
         $('#question-number').html @_questionCount
         $('#questions-per-round').html @_questionsPerRound
-        $('#map').css "background-image", "url('img/#{@_currentMap.file_name}')"
+
+        # calculate random viewport
+        lat = @_currentQuestion.latLng.lat
+        lng = @_currentQuestion.latLng.lng
+
+        pos = @_latLngToPixel
+          lat: lat
+          lng: lng
+
+        paddingTopBottom = 150
+        paddingLeftRight = 35
+
+        size = @_map.getSize()
+        viewport_width = size.x - paddingLeftRight*2
+        viewport_height = size.y - paddingTopBottom*2
+
+        fuzzyX = 1 - Math.pow(getRandomFloat(0, 1), 1)
+        fuzzyY = 1 - Math.pow(getRandomFloat(0, 1), 1)
+
+        if getRandomInt(0, 1) is 1
+          fuzzyX = -fuzzyX
+
+        if getRandomInt(0, 1) is 1
+          fuzzyY = -fuzzyY
+
+        target_pos =
+          x: pos.x + fuzzyX * viewport_width * 0.5
+          y: pos.y + fuzzyY * viewport_height * 0.5
+
+        target_pos = @_pixelToLatLng target_pos
+
+        @_map.panTo L.latLng(target_pos.lat, target_pos.lng),
+          duration: 0.5
+          animate: true
+
+
+        # update timeline
         $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
 
 
@@ -371,54 +426,13 @@ class WWWW.QuestionHandler
       console.log "answer was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
-
-    lngDiff = @_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng
-    globalRadius = $("#map").width() / lngDiff * 360/(2 * Math.PI)
-
-    mapLatBottomRadian = @_degToRad @_currentMap.maxLatLng.lat
-    offsetY = globalRadius / 2 * Math.log( (1 + Math.sin(mapLatBottomRadian) ) / (1 - Math.sin(mapLatBottomRadian))  )
-    equatorY = $("#map").height() + offsetY
-    a = (equatorY - pos.y )/ globalRadius
-
-    latLng =
-      lat : 180/Math.PI * (2 * Math.atan(Math.exp(a)) - Math.PI/2);
-      lng :  @_currentMap.minLatLng.lng + pos.x / $("#map").width() * lngDiff;
-
-    latLng
+    @_map.containerPointToLatLng(L.point(pos.x, pos.y))
 
   _latLngToPixel: (latLng) =>
-
-    getMerc = (lat) =>
-      Math.log(Math.tan((Math.PI/4)+(lat*Math.PI/360)));
-
-    merc = getMerc(latLng.lat)
-    minMerc = getMerc(@_currentMap.minLatLng.lat)
-    maxMerc = getMerc(@_currentMap.maxLatLng.lat)
-
-    y_pos = (merc - minMerc) / (maxMerc - minMerc)
-    x_pos = (latLng.lng - @_currentMap.minLatLng.lng) / (@_currentMap.maxLatLng.lng - @_currentMap.minLatLng.lng)
-
-    pos =
-      x : x_pos * $("#map").width()
-      y : y_pos * $("#map").height()
-
-    pos
+    @_map.latLngToContainerPoint(L.latLng(latLng.lat, latLng.lng))
 
   _getMeterDistance: (latLng1, latLng2) =>
-    earthRadius = 6371 # in km
-
-    deltaLat = @_degToRad(latLng2.lat - latLng1.lat)
-    deltaLng = @_degToRad(latLng2.lng - latLng1.lng)
-
-
-    a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
-        Math.cos(@_degToRad(latLng1.lat)) * Math.cos(@_degToRad(latLng2.lat)) *
-        Math.sin(deltaLng/2) * Math.sin(deltaLng/2)
-
-    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-    dist = earthRadius * c
-
-    Math.round(dist)
+    Math.round(L.latLng(latLng1.lat, latLng1.lng).distanceTo(L.latLng(latLng2.lat, latLng2.lng))/1000)
 
   _pixelToTime: (pos) =>
     relX = pos.x / $("#timeline").width()
