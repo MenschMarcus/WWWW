@@ -136,7 +136,7 @@ class WWWW.QuestionHandler
           for tl in tls
             tl.min_year = parseInt(tl.min_year)
             tl.max_year = parseInt(tl.max_year)
-            @_timelines[tl.id] = tl
+            @_timelines.push tl
 
           WWWW.executePHPFunction "getQuestions", null, (question_string) =>
             @_questions = JSON.parse question_string
@@ -209,7 +209,7 @@ class WWWW.QuestionHandler
     @_mapMarker.lock()
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    tlResultPos.y = $(@_timelineDiv).height() - 20
+    tlResultPos.y = $(@_timelineDiv).height() - 5
     @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
     $("#yearResultDiv").html @_pixelToTime tlResultPos
@@ -231,18 +231,14 @@ class WWWW.QuestionHandler
     $("#answer-temporal-distance").html temporalDistance + if temporalDistance is 1 then " Jahr" else " Jahre"
     $("#answer-info").html @_currentQuestion.answer
 
-    spatialSpread = @_getMeterDistance @_currentMap.minLatLng, @_currentMap.maxLatLng
+    spatialSpread = @_getMeterDistance @_map.getBounds().getSouthWest(), @_map.getBounds().getNorthEast()
     spatialScore = 1 - spatialDistance/spatialSpread
-
     spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel) / (1-@_answerChanceLevel) else 0
     spatialScore = (Math.min(1.0, (spatialScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
-
     timeScore = 1 - temporalDistance / (@_currentTimeline.max_year - @_currentTimeline.min_year)
-
     timeScore = if timeScore >= @_answerChanceLevel then (timeScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
     timeScore = (Math.min(1.0, (timeScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
-
 
     score = Math.round( (Math.pow(spatialScore, 3) + Math.pow(timeScore, 3)) / 2 * @_maxScore)
 
@@ -319,11 +315,19 @@ class WWWW.QuestionHandler
         @_currentQuestion = @_questions[newQuestionId]
         @_currentMap = @_maps[@_currentQuestion.map_id]
 
+        @_currentTimeline = @_timelines[0]
+        curCenter = (@_currentTimeline.min_year + @_currentTimeline.max_year) * 0.5
+        curDist = Math.abs(curCenter - @_currentQuestion.year)/(@_currentTimeline.max_year - @_currentTimeline.min_year)
+
         for tl in @_timelines
           if tl?
-            if tl.min_year <= @_currentQuestion.year and tl.max_year > @_currentQuestion.year
+            tlCenter = (tl.min_year + tl.max_year) * 0.5
+            dist = Math.abs(tlCenter - @_currentQuestion.year)/(tl.max_year - tl.min_year)
+
+            if dist < curDist
               @_currentTimeline = tl
-              break
+              curCenter = tlCenter
+              curDist = dist
 
 
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
@@ -462,5 +466,5 @@ class WWWW.QuestionHandler
     @_mapMarker.setPosition startPos
     startPos =
       x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 20
+      y : $(@_timelineDiv).height() - 5
     @_tlMarker.setPosition startPos
