@@ -9,6 +9,8 @@
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
 
   <script type="text/javascript" src="build/executePHPFunction.js"></script>
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
@@ -17,9 +19,10 @@
   <script type="text/javascript" src="build/marker.js"></script>
   <script type="text/javascript" src="build/feedback.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="style/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap-theme.css">
-  <link rel="stylesheet" type="text/css" href="style/bootstrap-social.css">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
@@ -41,8 +44,10 @@
 <body>
     <div class="phone-outer">
         <div class="phone-inner">
+            <div class="map-area">
+              <div class="map" id="map"></div>
+            </div>
             <div class="timeline" id="timeline"></div>
-            <div class="map" id="map"></div>
             <div class="question-bar">
                 <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
                 <div id="question"></div>
@@ -162,7 +167,7 @@
       </div>
     </div>
 
-    <script src="js/bootstrap.min.js"></script>
+    <script src="script/third-party/bootstrap.min.js"></script>
 </body>
 
 </html>
