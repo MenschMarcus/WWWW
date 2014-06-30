@@ -76,6 +76,11 @@
         </div>
         <div class="timeline" id="timeline"></div>
         <div class="question-bar">
+          <div id="hide-question-bar">
+            <div id="hide-question-bar-inner">
+              <i class="fa fa-arrows-v"></i>
+            </div>
+          </div>
           <div id="question-bar">
             <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
             <div id="question"></div>

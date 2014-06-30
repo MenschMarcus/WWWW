@@ -56,7 +56,7 @@ class WWWW.QuestionHandler
       keyboard: false
 
 
-    @_map.setView([51.505, -0.09], 4)
+    @_map.setView([51.505, -0.09], 3)
     tiles = L.tileLayer "http://waswarwannwo.histoglobe.com/tiles/{z}/{x}/{y}.png"
     tiles.addTo @_map
     @_map.attributionControl.setPrefix ''
@@ -168,6 +168,14 @@ class WWWW.QuestionHandler
     $('#round-end').on 'click', () =>
       @roundEnd()
 
+    $('#hide-question-bar').on 'click', () =>
+      if $("#results").css("display") is "none"
+        $("#results").animate({height: "show", opacity: "show"});
+      else
+        $("#results").animate({height: "hide", opacity: "hide"});
+
+
+
     # place map marker on click
     $(@_mapDiv).on 'click', (event) =>
       unless @_mapMarker.isLocked()
@@ -184,7 +192,7 @@ class WWWW.QuestionHandler
         offset = $(@_timelineDiv).offset()
         newPos =
           x : event.clientX - offset.left
-          y : $(@_timelineDiv).height() - 20
+          y : $(@_timelineDiv).height() - 5
 
         @_tlMarker.setPosition newPos
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
@@ -282,6 +290,7 @@ class WWWW.QuestionHandler
       $("#submit-answer").addClass("invisible");
       @_countDownDiv.text('');
       $("#results").animate({height: "show", opacity: "show"});
+      $("#hide-question-bar").animate({opacity: "show"});
 
       if @_questionCount is (@_questionsPerRound + 1)
         $("#submit-answer").addClass("invisible");
@@ -304,12 +313,14 @@ class WWWW.QuestionHandler
 
         $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
+        $("#hide-question-bar").animate({opacity: "hide"});
 
         $("#next-question").addClass("invisible");
         $("#next-round").addClass("invisible");
         $("#round-end").addClass("invisible");
         $("#submit-answer").removeClass("invisible");
         $("#submit-answer").removeClass("disabled");
+
 
         @_remainingTime = @_timePerQuestion
 
@@ -352,12 +363,9 @@ class WWWW.QuestionHandler
         $('#questions-per-round').html @_questionsPerRound
 
         # calculate random viewport
-        lat = @_currentQuestion.latLng.lat
-        lng = @_currentQuestion.latLng.lng
-
         pos = @_latLngToPixel
-          lat: lat
-          lng: lng
+          lat: @_currentQuestion.latLng.lat
+          lng: @_currentQuestion.latLng.lng
 
         paddingTopBottom = 150
         paddingLeftRight = 35
@@ -365,6 +373,16 @@ class WWWW.QuestionHandler
         size = @_map.getSize()
         viewport_width = size.x - paddingLeftRight*2
         viewport_height = size.y - paddingTopBottom*2
+
+        zoom = 3
+        scale = 0.5
+
+        # console.log @_currentQuestion.latLng
+
+        # if @_currentQuestion.latLng.lat > 0 and @_currentQuestion.latLng.lat < 90 and
+        #    @_currentQuestion.latLng.lng > -20 and @_currentQuestion.latLng.lng < 40
+
+        #   zoom = 4
 
         fuzzyX = 1 - Math.pow(getRandomFloat(0, 1), 1)
         fuzzyY = 1 - Math.pow(getRandomFloat(0, 1), 1)
@@ -376,12 +394,12 @@ class WWWW.QuestionHandler
           fuzzyY = -fuzzyY
 
         target_pos =
-          x: pos.x + fuzzyX * viewport_width * 0.5
-          y: pos.y + fuzzyY * viewport_height * 0.5
+          x: pos.x + fuzzyX * viewport_width * scale
+          y: pos.y + fuzzyY * viewport_height * scale
 
         target_pos = @_pixelToLatLng target_pos
 
-        @_map.panTo L.latLng(target_pos.lat, target_pos.lng),
+        @_map.setView L.latLng(target_pos.lat, target_pos.lng), zoom,
           duration: 0.5
           animate: true
 
@@ -416,6 +434,7 @@ class WWWW.QuestionHandler
     $("#results").animate({height: "hide", opacity: "hide"});
     $("#question-bar").animate({height: "hide", opacity: "hide"});
     $("#round-end-display").animate({height: "show", opacity: "show"});
+    $("#hide-question-bar").animate({opacity: "hide"});
 
     $("#round-end").addClass("invisible");
     $("#next-round").removeClass("invisible");

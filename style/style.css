@@ -100,6 +100,24 @@ body {
     color: #333;
 }
 
+#hide-question-bar {
+    position: absolute;
+    left: 50%;
+    display: none;
+    top: -30px;
+}
+#hide-question-bar-inner {
+    position: relative;
+    left: -50%;
+    cursor: pointer;
+    font-size: 1.5em;
+    width: 50px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px 20px 0 0;
+    text-align: center;
+}
+
 #score {
     color: #272;
     margin-bottom: 10px;
