@@ -8,6 +8,8 @@ class WWWW.FeedbackHandler
     $("#feedback-answer").slideUp()
     $("#user-question-answer").slideUp()
 
+    #$("#highscore-list-table-div").scrollTo("#add_button")
+
     WWWW.executePHPFunction "getSessionID", "", (session_id) =>
       unless WWWW.DRY_RUN
         $("#submit-feedback").click () =>
@@ -44,17 +46,18 @@ class WWWW.FeedbackHandler
           $("#feedback-answer").hide()
           $("#user-question-answer").hide()
 
-      $("#submit-user-question").click () =>
-        message = $('textarea[name=user-question]').val()
+        $("#submit-user-question").click () =>
+          message = $('textarea[name=user-question]').val()
 
-        if message isnt ""
-          console.log message
-          # send =
-          #   table: "feedback"
-          #   values: "'#{session_id}', '#{message}'"
-          #   names: "`session_id`, `message`"
+          if message isnt ""
+            console.log message
+            # send =
+            #   table: "feedback"
+            #   values: "'#{session_id}', '#{message}'"
+            #   names: "`session_id`, `message`"
 
-          # WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-          #   @_feedbackSubmitted = true
-          #   console.log "feedback was submitted with response #{response}"
-          #   $("#feedback-answer").hide().slideDown()
+            # WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+            #   @_feedbackSubmitted = true
+            #   console.log "feedback was submitted with response #{response}"
+            #   $("#feedback-answer").hide().slideDown()
+

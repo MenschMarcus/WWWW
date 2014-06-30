@@ -8,6 +8,7 @@
 
   <script type="text/javascript" src="../script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="../script/third-party/jquery-ui-1.10.4.min.js"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
   <script type="text/javascript" src="../build/executePHPFunction.js"></script>
 
@@ -15,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../style/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="../style/bootstrap-theme.css">
   <link rel="stylesheet" type="text/css" href="../style/bootstrap-social.css">
+  <link rel="stylesheet" type="text/css" href="../style/admin.css" />
   <link rel="stylesheet" type="text/css" href="../style/style.css" />
   <link rel="stylesheet" type="text/css" href="../style/marker.css" />
   <link rel="stylesheet" type="text/css" href="../style/feedback.css" />
@@ -23,7 +25,59 @@
 
   <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-  <script type="text/javascript">
+  <script language="javascript" type="text/javascript">
+
+    var map;
+    var geocoder;
+    function InitializeMap() {
+
+        var latlng = new google.maps.LatLng(50.9794934, 11.323543900000004);
+        var myOptions =
+        {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        };
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+    }
+
+    function findLocation() {
+        geocoder = new google.maps.Geocoder();
+        InitializeMap();
+
+        var lat = parseFloat(document.getElementById("lat").value);
+        var lng = parseFloat(document.getElementById("lng").value);
+        map.setCenter(new google.maps.LatLng(lat, lng));
+        var marker = new google.maps.Marker({
+          map: map,
+          position: new google.maps.LatLng(lat, lng)
+        });      
+    }
+
+    function findLatLng() {      
+      geocoder = new google.maps.Geocoder();
+      InitializeMap();
+
+      var address = document.getElementById("location").value;
+      geocoder.geocode({ 'address': address }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+              map.setCenter(results[0].geometry.location);
+              var marker = new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location
+              });
+              document.getElementById("lat").value = results[0].geometry.location.k;
+              document.getElementById("lng").value = results[0].geometry.location.A;
+          }
+          else {
+              alert("Ort konnte leider nicht gefunden werden. \n\nError: " + status);
+          }
+      });
+    }
+
+    window.onload = InitializeMap;
+
     $(document).ready(function($) {
       var fields = []
 
@@ -113,20 +167,33 @@
       <textarea name="question" placeholder="Fragetext" class="form-control" rows="5"></textarea>
     </div>
     <br/>
-    <div id="lat-group" class="form-group col-xs-12 floating-label-form-group">
-      <label class="control-label" for="lat">Antwort Latitude</label>
-      <input id="lat" class="form-control" type="text" name="lat" placeholder="Latitude">
-    </div>
-    <br/>
-    <div id="lng-group" class="form-group col-xs-12 floating-label-form-group">
-      <label class="control-label" for="lng">Antwort Longitude</label>
-      <input id="lng" class="form-control" type="text" name="lng" placeholder="Longitude">
-    </div>
-    <br/>
-    <div id="location-group" class="form-group col-xs-12 floating-label-form-group">
-      <label class="control-label" for="location">Antwort Ort</label>
-      <input id="location" class="form-control" type="text" name="location" placeholder="Ort">
-    </div>
+    <table class="map-table">
+      <tr>
+        <td>
+          <div id="location-group" class="form-group col-xs-12 floating-label-form-group">
+            <label class="control-label" for="location">Antwort Ort</label>
+            <input id="location" class="form-control" type="text" name="location" placeholder="Ort">
+          </div>
+          <br />
+          <input id="Button1" class="btn btn-default" type="button" value="Finde Ort" onclick="return findLatLng()" />
+          <br/>
+          <div id="lat-group" class="form-group col-xs-12 floating-label-form-group">
+            <label class="control-label" for="lat">Antwort Latitude</label>
+            <input id="lat" class="form-control" type="text" name="lat" placeholder="Latitude">
+          </div>
+          <br/>
+          <div id="lng-group" class="form-group col-xs-12 floating-label-form-group">
+            <label class="control-label" for="lng">Antwort Longitude</label>
+            <input id="lng" class="form-control" type="text" name="lng" placeholder="Longitude">
+          </div>
+          <br />
+          <input id="Button1" class="btn btn-default" type="button" value="Finde Koordinaten" onclick="return findLocation()" />
+        </td>
+        <td>
+          <div id="map"></div>
+        </td>
+      </tr>
+    </table>    
     <br/>
     <div id="year-group" class="form-group col-xs-12 floating-label-form-group">
       <label class="control-label" for="year">Antwort Jahr</label>

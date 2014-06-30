@@ -6,10 +6,11 @@ include "database.php";
 $db = new database();
 
 if(isset($_GET["getQuestions"])) {
-  $str_json = file_get_contents('php://input');
+  /*$str_json = file_get_contents('php://input');
   $input = json_decode($str_json);
   $funny =  $input->funny;
-  $result = $db->query("SELECT * FROM `question` WHERE `funny`={$funny};");
+  $result = $db->query("SELECT * FROM `question` WHERE `funny`={$funny};");*/
+  $result = $db->query("SELECT * FROM `question`;");
   $rows = array();
   while($row = mysql_fetch_assoc($result)) {
     $rows[] = $row;
@@ -45,7 +46,7 @@ if(isset($_GET["insertIntoDB"])) {
   echo $result;
 }
 
-if(isset($_GET["userIsFunny"])) {
+/*if(isset($_GET["userIsFunny"])) {
   $str_json = file_get_contents('php://input');
   $input = json_decode($str_json);
   $session_id = $input->session_id;
@@ -57,7 +58,7 @@ if(isset($_GET["userIsFunny"])) {
     }
   }
   print json_encode($rows);
-}
+}*/
 
 if(isset($_GET["getSessionID"])) {
   $s_id = session_id();
