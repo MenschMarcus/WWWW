@@ -236,11 +236,13 @@ class WWWW.QuestionHandler
     spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel) / (1-@_answerChanceLevel) else 0
     spatialScore = (Math.min(1.0, (spatialScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
-    timeScore = 1 - temporalDistance / (@_currentTimeline.max_year - @_currentTimeline.min_year)
-    timeScore = if timeScore >= @_answerChanceLevel then (timeScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
-    timeScore = (Math.min(1.0, (timeScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
+    yearScore = 1 - temporalDistance / (@_currentTimeline.max_year - @_currentTimeline.min_year)
+    yearScore = if yearScore >= @_answerChanceLevel then (yearScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
+    yearScore = (Math.min(1.0, (yearScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
-    score = Math.round( (Math.pow(spatialScore, 3) + Math.pow(timeScore, 3)) / 2 * @_maxScore)
+    timeNeeded = 0
+
+    score = Math.round( (Math.pow(spatialScore, 3) + Math.pow(yearScore, 3)) / 2 * @_maxScore)
 
     $("#answer-score").html score
     $("#answer-max-score").html @_maxScore
