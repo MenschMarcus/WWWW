@@ -97,7 +97,7 @@
 
             <div id="contact_form">
               <div class="row">
-                <div class="form-group col-xs-12 floating-label-form-group hsc-scroll-table">
+                <div id="highscore-list-table-div" class="form-group col-xs-12 floating-label-form-group hsc-scroll-table">
                   <table class="table table-striped">
                     <thead>
                       <tr>

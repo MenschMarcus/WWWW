@@ -8,6 +8,8 @@ class WWWW.FeedbackHandler
     $("#feedback-answer").slideUp()
     $("#feedback-fail").slideUp()
 
+    #$("#highscore-list-table-div").scrollTo("#add_button")
+
     WWWW.executePHPFunction "getSessionID", "", (session_id) =>
       unless WWWW.DRY_RUN
         $("#submit-feedback").click () =>
@@ -43,4 +45,3 @@ class WWWW.FeedbackHandler
         $("#next-round").click () =>
           @_feedbackSubmitted = false
           @_socialClicked = false
-

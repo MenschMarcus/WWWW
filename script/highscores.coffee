@@ -18,7 +18,7 @@ class WWWW.HighscoreHandler
   				break
 
   		@score_list.splice add_at, 0,
-  			nickname: "<div></div>"
+  			nickname: '<div id="add_button">Insert</div>'
   			score: own_score
 
   		console.log @score_list
