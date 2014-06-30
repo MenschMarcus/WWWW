@@ -29,7 +29,7 @@ class WWWW.Marker
 
   setPosition: (pos) ->
     $(@_markerDiv).css
-      left: pos.x - $(@_markerDiv).width() / 2 + 2 + "px"
+      left: pos.x - $(@_markerDiv).width() / 2 + "px"
       top: pos.y  - (if @_isFlipped then 0 else $(@_markerDiv).height()) + "px"
 
   hide: () ->
