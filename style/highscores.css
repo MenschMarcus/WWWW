@@ -1,8 +1,7 @@
 #hsc-scroll-table {
     height: 200px;
     overflow: auto;
-    width: 558px;
-    margin-bottom: 20px;
+    width: 100%;
 
     border: 1px solid #ccc;
     border-radius: 4px;

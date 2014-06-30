@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = false
+WWWW.DRY_RUN = true
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -27,7 +27,7 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 0
+    @_questionsPerRound = 1
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
@@ -162,6 +162,10 @@ class WWWW.QuestionHandler
     $('#next-round').on 'click', () =>
       @postNewQuestion()
 
+    # end round on click
+    $('#round-end').on 'click', () =>
+      @roundEnd()
+
     # place map marker on click
     $(@_mapDiv).on 'click', (event) =>
       unless @_mapMarker.isLocked()
@@ -182,6 +186,8 @@ class WWWW.QuestionHandler
 
         @_tlMarker.setPosition newPos
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+
+    $("#round-end-display").hide();
 
   questionAnswered: =>
     unless @_questionAnswered
@@ -264,13 +270,16 @@ class WWWW.QuestionHandler
       $("#submit-answer").addClass("invisible");
       @_countDownDiv.text('');
       $("#results").animate({height: "show", opacity: "show"});
+
+      if @_questionCount is (@_questionsPerRound + 1)
+        $("#submit-answer").addClass("invisible");
+        $("#round-end").removeClass("invisible");
+
     , 2000
 
   postNewQuestion: =>
     if @_questions?
-      if @_questionCount is (@_questionsPerRound + 1)
-        @roundEnd()
-      else
+      unless @_questionCount is (@_questionsPerRound + 1)
         @_resetMarkers()
         @_questionAnswered = false
 
@@ -281,9 +290,12 @@ class WWWW.QuestionHandler
         @_mapMarker.unfade()
         @_tlMarker.unfade()
 
+        $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
 
         $("#next-question").addClass("invisible");
+        $("#next-round").addClass("invisible");
+        $("#round-end").addClass("invisible");
         $("#submit-answer").removeClass("invisible");
         $("#submit-answer").removeClass("disabled");
 
@@ -318,9 +330,7 @@ class WWWW.QuestionHandler
 
 
         # hide old result and update result markers
-        $('#result-display').modal('hide');
-        $('#round-end-display').modal('hide');
-
+        $("#round-end-display").animate({height: "hide", opacity: "hide"});
 
         @_mapResultMarker.hide()
         @_mapMarker.release()
@@ -339,12 +349,15 @@ class WWWW.QuestionHandler
 
   roundEnd: =>
 
-    $('#result-display').modal('hide')
-
     $("#total-score").html @_totalScore
     # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
-    $('#round-end-display').modal('show')
+    $("#results").animate({height: "hide", opacity: "hide"});
+    $("#question-bar").animate({height: "hide", opacity: "hide"});
+    $("#round-end-display").animate({height: "show", opacity: "show"});
+
+    $("#round-end").addClass("invisible");
+    $("#next-round").removeClass("invisible");
 
     @_highscoreHandler.update @_totalScore
 

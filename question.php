@@ -30,20 +30,26 @@
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript">
+    window.___gcfg = {lang: 'de'};
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
       var feedback = new WWWW.FeedbackHandler();
 
       $('#question-progress').css({width:'100%'});
 
-    });
-  </script>
+      // load social apis
 
-</head>
+      // google+
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
 
-<body>
-    <div id="fb-root"></div>
-    <script>
+      // twitter
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+      // facebook
       (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -51,33 +57,144 @@
         js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
-    </script>
+    });
+  </script>
 
+
+</head>
+
+<body>
+    <div id="fb-root"></div>
 
     <div class="phone-outer">
-        <div class="phone-inner">
-            <div class="timeline" id="timeline"></div>
-            <div class="map" id="map"></div>
-            <div class="question-bar">
-                <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
-                <div id="question"></div>
-                <div id="results" class="text-center">
-                  <div id="score">
-                    <h1><span id="answer-score"></span> Punkte!</h1>
-                    <div><span id="answer-location"></span>, <span id="answer-year"></span></div>
-                    <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+      <div class="phone-inner">
+        <div class="timeline" id="timeline"></div>
+        <div class="map" id="map"></div>
+        <div class="question-bar">
+          <div id="question-bar">
+            <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
+            <div id="question"></div>
+            <div id="results" class="text-center">
+              <div id="score">
+                <h1><span id="answer-score"></span> Punkte!</h1>
+                <div><span id="answer-location"></span>, <span id="answer-year"></span></div>
+                <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+              </div>
+              <div id="answer-info"></div>
+            </div>
+          </div>
+          <div id="round-end-display">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                      <h3>Bestenliste</h3>
+                    </a>
                   </div>
-                  <div id="answer-info"></div>
                 </div>
+
+                <div id="collapseOne" class="panel-collapse collapse in">
+                  <div id="score">
+                    <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
+                  </div>
+                  <div style="display:inline !important; float:left !important;">
+                    <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+                  </div>
+                  <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
+                  <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+
+                  <div id="hsc-scroll-table">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Rang</th>
+                          <th>Name</th>
+                          <th>Score</th>
+                        </tr>
+                      </thead>
+                      <tbody id="highscore-list"> </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                      <h3>Frage einreichen</h3>
+                    </a>
+                  </div>
+                </div>
+
+                <div id="collapseTwo" class="panel-collapse collapse">
+                  <div id="user-question-form" style="margin-top:15px;">
+                    <div class="form-group col-xs-12 floating-label-form-group">
+                      <label class="sr-only" for="user-question">Gib hier deine Frage ein!</label>
+                      <textarea id="user-question" name="user-question" placeholder="Fragetext" class="form-control" rows="5"></textarea>
+                    </div>
+                  </div>
+                  <div id="user-question-answer-form" class="form-inline" style="margin-left:15px;">
+                    <div id="user-question-location-group" class="form-group floating-label-form-group">
+                      <label class="sr-only control-label" for="user-question-location">Antwort Ort</label>
+                      <input id="user-question-location" class="form-control" type="text" name="user-question-location" placeholder="Antwort Ort">
+                    </div>
+                    <div id="user-question-year-group" class="form-group floating-label-form-group">
+                      <label class="sr-only control-label" for="user-question-year">Antwort Jahr</label>
+                      <input id="user-question-year" class="form-control" type="text" name="user-question-year" placeholder="Antwort Jahr">
+                    </div>
+                    <div id="user-question-name-group" class="form-group floating-label-form-group">
+                      <label class="sr-only control-label" for="user-question-name">Dein Name</label>
+                      <input id="user-question-name" class="form-control" type="text" name="user-question-name" placeholder="Dein Name">
+                    </div>
+                  </div>
+
+                  <div id="user-question-answer" class="feedback-answer"> Vielen Dank für deine Frage!</div>
+                  <br/>
+                  <div class="form-group col-xs-12">
+                    <button id="submit-user-question" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                      <h3>Feedback</h3>
+                    </a>
+                  </div>
+                </div>
+
+                <div id="collapseThree" class="panel-collapse collapse">
+                  <div id="contact_form">
+                    <div class="form-group col-xs-12 floating-label-form-group">
+                      <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
+                      <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
+                    </div>
+                    <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
+                    <br>
+                    <div class="form-group col-xs-12">
+                      <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="control-bar">
-                <div id="question-progress" class="question-progress animate"></div>
-                <div id="count-down" class="count-down"></div>
-                <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
-                <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><span class="glyphicon glyphicon-ok"></span></div>
-                <div id="next-question" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Nächste Frage!</div>
-            </div>
+          </div>
         </div>
+        <div class="control-bar">
+            <div id="question-progress" class="question-progress animate"></div>
+            <div id="count-down" class="count-down"></div>
+            <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
+            <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><span class="glyphicon glyphicon-ok"></span></div>
+            <div id="next-question" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Nächste Frage!</div>
+            <div id="round-end" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Runde beenden!</div>
+            <div id="next-round" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Neue Runde starten!</div>
+        </div>
+      </div>
     </div>
 
     <!-- Abort dialog -->
@@ -114,76 +231,7 @@
       </div>
     </div>
 
-    <div id="round-end-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
-          </div>
-          <div class="modal-body">
-            <div id="score">
-            <h1>
-            Gesamtpunkte: <span id="total-score"></span>
-            </h1>
-            </div>
-
-            <h2 style="float:left">Bestenliste</h2>
-            <div style="float:right; margin-top: 26px">
-              <div style="display:inline !important; float:left !important;">
-                <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
-              </div>
-              <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
-              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
-            </div>
-            <div id="hsc-scroll-table">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Rang</th>
-                    <th>Name</th>
-                    <th>Score</th>
-                  </tr>
-                </thead>
-                <tbody id="highscore-list"> </tbody>
-              </table>
-            </div>
-            <div id="contact_form">
-              <div class="row">
-                <div class="form-group col-xs-12 floating-label-form-group">
-                  <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
-                  <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
-                </div>
-              </div>
-              <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
-              <div id="feedback-fail" class="feedback-fail"> Das geht leider noch nicht!</div>
-              <br>
-              <div class="row">
-                <div class="form-group col-xs-12">
-                  <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-
-            <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
-            <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-      window.___gcfg = {lang: 'de'};
-
-      (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/platform.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
-    </script>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </body>
 
 </html>
