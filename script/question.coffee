@@ -372,6 +372,7 @@ class WWWW.QuestionHandler
           animate: true
 
 
+
         # update timeline
         $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
 

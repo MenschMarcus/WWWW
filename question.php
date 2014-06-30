@@ -103,11 +103,18 @@
                   <div id="score">
                     <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
                   </div>
-                  <div style="display:inline !important; float:left !important;">
-                    <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+
+                  <div class="row">
+                    <div class="col-xs-6 center-block" style="padding-left: 100px;">
+                      <div style="display:inline !important; float:left !important;">
+                        <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+                      </div>
+                    </div>
+                    <div class="col-xs-6 center-block">
+                      <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
+                      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+                    </div>
                   </div>
-                  <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
-                  <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
 
                   <div id="hsc-scroll-table">
                     <table class="table table-striped">
