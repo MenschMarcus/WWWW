@@ -94,7 +94,7 @@
                 <div class="panel-heading">
                   <div class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                      <h3>Bestenliste</h3>
+                      Bestenliste
                     </a>
                   </div>
                 </div>
@@ -128,44 +128,40 @@
                 <div class="panel-heading">
                   <div class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                      <h3>Frage einreichen</h3>
+                      Frage einreichen
                     </a>
                   </div>
                 </div>
 
                 <div id="collapseTwo" class="panel-collapse collapse">
-                  <div id="user-question-form" style="margin-top:15px;">
-                    <div id="user-question-group" class="form-group col-xs-12 floating-label-form-group">
-                      <label class="sr-only" for="user-question">Gib hier deine Frage ein!</label>
-                      <textarea id="user-question" name="user-question" placeholder="Gib hier deine Frage ein!" class="form-control" rows="5"></textarea>
+                  <div class="panel-body">
+                    <div id="user-question-group" style="margin-bottom:15px;">
+                      <textarea id="user-question" name="user-question" placeholder="Gib hier deine Frage ein!" class="form-control" rows="3"></textarea>
                     </div>
-                  </div>
-                  <div id="user-question-answer-form" class="form-inline" style="margin-left:15px;">
-                    <div id="user-question-location-group" class="form-group floating-label-form-group">
-                      <label class="sr-only control-label" for="user-question-location">Antwort Ort</label>
-                      <input id="user-question-location" class="form-control" type="text" name="user-question-location" placeholder="Antwort Ort">
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div id="user-question-location-group" class="form-group floating-label-form-group">
+                          <input id="user-question-location" class="form-control" type="text" name="user-question-location" placeholder="Antwort Ort">
+                        </div>
+                        <div id="user-question-name-group" class="form-group floating-label-form-group">
+                          <input id="user-question-name" class="form-control" type="text" name="user-question-name" placeholder="Dein Name">
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                        <div id="user-question-year-group" class="form-group floating-label-form-group">
+                          <input id="user-question-year" class="form-control" type="text" name="user-question-year" placeholder="Antwort Jahr">
+                        </div>
+                        <div id="user-question-email-group" class="form-group floating-label-form-group">
+                          <input id="user-question-email" class="form-control" type="text" name="user-question-email" placeholder="Deine Email-Adresse">
+                        </div>
+                      </div>
                     </div>
-                    <div id="user-question-year-group" class="form-group floating-label-form-group">
-                      <label class="sr-only control-label" for="user-question-year">Antwort Jahr</label>
-                      <input id="user-question-year" class="form-control" type="text" name="user-question-year" placeholder="Antwort Jahr">
-                    </div>
-                    <div id="user-question-name-group" class="form-group floating-label-form-group">
-                      <label class="sr-only control-label" for="user-question-name">Dein Name</label>
-                      <input id="user-question-name" class="form-control" type="text" name="user-question-name" placeholder="Dein Name">
-                    </div>
-                    <div id="user-question-email-group" class="form-group floating-label-form-group">
-                      <label class="sr-only control-label" for="user-question-email">Deine Email-Adresse</label>
-                      <input id="user-question-email" class="form-control" type="text" name="user-question-email" placeholder="Deine Email-Adresse">
-                    </div>
-                  </div>
 
-                  <br/>
-                  <div id="user-question-answer" class="feedback-answer"> Vielen Dank für deine Frage!</div>
-                  <br/>
-                  <div class="form-group col-xs-12">
-                    <button id="submit-user-question" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
+                    <div id="user-question-answer" class="feedback-answer"> Vielen Dank für deine Frage!</div>
+                    <p>
+                      <button id="submit-user-question" type="submit_button" class="btn btn-success">Frage absenden!</button>
+                    </p>
                   </div>
-                  <br/>
                 </div>
               </div>
 
@@ -174,22 +170,20 @@
                 <div class="panel-heading">
                   <div class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                      <h3>Feedback</h3>
+                      Feedback
                     </a>
                   </div>
                 </div>
 
                 <div id="collapseThree" class="panel-collapse collapse">
-                  <div id="contact_form">
-                    <div class="form-group col-xs-12 floating-label-form-group">
-                      <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
-                      <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
-                    </div>
+                  <div id="contact_form" class="panel-body">
+                    <p>
+                    <textarea id="feedback-message" name="message" placeholder="Schreib uns hier deine Meinung, Anregungen oder Kritik!" class="form-control" rows="3"></textarea>
+                    </p>
                     <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
-                    <br>
-                    <div class="form-group col-xs-12">
-                      <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
-                    </div>
+                    <p>
+                    <button id="submit-feedback" type="submit_button" class="btn btn-success">Nachricht absenden!</button>
+                    </p>
                   </div>
                 </div>
               </div>

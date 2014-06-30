@@ -103,6 +103,7 @@ body {
 #score {
     color: #272;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .map-area {
