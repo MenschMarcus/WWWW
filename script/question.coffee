@@ -110,7 +110,8 @@ class WWWW.QuestionHandler
           @_maps[map.id] = map
 
         WWWW.executePHPFunction "getTimelines", "", (tl_string) =>
-          @_timelines = new Object()
+          #@_timelines = new Object()
+          @_timelines = []
           tls = JSON.parse tl_string
 
           for tl in tls
@@ -121,7 +122,6 @@ class WWWW.QuestionHandler
           WWWW.executePHPFunction "getQuestions", null, (question_string) =>
             @_questions = JSON.parse question_string
             for question, i in @_questions
-              console.log "Frage #{i} ist funny? #{question.funny}"
               question.latLng =
                 lat : parseInt(question.lat)
                 lng : parseInt(question.long)
@@ -286,8 +286,13 @@ class WWWW.QuestionHandler
         # update question
         @_askedQuestions.push newQuestionId
         @_currentQuestion = @_questions[newQuestionId]
-        @_currentMap = @_maps[@_currentQuestion.map_id]
-        @_currentTimeline = @_timelines[@_currentQuestion.tl_id]
+        @_currentMap = @_maps[@_currentQuestion.map_id]        
+        
+        for tl in @_timelines
+          if tl?
+            if tl.min_year <= @_currentQuestion.year and tl.max_year > @_currentQuestion.year
+              @_currentTimeline = tl
+              break
 
 
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
@@ -316,7 +321,6 @@ class WWWW.QuestionHandler
         @_questionTimeout = window.setTimeout () =>
            @questionAnswered()
         , @_timePerQuestion * 1000
-
 
   roundEnd: =>
 
