@@ -81,7 +81,8 @@
             <div id="question"></div>
             <div id="results" class="text-center">
               <div id="score">
-                <h1><span id="answer-score"></span> Punkte!</h1>
+                <h1><span id="answer-total-score"></span></h1>
+                <!-- <div>(<span id="answer-score"></span> + <span id="answer-time-bonus"></span>)</div> -->
                 <div><span id="answer-location"></span>, <span id="answer-year"></span></div>
                 <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
               </div>
