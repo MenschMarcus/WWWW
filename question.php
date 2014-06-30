@@ -148,21 +148,21 @@
                     </div>
                     <div class="row">
                       <div class="col-xs-6">
-                        <div id="user-question-location-group" class="form-group floating-label-form-group">
+                        <!-- <div id="user-question-location-group" class="form-group floating-label-form-group">
                           <input id="user-question-location" class="form-control" type="text" name="user-question-location" placeholder="Antwort Ort">
-                        </div>
+                        </div> -->
                         <div id="user-question-name-group" class="form-group floating-label-form-group">
                           <input id="user-question-name" class="form-control" type="text" name="user-question-name" placeholder="Dein Name">
                         </div>
                       </div>
-                      <div class="col-xs-6">
+                      <!-- <div class="col-xs-6">
                         <div id="user-question-year-group" class="form-group floating-label-form-group">
                           <input id="user-question-year" class="form-control" type="text" name="user-question-year" placeholder="Antwort Jahr">
                         </div>
                         <div id="user-question-email-group" class="form-group floating-label-form-group">
                           <input id="user-question-email" class="form-control" type="text" name="user-question-email" placeholder="Deine Email-Adresse">
                         </div>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div id="user-question-answer" class="feedback-answer"> Vielen Dank für deine Frage!</div>
