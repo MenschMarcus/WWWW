@@ -43,11 +43,11 @@
       // load social apis
 
       // google+
-      (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/platform.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
+      // (function() {
+      //   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      //   po.src = 'https://apis.google.com/js/platform.js';
+      //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      // })();
 
       // twitter
       !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
@@ -106,7 +106,7 @@
                   <div style="display:inline !important; float:left !important;">
                     <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
                   </div>
-                  <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div>
+                  <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
                   <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
 
                   <div id="hsc-scroll-table">
