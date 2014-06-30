@@ -8,8 +8,6 @@ class WWWW.FeedbackHandler
     $("#feedback-answer").slideUp()
     $("#user-question-answer").slideUp()
 
-    #$("#highscore-list-table-div").scrollTo("#add_button")
-
     WWWW.executePHPFunction "getSessionID", "", (session_id) =>
       unless WWWW.DRY_RUN
         $("#submit-feedback").click () =>
@@ -40,11 +38,11 @@ class WWWW.FeedbackHandler
               $("#feedback-answer").slideUp()
 
 
-        $("#next-round").click () =>
-          @_feedbackSubmitted = false
-          @_socialClicked = false
-          $("#feedback-answer").hide()
-          $("#user-question-answer").hide()
+      $("#next-round").click () =>
+        @_feedbackSubmitted = false
+        @_socialClicked = false
+        $("#feedback-answer").hide()
+        $("#user-question-answer").hide()
 
       $("#submit-user-question").click () =>
         text = $('textarea[name=user-question]').val()
