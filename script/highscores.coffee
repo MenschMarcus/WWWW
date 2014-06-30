@@ -34,7 +34,6 @@ class WWWW.HighscoreHandler
 
     $("#submit-name-email").click ()=>
       unless @_scoreSubmitted
-        @_scoreSubmitted = true
         name = $('input[name=name]').val()
         email = $('input[name=email]').val()
 
@@ -51,6 +50,7 @@ class WWWW.HighscoreHandler
             names: "`nickname`, `email`, `score`"
 
           WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+            @_scoreSubmitted = true
             console.log "highscore was submitted with response #{response}"
 
         else

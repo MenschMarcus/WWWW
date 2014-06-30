@@ -130,7 +130,7 @@
 
                 <div id="collapseTwo" class="panel-collapse collapse">
                   <div id="user-question-form" style="margin-top:15px;">
-                    <div class="form-group col-xs-12 floating-label-form-group">
+                    <div id="user-question-group" class="form-group col-xs-12 floating-label-form-group">
                       <label class="sr-only" for="user-question">Gib hier deine Frage ein!</label>
                       <textarea id="user-question" name="user-question" placeholder="Fragetext" class="form-control" rows="5"></textarea>
                     </div>
@@ -148,13 +148,19 @@
                       <label class="sr-only control-label" for="user-question-name">Dein Name</label>
                       <input id="user-question-name" class="form-control" type="text" name="user-question-name" placeholder="Dein Name">
                     </div>
+                    <div id="user-question-email-group" class="form-group floating-label-form-group">
+                      <label class="sr-only control-label" for="user-question-email">Deine Email-Adresse</label>
+                      <input id="user-question-email" class="form-control" type="text" name="user-question-email" placeholder="Deine Email-Adresse">
+                    </div>
                   </div>
 
+                  <br/>
                   <div id="user-question-answer" class="feedback-answer"> Vielen Dank für deine Frage!</div>
                   <br/>
                   <div class="form-group col-xs-12">
                     <button id="submit-user-question" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
                   </div>
+                  <br/>
                 </div>
               </div>
 
