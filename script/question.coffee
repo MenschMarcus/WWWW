@@ -1,6 +1,6 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = false
+WWWW.DRY_RUN = true
 
 getRandomInt= (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -17,7 +17,6 @@ class WWWW.Answer
     @score = null
     @start_time = null
     @end_time = null
-    @funny = 0
 
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler
@@ -27,7 +26,7 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 0
+    @_questionsPerRound = 5
     @_maxScore = 1000
     @_totalScore = 0
     @_roundCount = 1
@@ -119,36 +118,18 @@ class WWWW.QuestionHandler
             tl.max_year = parseInt(tl.max_year)
             @_timelines[tl.id] = tl
 
-          send =
-            session_id: "#{@_session_id}"
-          WWWW.executePHPFunction "userIsFunny", send, (response) =>
-            rep = JSON.parse(response)
-            send = {}
-            if !rep? or rep.length == 0
-              send =
-                funny: Math.round(Math.random())
-              @_currentAnswer.funny = send.funny
-              add_user_send =
-                table: "user"
-                values: "'#{@_session_id}', #{send.funny}"
-                names: "`session_id`, `funny`"
-              WWWW.executePHPFunction "insertIntoDB", add_user_send, null
-            else
-              send =
-                funny: parseInt(rep[0].funny)
-              @_currentAnswer.funny = send.funny
+          WWWW.executePHPFunction "getQuestions", null, (question_string) =>
+            @_questions = JSON.parse question_string
+            for question, i in @_questions
+              console.log "Frage #{i} ist funny? #{question.funny}"
+              question.latLng =
+                lat : parseInt(question.lat)
+                lng : parseInt(question.long)
 
-            WWWW.executePHPFunction "getQuestions", send, (question_string) =>
-              @_questions = JSON.parse question_string
-              for question in @_questions
-                question.latLng =
-                  lat : parseInt(question.lat)
-                  lng : parseInt(question.long)
-
-              @_totalQuestionCount = @_questions?.length
-              if @_questionsPerRound > @_totalQuestionCount
-                @_questionsPerRound = @_totalQuestionCount
-              @postNewQuestion()
+            @_totalQuestionCount = @_questions?.length
+            if @_questionsPerRound > @_totalQuestionCount
+              @_questionsPerRound = @_totalQuestionCount
+            @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -362,11 +343,11 @@ class WWWW.QuestionHandler
       table: "answer"
       values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}',
                #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time},
-               #{a.end_time}, #{a.funny}, '#{@_browserDetector.platform}',
+               #{a.end_time}, '#{@_browserDetector.platform}',
                '#{@_browserDetector.browser}', '#{@_browserDetector.version}'"
       names: "`q_id`, `round_count`, `session_id`,
               `lat`, `long`, `year`, `score`, `start_time`,
-              `end_time`, `funny`, `platform`,
+              `end_time`, `platform`,
               `browser`, `version`"
 
     WWWW.executePHPFunction "insertIntoDB", send, (response) =>
