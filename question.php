@@ -132,7 +132,7 @@
                   <div id="user-question-form" style="margin-top:15px;">
                     <div id="user-question-group" class="form-group col-xs-12 floating-label-form-group">
                       <label class="sr-only" for="user-question">Gib hier deine Frage ein!</label>
-                      <textarea id="user-question" name="user-question" placeholder="Fragetext" class="form-control" rows="5"></textarea>
+                      <textarea id="user-question" name="user-question" placeholder="Gib hier deine Frage ein!" class="form-control" rows="5"></textarea>
                     </div>
                   </div>
                   <div id="user-question-answer-form" class="form-inline" style="margin-left:15px;">
