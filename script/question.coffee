@@ -34,12 +34,7 @@ class WWWW.QuestionHandler
     @_questionCount = 1
     @_session_id = null
 
-<<<<<<< HEAD
-    HiHa = new WWWW.HighscoreHandler()
-    HiHa.update(10)
-=======
     @_highscoreHandler = new WWWW.HighscoreHandler()
->>>>>>> 81b3a8f4f278fb417c504edeec61dc9758c4c92c
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score

@@ -14,11 +14,6 @@ class WWWW.HighscoreHandler
 
     nameEmailDisplay = $("#name-email-display")
 
-<<<<<<< HEAD
-  		@score_list.splice add_at, 0,
-  			nickname: '<div id="add_button">Insert</div>'
-  			score: own_score
-=======
     $(@_nameButton).popover
       html: true,
       title: "Bitte trage Name und Email-Adresse ein!",
@@ -106,7 +101,6 @@ class WWWW.HighscoreHandler
         if offset isnt 0
           $('#hsc-scroll-table').animate({scrollTop:scroll - 100}, 1500)
       , 1500
->>>>>>> 81b3a8f4f278fb417c504edeec61dc9758c4c92c
 
 
 
