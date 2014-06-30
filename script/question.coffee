@@ -20,7 +20,6 @@ class WWWW.Answer
     @score = null
     @start_time = null
     @end_time = null
-    @funny = 0
 
 #   -----------------------------------------------------------------
 class WWWW.QuestionHandler
@@ -130,7 +129,8 @@ class WWWW.QuestionHandler
           @_maps[map.id] = map
 
         WWWW.executePHPFunction "getTimelines", "", (tl_string) =>
-          @_timelines = new Object()
+          #@_timelines = new Object()
+          @_timelines = []
           tls = JSON.parse tl_string
 
           for tl in tls
@@ -138,36 +138,17 @@ class WWWW.QuestionHandler
             tl.max_year = parseInt(tl.max_year)
             @_timelines[tl.id] = tl
 
-          send =
-            session_id: "#{@_session_id}"
-          WWWW.executePHPFunction "userIsFunny", send, (response) =>
-            rep = JSON.parse(response)
-            send = {}
-            if !rep? or rep.length == 0
-              send =
-                funny: Math.round(Math.random())
-              @_currentAnswer.funny = send.funny
-              add_user_send =
-                table: "user"
-                values: "'#{@_session_id}', #{send.funny}"
-                names: "`session_id`, `funny`"
-              WWWW.executePHPFunction "insertIntoDB", add_user_send, null
-            else
-              send =
-                funny: parseInt(rep[0].funny)
-              @_currentAnswer.funny = send.funny
+          WWWW.executePHPFunction "getQuestions", null, (question_string) =>
+            @_questions = JSON.parse question_string
+            for question, i in @_questions
+              question.latLng =
+                lat : parseInt(question.lat)
+                lng : parseInt(question.long)
 
-            WWWW.executePHPFunction "getQuestions", send, (question_string) =>
-              @_questions = JSON.parse question_string
-              for question in @_questions
-                question.latLng =
-                  lat : parseInt(question.lat)
-                  lng : parseInt(question.long)
-
-              @_totalQuestionCount = @_questions?.length
-              if @_questionsPerRound > @_totalQuestionCount
-                @_questionsPerRound = @_totalQuestionCount
-              @postNewQuestion()
+            @_totalQuestionCount = @_questions?.length
+            if @_questionsPerRound > @_totalQuestionCount
+              @_questionsPerRound = @_totalQuestionCount
+            @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -180,6 +161,10 @@ class WWWW.QuestionHandler
     # post new question on click
     $('#next-round').on 'click', () =>
       @postNewQuestion()
+
+    # end round on click
+    $('#round-end').on 'click', () =>
+      @roundEnd()
 
     # place map marker on click
     $(@_mapDiv).on 'click', (event) =>
@@ -201,6 +186,8 @@ class WWWW.QuestionHandler
 
         @_tlMarker.setPosition newPos
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+
+    $("#round-end-display").hide();
 
   questionAnswered: =>
     unless @_questionAnswered
@@ -283,13 +270,16 @@ class WWWW.QuestionHandler
       $("#submit-answer").addClass("invisible");
       @_countDownDiv.text('');
       $("#results").animate({height: "show", opacity: "show"});
+
+      if @_questionCount is (@_questionsPerRound + 1)
+        $("#submit-answer").addClass("invisible");
+        $("#round-end").removeClass("invisible");
+
     , 2000
 
   postNewQuestion: =>
     if @_questions?
-      if @_questionCount is (@_questionsPerRound + 1)
-        @roundEnd()
-      else
+      unless @_questionCount is (@_questionsPerRound + 1)
         @_resetMarkers()
         @_questionAnswered = false
 
@@ -300,9 +290,12 @@ class WWWW.QuestionHandler
         @_mapMarker.unfade()
         @_tlMarker.unfade()
 
+        $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
 
         $("#next-question").addClass("invisible");
+        $("#next-round").addClass("invisible");
+        $("#round-end").addClass("invisible");
         $("#submit-answer").removeClass("invisible");
         $("#submit-answer").removeClass("disabled");
 
@@ -325,7 +318,12 @@ class WWWW.QuestionHandler
         @_askedQuestions.push newQuestionId
         @_currentQuestion = @_questions[newQuestionId]
         @_currentMap = @_maps[@_currentQuestion.map_id]
-        @_currentTimeline = @_timelines[@_currentQuestion.tl_id]
+
+        for tl in @_timelines
+          if tl?
+            if tl.min_year <= @_currentQuestion.year and tl.max_year > @_currentQuestion.year
+              @_currentTimeline = tl
+              break
 
 
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
@@ -373,9 +371,7 @@ class WWWW.QuestionHandler
 
 
         # hide old result and update result markers
-        $('#result-display').modal('hide');
-        $('#round-end-display').modal('hide');
-
+        $("#round-end-display").animate({height: "hide", opacity: "hide"});
 
         @_mapResultMarker.hide()
         @_mapMarker.release()
@@ -391,15 +387,17 @@ class WWWW.QuestionHandler
            @questionAnswered()
         , @_timePerQuestion * 1000
 
-
   roundEnd: =>
-
-    $('#result-display').modal('hide')
 
     $("#total-score").html @_totalScore
     # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
-    $('#round-end-display').modal('show')
+    $("#results").animate({height: "hide", opacity: "hide"});
+    $("#question-bar").animate({height: "hide", opacity: "hide"});
+    $("#round-end-display").animate({height: "show", opacity: "show"});
+
+    $("#round-end").addClass("invisible");
+    $("#next-round").removeClass("invisible");
 
     @_highscoreHandler.update @_totalScore
 
@@ -417,11 +415,11 @@ class WWWW.QuestionHandler
       table: "answer"
       values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}',
                #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time},
-               #{a.end_time}, #{a.funny}, '#{@_browserDetector.platform}',
+               #{a.end_time}, '#{@_browserDetector.platform}',
                '#{@_browserDetector.browser}', '#{@_browserDetector.version}'"
       names: "`q_id`, `round_count`, `session_id`,
               `lat`, `long`, `year`, `score`, `start_time`,
-              `end_time`, `funny`, `platform`,
+              `end_time`, `platform`,
               `browser`, `version`"
 
     WWWW.executePHPFunction "insertIntoDB", send, (response) =>
