@@ -175,8 +175,12 @@ class WWWW.QuestionHandler
     $('#hide-question-bar').on 'click', () =>
       if $("#results").css("display") is "none"
         $("#results").animate({height: "show", opacity: "show"});
+        $("#question").animate({height: "hide", opacity: "hide"});
+        $("#question-number-container").animate({height: "hide", opacity: "hide"});
       else
         $("#results").animate({height: "hide", opacity: "hide"});
+        $("#question").animate({height: "show", opacity: "show"});
+        $("#question-number-container").animate({height: "show", opacity: "show"});
 
     $("#rate-question").raty
       starType: "i"
@@ -303,6 +307,8 @@ class WWWW.QuestionHandler
       @_countDownDiv.text('');
       $("#results").animate({height: "show", opacity: "show"});
       $("#hide-question-bar").animate({opacity: "show"});
+      $("#question").animate({height: "hide", opacity: "hide"});
+      $("#question-number-container").animate({height: "hide", opacity: "hide"});
 
       if @_questionCount is (@_questionsPerRound + 1)
         $("#submit-answer").addClass("invisible");
@@ -325,6 +331,8 @@ class WWWW.QuestionHandler
         $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
         $("#hide-question-bar").animate({opacity: "hide"});
+        $("#question").animate({height: "show", opacity: "show"});
+        $("#question-number-container").animate({height: "show", opacity: "show"});
 
         $("#next-question").addClass("invisible");
         $("#next-round").addClass("invisible");
