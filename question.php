@@ -5,10 +5,12 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
   <script type="text/javascript" src="script/third-party/raty/jquery.raty.js"></script>
+  <script type="text/javascript" src="script/third-party/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
@@ -100,6 +102,25 @@
           </div>
 
           <div id="round-end-display">
+
+            <div id="score">
+              <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
+            </div>
+
+
+            <div class="col-xs-6 center-block" style="padding-left: 100px;">
+              <div style="display:inline !important; float:left !important;">
+                <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+              </div>
+            </div>
+            <div class="col-xs-6 center-block">
+              <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+            </div>
+
+
+            <br>
+
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading" data-target="#collapseOne" data-toggle="collapse" data-parent="#accordion">
@@ -110,23 +131,7 @@
                   </div>
                 </div>
 
-                <div id="collapseOne" class="panel-collapse collapse in">
-                  <div id="score">
-                    <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-xs-6 center-block" style="padding-left: 100px;">
-                      <div style="display:inline !important; float:left !important;">
-                        <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
-                      </div>
-                    </div>
-                    <div class="col-xs-6 center-block">
-                      <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
-                      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
-                    </div>
-                  </div>
-
+                <div id="collapseOne" class="panel-collapse collapse">
                   <div id="hsc-scroll-table">
                     <table class="table table-striped">
                       <thead>
@@ -146,7 +151,7 @@
                 <div class="panel-heading" data-target="#collapseTwo" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
                     <a class="accordion-toggle">
-                      <i class="fa fa-pencil"></i> Frage einreichen
+                      <i class="fa fa-pencil"></i> Neue Frage einreichen
                     </a>
                   </div>
                 </div>

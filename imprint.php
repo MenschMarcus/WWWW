@@ -5,6 +5,8 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
