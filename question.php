@@ -86,7 +86,7 @@
             </div>
           </div>
           <div id="question-bar">
-            <div class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
+            <div id="question-number-container" class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
             <div id="question"></div>
             <div id="results" class="text-center">
               <div id="score">
@@ -97,7 +97,7 @@
               </div>
               <div id="answer-info"></div>
               <br/>
-              Frage bewerten <div id="rate-question"></div>
+              Wie hat dir die Frage gefallen? <div id="rate-question"></div>
             </div>
           </div>
 
