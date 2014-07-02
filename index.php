@@ -24,10 +24,10 @@
       var browserDetector = new WWWW.BrowserDetector();
       var p = browserDetector.platform;
 
-      if (p=="Android" || p=="iPhone" || p=="iPad" || p=="iPhone/iPod" || p=="unknown") {
-        $("#instructions").hide()
-        $("#feedback-fail").hide().slideDown()
-      }
+      // if (p=="Android" || p=="iPhone" || p=="iPad" || p=="iPhone/iPod" || p=="unknown") {
+      //   $("#instructions").hide()
+      //   $("#feedback-fail").hide().slideDown()
+      // }
     });
   </script>
 </head>
