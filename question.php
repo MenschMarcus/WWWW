@@ -97,10 +97,10 @@
           <div id="round-end-display">
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" data-target="#collapseOne" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                      Bestenliste
+                    <a class="accordion-toggle">
+                      <i class="fa fa-trophy"></i> Bestenliste
                     </a>
                   </div>
                 </div>
@@ -138,10 +138,10 @@
               </div>
 
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" data-target="#collapseTwo" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                      Frage einreichen
+                    <a class="accordion-toggle">
+                      <i class="fa fa-pencil"></i> Frage einreichen
                     </a>
                   </div>
                 </div>
@@ -180,10 +180,10 @@
 
 
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" data-target="#collapseThree" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                      Feedback
+                    <a class="accordion-toggle">
+                      <i class="fa fa-comments"></i> Feedback
                     </a>
                   </div>
                 </div>
@@ -246,69 +246,6 @@
       </div>
         <br/>
         <button id="submit-name-email" type="submit_button" class="btn btn-success">Los!</button>
-      </div>
-    </div>
-
-    <div id="round-end-display" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Du hast alle Fragen dieser Runde beantwortet!</h4>
-          </div>
-          <div class="modal-body">
-            <div id="score">
-            <h1>
-            Gesamtpunkte: <span id="total-score"></span>
-            </h1>
-            </div>
-
-            <h2>Bestenliste</h2>
-            <div id="hsc-scroll-table">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Rang</th>
-                    <th>Name</th>
-                    <th>Score</th>
-                  </tr>
-                </thead>
-                <tbody id="highscore-list"> </tbody>
-              </table>
-            </div>
-            <div id="contact_form">
-              <div class="row">
-                <div class="form-group col-xs-12 floating-label-form-group">
-                  <label for="message">Hast du Anregungen oder Kritik? Dann schreib' uns eine Nachricht!</label>
-                  <textarea id="feedback-message" name="message" placeholder="Nachrichtentext" class="form-control" rows="5"></textarea>
-                </div>
-              </div>
-              <div id="feedback-answer" class="feedback-answer"> Vielen Dank für dein Feedback!</div>
-              <div id="feedback-fail" class="feedback-fail"> Das geht leider noch nicht!</div>
-              <br>
-              <div class="row">
-                <div class="form-group col-xs-12">
-                  <button id="submit-feedback" type="submit_button" class="btn btn-lg hg-button">Absenden</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <div style="float:left">
-
-            <a class="btn btn-social-icon btn-twitter">
-              <i class="fa fa-twitter"></i>
-            </a>
-            <a class="btn btn-social-icon btn-facebook">
-              <i class="fa fa-facebook"></i>
-            </a>
-            <a class="btn btn-social-icon btn-google-plus">
-              <i class="fa fa-google-plus"></i>
-            </a>
-            </div>
-            <a id="cancel" href="index.php" class="btn btn-lg btn-danger">Aufhören!</a>
-            <div id="next-round" class="btn btn-lg btn-success">Neue Runde starten!</div>
-          </div>
-        </div>
       </div>
     </div>
 
