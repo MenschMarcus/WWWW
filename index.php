@@ -4,6 +4,8 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
   <title>WWWW</title>
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
