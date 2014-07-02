@@ -28,8 +28,9 @@ class WWWW.QuestionHandler
     @_questions = null
     @_askedQuestions = []
     @_currentQuestion = null
+    @_currentQuestionRating = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 1
+    @_questionsPerRound = 5
     @_maxScore = 1000
     @_maxTimeBonus = 10 # in percent of the achieved score
     @_totalScore = 0
@@ -159,6 +160,7 @@ class WWWW.QuestionHandler
 
     # post new question on click
     $('#next-question').on 'click', () =>
+      @submitRating()
       @postNewQuestion()
 
     # post new question on click
@@ -167,6 +169,7 @@ class WWWW.QuestionHandler
 
     # end round on click
     $('#round-end').on 'click', () =>
+      @submitRating()
       @roundEnd()
 
     $('#hide-question-bar').on 'click', () =>
@@ -174,6 +177,13 @@ class WWWW.QuestionHandler
         $("#results").animate({height: "show", opacity: "show"});
       else
         $("#results").animate({height: "hide", opacity: "hide"});
+
+    $("#rate-question").raty
+      starType: "i"
+      hints: ["","","","",""]
+      #path : 'script/third-party/raty/images/'
+      click: (rating, event) =>
+        @_currentQuestionRating = rating
 
 
 
@@ -287,6 +297,7 @@ class WWWW.QuestionHandler
       @submitAnswer()
 
     window.setTimeout () =>
+      @_currentQuestionRating = null
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
       @_countDownDiv.text('');
@@ -296,7 +307,6 @@ class WWWW.QuestionHandler
       if @_questionCount is (@_questionsPerRound + 1)
         $("#submit-answer").addClass("invisible");
         $("#round-end").removeClass("invisible");
-
     , 2000
 
   postNewQuestion: =>
@@ -465,6 +475,17 @@ class WWWW.QuestionHandler
 
     WWWW.executePHPFunction "insertIntoDB", send, (response) =>
       console.log "answer was submitted with response #{response}"
+
+  submitRating: =>
+    $("#rate-question").raty "reload"
+    if @_currentQuestionRating? and not WWWW.DRY_RUN
+      send =
+        table: "question_rating"
+        values: "'#{@_currentAnswer.q_id}', '#{@_session_id}', '#{@_currentQuestionRating}'"
+        names: "`q_id`, `session_id`, `rating`"
+
+      WWWW.executePHPFunction "insertIntoDB", send, (response) =>
+        console.log "rating was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
     @_map.containerPointToLatLng(L.point(pos.x, pos.y))

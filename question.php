@@ -9,6 +9,7 @@
 
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
+  <script type="text/javascript" src="script/third-party/raty/jquery.raty.js"></script>
   <script type="text/javascript" src="script/third-party/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -27,6 +28,7 @@
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="script/third-party/raty/jquery.raty.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
@@ -94,8 +96,11 @@
                 <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
               </div>
               <div id="answer-info"></div>
+              <br/>
+              Frage bewerten <div id="rate-question"></div>
             </div>
           </div>
+
           <div id="round-end-display">
 
             <div id="score">
