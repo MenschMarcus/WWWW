@@ -179,15 +179,15 @@ body {
 }
 
 .title-image {
-    background-image: url("../img/title.jpg");
+    /*background-image: url("../img/title.jpg");*/
     background-size: cover;
 }
 
 .well {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: white;
     background-image: none;
     border: none;
-    color: white;
+    color: #444;
 }
 
 #instructions {

@@ -35,10 +35,10 @@
   <div class="phone-outer">
     <div class="phone-inner title-image">
       <div id="instructions">
-        <p class="text-center" style="margin-top:300px"><img src="img/marker_map.png" /></p>
+        <p class="text-center" style="margin-top:10%"><img src="img/marker_map.png" /></p>
         <div class="text-center well">
           <h3>Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
-          <p><a href="question.php" type="button" class="btn btn-success btn-lg btn-block">Spiel starten!</a></p>
+          <p><a href="question.php" type="button" style="padding:50px 10px;" class="btn btn-success btn-lg btn-block">Spiel starten!</a></p>
         </div>
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
