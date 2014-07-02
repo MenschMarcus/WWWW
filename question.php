@@ -95,6 +95,25 @@
             </div>
           </div>
           <div id="round-end-display">
+
+            <div id="score">
+              <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6 center-block" style="padding-left: 100px;">
+                <div style="display:inline !important; float:left !important;">
+                  <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
+                </div>
+              </div>
+              <div class="col-xs-6 center-block">
+                <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+              </div>
+            </div>
+
+            <br>
+
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading" data-target="#collapseOne" data-toggle="collapse" data-parent="#accordion">
@@ -106,22 +125,6 @@
                 </div>
 
                 <div id="collapseOne" class="panel-collapse collapse in">
-                  <div id="score">
-                    <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-xs-6 center-block" style="padding-left: 100px;">
-                      <div style="display:inline !important; float:left !important;">
-                        <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
-                      </div>
-                    </div>
-                    <div class="col-xs-6 center-block">
-                      <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
-                      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
-                    </div>
-                  </div>
-
                   <div id="hsc-scroll-table">
                     <table class="table table-striped">
                       <thead>
