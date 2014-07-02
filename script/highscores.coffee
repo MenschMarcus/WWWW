@@ -23,7 +23,6 @@ class WWWW.HighscoreHandler
       trigger: "manual"
 
     $(@_nameButton).click () =>
-      console.log @_nameEmailShown
       unless @_nameEmailShown
         nameEmailDisplay.show()
         $(@_nameButton).popover "show"

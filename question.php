@@ -23,6 +23,7 @@
   <script type="text/javascript" src="build/question.js"></script>
   <script type="text/javascript" src="build/marker.js"></script>
   <script type="text/javascript" src="build/feedback.js"></script>
+  <script type="text/javascript" src="build/mobileKeyboardHandler.js"></script>
 
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
   <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
@@ -41,10 +42,9 @@
     $(document).ready(function($) {
       var theapp = new WWWW.QuestionHandler();
       var feedback = new WWWW.FeedbackHandler();
+      var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
 
       $('#question-progress').css({width:'100%'});
-
-      // load social apis
 
       // google+
       // (function() {

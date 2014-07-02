@@ -30,7 +30,7 @@ class WWWW.QuestionHandler
     @_currentQuestion = null
     @_currentQuestionRating = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 5
+    @_questionsPerRound = 1
     @_maxScore = 1000
     @_maxTimeBonus = 10 # in percent of the achieved score
     @_totalScore = 0
