@@ -94,7 +94,8 @@
                 <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
               </div>
               <div id="answer-info"></div>
-              <div id="rate-question"></div>
+              <br/>
+              Frage bewerten <div id="rate-question"></div>
             </div>
           </div>
 
