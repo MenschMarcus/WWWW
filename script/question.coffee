@@ -29,7 +29,7 @@ class WWWW.QuestionHandler
     @_askedQuestions = []
     @_currentQuestion = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 1
+    @_questionsPerRound = 5
     @_maxScore = 1000
     @_maxTimeBonus = 10 # in percent of the achieved score
     @_totalScore = 0
@@ -173,6 +173,8 @@ class WWWW.QuestionHandler
         $("#results").animate({height: "show", opacity: "show"});
       else
         $("#results").animate({height: "hide", opacity: "hide"});
+
+    $("#rate-question").raty()
 
 
 
