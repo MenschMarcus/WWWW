@@ -126,7 +126,7 @@
                 <div class="panel-heading" data-target="#collapseOne" data-toggle="collapse" data-parent="#accordion">
                   <div id="scroll-table-head" class="panel-title">
                     <a class="accordion-toggle">
-                      <i class="fa fa-trophy"></i> Bestenliste
+                      <i class="fa fa-trophy"></i> Bestenliste ansehen
                     </a>
                   </div>
                 </div>
@@ -193,7 +193,7 @@
                 <div class="panel-heading" data-target="#collapseThree" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
                     <a class="accordion-toggle">
-                      <i class="fa fa-comments"></i> Feedback
+                      <i class="fa fa-comments"></i> Feedback geben
                     </a>
                   </div>
                 </div>
