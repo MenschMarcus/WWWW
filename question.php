@@ -37,6 +37,9 @@
 
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+  <script type="text/javascript">stLight.options({publisher: "ur-14bc1105-dbac-3c4b-e2aa-609a8f8c9a5b", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
+
   <script type="text/javascript">
     window.___gcfg = {lang: 'de'};
     $(document).ready(function($) {
@@ -54,19 +57,18 @@
       // })();
 
       // twitter
-      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      // !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
       // facebook
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.0";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+      // (function(d, s, id) {
+      //   var js, fjs = d.getElementsByTagName(s)[0];
+      //   if (d.getElementById(id)) return;
+      //   js = d.createElement(s); js.id = id;
+      //   js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.0";
+      //   fjs.parentNode.insertBefore(js, fjs);
+      // }(document, 'script', 'facebook-jssdk'));
     });
   </script>
-
 
 </head>
 
@@ -107,17 +109,15 @@
               <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
             </div>
 
-
-            <div class="col-xs-6 center-block" style="padding-left: 100px;">
-              <div style="display:inline !important; float:left !important;">
-                <div class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></div>
-              </div>
-            </div>
-            <div class="col-xs-6 center-block">
-              <!-- <div class="g-plus" data-action="share" data-href="http://waswarwannwo.histoglobe.com/" data-annotation="bubble"></div> -->
+            <div class="social-buttons">
+              <!-- <span class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></span>
+              <span>
               <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+              </span> -->
+              <span st_url="http://waswarwannwo.histoglobe.com/" class='st_facebook_hcount' displayText='Facebook'></span>
+              <span st_url="http://waswarwannwo.histoglobe.com/" class='st_twitter_hcount' displayText='Tweet'></span>
+              <span st_url="http://waswarwannwo.histoglobe.com/" class='st_googleplus_hcount' displayText='Google +'></span>
             </div>
-
 
             <br>
 

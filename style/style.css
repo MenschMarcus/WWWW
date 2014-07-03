@@ -245,3 +245,18 @@ h1 {
 .panel-group {
     margin-bottom: 5px;
 }
+
+.social-buttons {
+    text-align: center;
+    /*vertical-align: bottom;*/
+}
+
+.social-buttons span {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+
+
+
