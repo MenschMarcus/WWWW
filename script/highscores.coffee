@@ -65,6 +65,16 @@ class WWWW.HighscoreHandler
         # nameEmailDisplay.hide()
         $(@_nameButton).popover "hide"
 
+    $("#scroll-table-head").click ()=>
+      window.setTimeout () =>
+        offset = $(@_nameButton).offset().top
+        parent = $('#hsc-scroll-table').offset().top
+        parent_top = $('#hsc-scroll-table').scrollTop()
+        scroll = offset - parent + parent_top
+
+        if offset isnt 0
+          $('#hsc-scroll-table').animate({scrollTop:scroll - 100}, 1500)
+      , 500
 
   update: (currentScore)=>
     $("body").append @_nameButton
@@ -91,16 +101,6 @@ class WWWW.HighscoreHandler
         @_postRow i + 1, score_obj.nickname, score_obj.score
 
       $(@_nameButton).show()
-      window.setTimeout () =>
-        offset = $(@_nameButton).offset().top
-        parent = $('#hsc-scroll-table').offset().top
-        parent_top = $('#hsc-scroll-table').scrollTop()
-        scroll = offset - parent + parent_top
-
-        if offset isnt 0
-          $('#hsc-scroll-table').animate({scrollTop:scroll - 100}, 1500)
-      , 1500
-
 
 
   _postRow: (rank, name, score) ->
