@@ -6,6 +6,7 @@
     width: 800px;
     height: 600px;
     position: relative;
+    margin-left: 170px;
   }
   path.slice{
     stroke-width:2px;
@@ -23,6 +24,11 @@
   }
 
   h1 {
+    text-align: center;
+    color: #555;
+  }
+
+  h2 {
     text-align: center;
     color: #555;
   }
@@ -70,7 +76,7 @@
 
   function updateData(){
     var send = {
-      query: "SELECT COUNT(`id`), `group_name` FROM question_content_contest GROUP BY group_name;"
+      query: "SELECT COUNT(`id`), `id`, `group_name`, `text` FROM question_content_contest GROUP BY group_name;"
     };
 
 
@@ -80,6 +86,8 @@
         var oldLen = data.length
         data = []
         var newLen = obj.length;
+        var currentQuestionText = "";
+        var maxID = 0;
 
         for (var i=0; i<newLen; i++) {
           var col = null;
@@ -96,7 +104,15 @@
             value: parseInt(obj[i]["COUNT(`id`)"]),
             color: "rgb(" + col.r + "," + col.g + "," + col.b + ")"
           }
+
+          if(obj[i].id > maxID) {
+            maxID = obj[i].id;
+            currentQuestionText = obj[i].text;
+          }
         }
+
+        lastQuestion = document.getElementById("last-question")
+        lastQuestion.innerHTML = currentQuestionText;
 
         data.map(
           function(d) {
@@ -123,10 +139,13 @@
   window.setInterval(
     function() {
       updateData();
-    }, 5000
+    }, 2000
 
   );
 
 </script>
+
+<h1> Letzte Frage: </h1>
+<h2 id="last-question"></h2>
 
 </body>
