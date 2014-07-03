@@ -124,7 +124,7 @@
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading" data-target="#collapseOne" data-toggle="collapse" data-parent="#accordion">
-                  <div class="panel-title">
+                  <div id="scroll-table-head" class="panel-title">
                     <a class="accordion-toggle">
                       <i class="fa fa-trophy"></i> Bestenliste
                     </a>
