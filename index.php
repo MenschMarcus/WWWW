@@ -12,9 +12,9 @@
 
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/site.min.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootflat.min.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
 

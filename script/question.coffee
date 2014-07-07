@@ -65,6 +65,24 @@ class WWWW.QuestionHandler
     tiles.addTo @_map
     @_map.attributionControl.setPrefix ''
 
+    icon = L.icon
+      iconUrl: 'img/marker_map.png',
+      iconRetinaUrl: 'img/marker_map.png',
+      iconSize: [80, 100],
+      iconAnchor: [40, 94],
+      shadowUrl: 'img/shadow.png',
+      shadowRetinaUrl: 'img/shadow.png',
+      shadowSize: [54, 29],
+      shadowAnchor: [27, 20]
+
+
+    @_mapMarker = L.marker(new L.LatLng(47.9, 10), {
+      draggable: true
+      icon: icon
+    })
+    @_mapMarker.addTo @_map
+
+
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
     @_countDownDiv = $('#count-down')
@@ -83,7 +101,7 @@ class WWWW.QuestionHandler
 
     @_browserDetector = new WWWW.BrowserDetector()
 
-    @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
+    # @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
 
 
     @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
@@ -97,7 +115,7 @@ class WWWW.QuestionHandler
 
     @_resetMarkers()
     @_tlMarker.show()
-    @_mapMarker.show()
+    # @_mapMarker.show()
 
     yearDiv = document.createElement "div"
     yearDiv.id = "yearDiv"
@@ -191,17 +209,17 @@ class WWWW.QuestionHandler
       click: (rating, event) =>
         @_currentQuestionRating = rating
 
-
-
     # place map marker on click
-    $(@_mapDiv).on 'click', (event) =>
-      unless @_mapMarker.isLocked()
+    @_map.on 'click', (event) =>
+      if @_mapMarker.dragging.enabled()
+      # unless @_mapMarker.isLocked()
         offset = $(@_mapDiv).offset()
         newPos =
-          x : event.clientX - offset.left
-          y : event.clientY - offset.top
+          x : event.originalEvent.clientX - offset.left
+          y : event.originalEvent.clientY - offset.top
 
-        @_mapMarker.setPosition newPos
+        @_mapMarker.setLatLng event.latlng
+        # @_mapMarker.setPosition newPos
 
     # place timeline marker on click
     $(@_timelineDiv).on 'click', (event) =>
@@ -209,7 +227,7 @@ class WWWW.QuestionHandler
         offset = $(@_timelineDiv).offset()
         newPos =
           x : event.clientX - offset.left
-          y : $(@_timelineDiv).height() - 5
+          y : $(@_timelineDiv).height() - 49
 
         @_tlMarker.setPosition newPos
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
@@ -233,20 +251,23 @@ class WWWW.QuestionHandler
 
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
-    @_mapMarker.lock()
+    # @_mapMarker.lock()
+    @_mapMarker.dragging.disable()
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    tlResultPos.y = $(@_timelineDiv).height() - 5
+    tlResultPos.y = $(@_timelineDiv).height() - 49
     @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
     $("#yearResultDiv").html @_pixelToTime tlResultPos
 
     @_tlMarker.lock()
 
-    answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
+    answerLatLng = @_mapMarker.getLatLng()
+    # answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
-    @_mapMarker.fade()
+    @_mapMarker.opacity = 0.5
+    # @_mapMarker.fade()
     @_tlMarker.fade()
 
     answerTime = @_pixelToTime @_tlMarker.getPosition()
@@ -327,7 +348,8 @@ class WWWW.QuestionHandler
         @_barDiv.addClass 'animate'
         @_barDiv.css "width", "0%"
 
-        @_mapMarker.unfade()
+        @_mapMarker.opacity = 1.0
+        # @_mapMarker.unfade()
         @_tlMarker.unfade()
 
         $("#question-bar").animate({height: "show", opacity: "show"});
@@ -449,6 +471,7 @@ class WWWW.QuestionHandler
           duration: 0.5
           animate: true
 
+        @_mapMarker.setLatLng L.latLng(target_pos.lat, target_pos.lng)
 
         # update timeline
         $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
@@ -457,7 +480,8 @@ class WWWW.QuestionHandler
         $("#round-end-display").animate({height: "hide", opacity: "hide"});
 
         @_mapResultMarker.hide()
-        @_mapMarker.release()
+        @_mapMarker.dragging.enable()
+        # @_mapMarker.release()
 
         @_tlResultMarker.hide()
         @_tlMarker.release()
@@ -551,11 +575,11 @@ class WWWW.QuestionHandler
     return degree * (Math.PI / 180)
 
   _resetMarkers: () ->
-    startPos =
-      x : $(@_mapDiv).width()/2
-      y : $(@_mapDiv).height()/2
-    @_mapMarker.setPosition startPos
+    # startPos =
+    #   x : $(@_mapDiv).width()/2
+    #   y : $(@_mapDiv).height()/2
+    # @_mapMarker.setPosition startPos
     startPos =
       x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 5
+      y : $(@_timelineDiv).height() - 49
     @_tlMarker.setPosition startPos

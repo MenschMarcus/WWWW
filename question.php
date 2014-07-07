@@ -26,9 +26,9 @@
   <script type="text/javascript" src="build/mobileKeyboardHandler.js"></script>
 
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/site.min.css">
+  <link rel="stylesheet" type="text/css" href="style/third-party/bootflat.min.css">
   <link rel="stylesheet" type="text/css" href="script/third-party/raty/jquery.raty.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
@@ -43,9 +43,9 @@
   <script type="text/javascript">
     window.___gcfg = {lang: 'de'};
     $(document).ready(function($) {
+      var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
       var theapp = new WWWW.QuestionHandler();
       var feedback = new WWWW.FeedbackHandler();
-      var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
 
       $('#question-progress').css({width:'100%'});
 
@@ -109,24 +109,21 @@
 
           <div id="round-end-display">
 
-            <div id="score">
-              <h1> Gesamtpunkte: <span id="total-score"></span> </h1>
+            <div id="score" class="well">
+              <h1>Gesamtpunkte: <span id="total-score"></span> </h1>
+              <div class="social-buttons">
+                <!-- <span class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></span>
+                <span>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
+                </span> -->
+                <span st_url="http://waswarwannwo.histoglobe.com/" class='st_facebook_hcount' displayText='Facebook'></span>
+                <span st_url="http://waswarwannwo.histoglobe.com/" class='st_twitter_hcount' displayText='Tweet'></span>
+                <span st_url="http://waswarwannwo.histoglobe.com/" class='st_googleplus_hcount' displayText='Google +'></span>
+              </div>
             </div>
 
-            <div class="social-buttons">
-              <!-- <span class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></span>
-              <span>
-              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
-              </span> -->
-              <span st_url="http://waswarwannwo.histoglobe.com/" class='st_facebook_hcount' displayText='Facebook'></span>
-              <span st_url="http://waswarwannwo.histoglobe.com/" class='st_twitter_hcount' displayText='Tweet'></span>
-              <span st_url="http://waswarwannwo.histoglobe.com/" class='st_googleplus_hcount' displayText='Google +'></span>
-            </div>
-
-            <br>
-
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-default">
+            <div id="accordion" class="panel-group panel-group-lists collapse in">
+              <div class="panel">
                 <div class="panel-heading" data-target="#collapseOne" data-toggle="collapse" data-parent="#accordion">
                   <div id="scroll-table-head" class="panel-title">
                     <a class="accordion-toggle">
@@ -151,7 +148,7 @@
                 </div>
               </div>
 
-              <div class="panel panel-default">
+              <div class="panel">
                 <div class="panel-heading" data-target="#collapseTwo" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
                     <a class="accordion-toggle">
@@ -163,7 +160,7 @@
                 <div id="collapseTwo" class="panel-collapse collapse">
                   <div class="panel-body">
                     <div id="user-question-group" style="margin-bottom:15px;">
-                      <textarea id="user-question" name="user-question" placeholder="Gib hier deine Frage ein!" class="form-control" rows="3"></textarea>
+                      <textarea id="user-question" name="user-question" placeholder="Gib hier eine neue Frage ein! (Wir recherchieren die Antwort für dich!)" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="row">
                       <div class="col-xs-6">
@@ -193,7 +190,7 @@
               </div>
 
 
-              <div class="panel panel-default">
+              <div class="panel">
                 <div class="panel-heading" data-target="#collapseThree" data-toggle="collapse" data-parent="#accordion">
                   <div class="panel-title">
                     <a class="accordion-toggle">
@@ -220,11 +217,11 @@
         <div class="control-bar">
             <div id="question-progress" class="question-progress animate"></div>
             <div id="count-down" class="count-down"></div>
-            <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><span class="glyphicon glyphicon-remove"></span></button>
-            <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><span class="glyphicon glyphicon-ok"></span></div>
-            <div id="next-question" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Nächste Frage!</div>
-            <div id="round-end" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Runde beenden!</div>
-            <div id="next-round" class="btn btn-success answer btn-lg invisible"><span class="glyphicon glyphicon-ok"></span> Neue Runde starten!</div>
+            <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><i class="fa fa-times"></i></button>
+            <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><i class="fa fa-check"></i></div>
+            <div id="next-question" class="btn btn-success answer btn-lg invisible"><i class="fa fa-check"></i> Nächste Frage!</div>
+            <div id="round-end" class="btn btn-success answer btn-lg invisible"><i class="fa fa-check"></i> Runde beenden!</div>
+            <div id="next-round" class="btn btn-success answer btn-lg invisible"><i class="fa fa-check"></i> Neue Runde starten!</div>
         </div>
       </div>
     </div>
