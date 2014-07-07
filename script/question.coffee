@@ -1,6 +1,8 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = false
+WWWW.DRY_RUN = true
+WWWW.TEST_RUN = false
+WWWW.TEST_START_ID = 10
 
 getRandomInt = (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -350,15 +352,35 @@ class WWWW.QuestionHandler
 
         @_countDownTimeout = window.setTimeout updateCountDown, 0
 
-        # search for new question
-        newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
-        while @_askedQuestions.indexOf(newQuestionId) isnt -1
-          newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
+        newQuestionId = WWWW.TEST_START_ID
 
+        if WWWW.TEST_RUN
+
+          @_currentQuestion = null
+
+          if @_askedQuestions.length > 0
+            newQuestionId = @_askedQuestions[@_askedQuestions.length-1]+1
+
+          while @_currentQuestion is null and newQuestionId < 500
+            questions = $.grep @_questions, (e) =>
+              parseInt(e.id) is newQuestionId
+            console.log newQuestionId, questions
+
+            if questions.length > 0
+              @_currentQuestion = questions[0]
+            else
+              newQuestionId += 1
+
+        else
+          # search for new question
+          newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
+          while @_askedQuestions.indexOf(newQuestionId) isnt -1
+            newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
+
+          @_currentQuestion = @_questions[newQuestionId]
 
         # update question
         @_askedQuestions.push newQuestionId
-        @_currentQuestion = @_questions[newQuestionId]
         @_currentMap = @_maps[@_currentQuestion.map_id]
 
         @_currentTimeline = @_timelines[0]
