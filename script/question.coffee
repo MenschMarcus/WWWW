@@ -148,8 +148,8 @@ class WWWW.QuestionHandler
             @_questions = JSON.parse question_string
             for question, i in @_questions
               question.latLng =
-                lat : parseInt(question.lat)
-                lng : parseInt(question.long)
+                lat : parseFloat(question.lat)
+                lng : parseFloat(question.long)
 
             @_totalQuestionCount = @_questions?.length
             if @_questionsPerRound > @_totalQuestionCount
@@ -524,6 +524,7 @@ class WWWW.QuestionHandler
     @_map.containerPointToLatLng(L.point(pos.x, pos.y))
 
   _latLngToPixel: (latLng) =>
+    console.log L.latLng(latLng.lat, latLng.lng)
     @_map.latLngToContainerPoint(L.latLng(latLng.lat, latLng.lng))
 
   _getMeterDistance: (latLng1, latLng2) =>
