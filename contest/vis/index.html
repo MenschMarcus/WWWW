@@ -105,14 +105,12 @@
             color: "rgb(" + col.r + "," + col.g + "," + col.b + ")"
           }
 
-          if(obj[i].id > maxID) {
-            maxID = obj[i].id;
+          currentID = parseInt(obj[i].id);
+          if(currentID > maxID) {
+            maxID = currentID;
             currentQuestionText = obj[i].text;
           }
         }
-
-        lastQuestion = document.getElementById("last-question")
-        lastQuestion.innerHTML = currentQuestionText;
 
         data.map(
           function(d) {
@@ -132,6 +130,35 @@
 
       }, "../execute.php"
     );
+
+
+    var send2 = {
+      query: "SELECT COUNT(`id`) FROM question_content_contest;"
+    };
+
+    WWWW.executePHPFunction("manualSQLQuery", send2,
+      function(response) {
+        var obj = JSON.parse(response);
+        questionCount = document.getElementById("question-count");
+        questionCount.innerHTML = obj[0]["COUNT(`id`)"];
+
+      }, "../execute.php"
+    );
+
+    var send3 = {
+      query: "SELECT `text`, `group_name` FROM question_content_contest WHERE `id`=(SELECT MAX(`id`) FROM question_content_contest);"
+    };
+
+    WWWW.executePHPFunction("manualSQLQuery", send3,
+      function(response) {
+        var obj = JSON.parse(response);
+        lastQuestion = document.getElementById("last-question");
+        groupName = document.getElementById("group-name");
+        lastQuestion.innerHTML = obj[0].text;
+        groupName.innerHTML = obj[0].group_name;
+
+      }, "../execute.php"
+    );
   }
 
   updateData();
@@ -145,7 +172,7 @@
 
 </script>
 
-<h1> Letzte Frage: </h1>
-<h2 id="last-question"></h2>
+<h1> Letzte Frage (von <span id="question-count"></span>): </h1>
+<h2 id="last-question"></h2> (von <span style="text-align:right;" id="group-name"></span>)
 
 </body>
