@@ -66,15 +66,7 @@ class WWWW.HighscoreHandler
         $(@_nameButton).popover "hide"
 
     $("#scroll-table-head").click ()=>
-      window.setTimeout () =>
-        offset = $(@_nameButton).offset().top
-        parent = $('#hsc-scroll-table').offset().top
-        parent_top = $('#hsc-scroll-table').scrollTop()
-        scroll = offset - parent + parent_top
-
-        if offset isnt 0
-          $('#hsc-scroll-table').animate({scrollTop:scroll - 100}, 1500)
-      , 500
+      @_scrollList()
 
   update: (currentScore)=>
     $("body").append @_nameButton
@@ -102,6 +94,9 @@ class WWWW.HighscoreHandler
 
       $(@_nameButton).show()
 
+      if $("#collapseOne").hasClass "in"
+        @_scrollList()
+
 
   _postRow: (rank, name, score) ->
     row = document.createElement "tr"
@@ -119,4 +114,15 @@ class WWWW.HighscoreHandler
     $(scoreCol).html score
 
     $("#highscore-list").append row
+
+  _scrollList: =>
+    window.setTimeout () =>
+      offset = $(@_nameButton).offset().top
+      parent = $('#hsc-scroll-table').offset().top
+      parent_top = $('#hsc-scroll-table').scrollTop()
+      scroll = offset - parent + parent_top
+
+      if offset isnt 0
+        $('#hsc-scroll-table').animate({scrollTop:scroll - 100}, 1500)
+    , 500
 
