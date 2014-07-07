@@ -524,7 +524,6 @@ class WWWW.QuestionHandler
     @_map.containerPointToLatLng(L.point(pos.x, pos.y))
 
   _latLngToPixel: (latLng) =>
-    console.log L.latLng(latLng.lat, latLng.lng)
     @_map.latLngToContainerPoint(L.latLng(latLng.lat, latLng.lng))
 
   _getMeterDistance: (latLng1, latLng2) =>
