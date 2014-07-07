@@ -114,6 +114,11 @@ body {
     border-top: 1px solid #fff;
 }
 
+#question-number-container {
+    color: #aaa;
+    margin: 0px 10px;
+}
+
 #answer-info,
 #question {
     text-align: center;

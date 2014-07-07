@@ -88,8 +88,12 @@
             </div>
           </div>
           <div id="question-bar">
-            <div id="question-number-container" class="text-center">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span>:</div>
             <div id="question"></div>
+            <div id="question-number-container">
+              <span class="text-left">Frage <span id="question-number">1</span>/<span id="questions-per-round">5</span></span>
+              <span class="pull-right"><span id="question-author"></span></span>
+            </div>
+
             <div id="results" class="text-center">
               <div id="score">
                 <h1><span id="answer-total-score"></span></h1>

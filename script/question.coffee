@@ -1,8 +1,8 @@
 window.WWWW ?= {}
 
 WWWW.DRY_RUN = true
-WWWW.TEST_RUN = false
-WWWW.TEST_START_ID = 10
+WWWW.TEST_RUN = true
+WWWW.TEST_START_ID = 0
 
 getRandomInt = (min, max) ->
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -403,6 +403,11 @@ class WWWW.QuestionHandler
         $('#question-number').html @_questionCount
         $('#questions-per-round').html @_questionsPerRound
 
+        if @_currentQuestion.author isnt ""
+          $('#question-author').html "Frage von: " + @_currentQuestion.author
+        else
+          $('#question-author').html ""
+
         # calculate random viewport
         pos = @_latLngToPixel
           lat: @_currentQuestion.latLng.lat
@@ -445,10 +450,8 @@ class WWWW.QuestionHandler
           animate: true
 
 
-
         # update timeline
         $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
-
 
         # hide old result and update result markers
         $("#round-end-display").animate({height: "hide", opacity: "hide"});
