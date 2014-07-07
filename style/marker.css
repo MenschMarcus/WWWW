@@ -26,6 +26,7 @@
 .marker-time {
   width: 80px;
   height: 100px;
+  opacity: 0.9; /* NEW */
 }
 
 .marker-time-answer {

@@ -80,7 +80,9 @@
         <div class="map-area">
           <div class="map" id="map"></div>
         </div>
-        <div class="timeline" id="timeline"></div>
+        <div class="timeline-area" id="timeline-area"">
+          <div class="timeline" id="timeline"></div>
+        </div>
         <div class="question-bar">
           <div id="hide-question-bar">
             <div id="hide-question-bar-inner">
