@@ -4,6 +4,7 @@ html {
 
 body {
     background-image: url("../img/bg.png");
+    height: 100%;
 }
 
 .phone-outer {
@@ -201,15 +202,16 @@ body {
 #link-imprint {
     color: #BBBBBB;
     position: absolute;
-    right: 0;
+    right: 10px;
     bottom: 0;
-    margin-bottom: -30px;
+    /*margin-bottom: -30px;*/
     font-size: 0.8em;
 }
 
 h3 {
     margin-top: 10px;
     margin-bottom: 30px;
+    font-size: 2em;
 }
 
 #imprint {

@@ -33,18 +33,18 @@
 </head>
 <body>
   <div class="phone-outer">
-    <div class="phone-inner title-image">
+    <div class="phone-inner">
       <div id="instructions">
         <p class="text-center" style="margin-top:10%"><img src="img/marker_map.png" /></p>
-        <div class="text-center well">
+        <div class="text-center" style="padding:10px;" >
           <h3>Platziere beide Marker an die richtigen Stellen auf der Zeitleiste und der Karte!</h3>
-          <p><a href="question.php" type="button" style="padding:50px 10px;" class="btn btn-success btn-lg btn-block">Spiel starten!</a></p>
+          <p><a href="question.php" type="button" style="padding:30px 10px;" class="btn btn-success btn-lg btn-block">Spiel starten!</a></p>
         </div>
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
-    </div>
-    <div id="link-imprint">
-      <p>&copy; HistoGlobe GbR 2014 - <a href="imprint.php">Impressum</a></p>
+      <div id="link-imprint">
+        <p>&copy; HistoGlobe GbR 2014 - <a href="imprint.php">Impressum</a></p>
+      </div>
     </div>
   </div>
 
