@@ -227,7 +227,7 @@ class WWWW.QuestionHandler
         offset = $(@_timelineDiv).offset()
         newPos =
           x : event.clientX - offset.left
-          y : $(@_timelineDiv).height() - 49
+          y : $(@_timelineDiv).height() - 51
 
         @_tlMarker.setPosition newPos
         $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
@@ -255,7 +255,7 @@ class WWWW.QuestionHandler
     @_mapMarker.dragging.disable()
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    tlResultPos.y = $(@_timelineDiv).height() - 49
+    tlResultPos.y = $(@_timelineDiv).height() - 51
     @_tlResultMarker.setPosition tlResultPos
     @_tlResultMarker.show()
     $("#yearResultDiv").html @_pixelToTime tlResultPos
@@ -425,7 +425,7 @@ class WWWW.QuestionHandler
         $('#question-number').html @_questionCount
         $('#questions-per-round').html @_questionsPerRound
 
-        if @_currentQuestion.author isnt ""
+        if @_currentQuestion.author? and @_currentQuestion.author isnt ""
           $('#question-author').html "Frage von: " + @_currentQuestion.author
         else
           $('#question-author').html ""
@@ -581,5 +581,5 @@ class WWWW.QuestionHandler
     # @_mapMarker.setPosition startPos
     startPos =
       x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 49
+      y : $(@_timelineDiv).height() - 51
     @_tlMarker.setPosition startPos
