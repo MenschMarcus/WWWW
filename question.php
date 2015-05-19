@@ -105,10 +105,8 @@
             </div>
             <div class="timeline" id="timeline"></div>
             <div id="abort"><img src="img/cross.svg" /></div>
-            <div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div>
-            <div id="next-question" class="link invisible"><img src="img/check.svg" /> Nächste Frage!</div>
+            <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div></div>
             <div id="round-end" class="link invisible"><i class="fa fa-check"></i> Runde beenden!</div>
-            <div id="next-round" class="link invisible"><i class="fa fa-check"></i> Neue Runde starten!</div>
             <div id="results" class="text-center">
               <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
               <div id="answer-info"></div>
@@ -116,6 +114,9 @@
                 <div id="answer-total-score"></div>
                 <div id="answer-total-score-label"></div>
                 <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+                <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
+                <div id="abort2"><img src="img/cross.svg" /></div>
+                <div id="next-round" class="link invisible"><i class="fa fa-check"></i> Neue Runde starten!</div>
               </div>
               <!-- <br/>
               Wie hat dir die Frage gefallen? <div id="rate-question"></div> -->
