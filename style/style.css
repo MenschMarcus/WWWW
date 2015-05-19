@@ -7,6 +7,7 @@ body {
     height: 100%;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    margin: 0;
 }
 
 p {
@@ -105,15 +106,15 @@ p {
 
 #logo {
     width: 100px;
-    margin: 100px 0;
+    margin: 70px 0;
 }
 
 #histoglobe {
     margin: 80px 0;
 }
 
-/* #### Desktops #### */
-/*@media screen and (max-width: 420px) {
+/* #### Mobile #### */
+@media screen and (max-width: 520px) {
     body {
         font-size: 1.1em;
     }
@@ -128,39 +129,78 @@ p {
         border-radius: 00px;
         padding: 0px;
     }
-}*/
+}
 
 
 /* #### Bottom Controls #### */
 
-#abort {
+#abort,
+#abort2 {
+    position: absolute;
     border: 2px #fff solid;
     border-radius: 50%;
-    position: absolute;
     left: 20px;
     bottom: 30px;
-    padding: 15px;
+    padding: 10px;
     text-align: center;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+}
+
+#abort2 {
+    border: 2px #ba4848 solid;
+    left: 75px;
+    bottom: 60px;
+    padding: 0px;
+    text-align: center;
+    width: 80px;
+    height: 80px;
 }
 
 #abort img {
-    width: 35px;
+    margin-top: 2px;
+    width: 25px;
+}
+
+#abort2 img {
+    margin-top: 16px;
+    width: 45px;
+}
+
+#submit-answer-outer {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
 }
 
 #submit-answer {
+    position: relative;
+    margin-left: -40px;
     border-radius: 50%;
     background-color: #28aa7a;
+    text-align: center;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-    width: 50px;
-    height: 50px;
-    padding: 10px;
+    width: 80px;
+    height: 80px;
 }
 
-#submit-answer:hover {
+#submit-answer img {
+    margin-top: 20px;
+}
+
+#next-question {
+    position: absolute;
+    right: 75px;
+    bottom: 60px;
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    background-color: #28aa7a;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+}
+
+#next-question img {
+    margin-top: 20px;
 }
 
 /* #### Question Bar #### */
@@ -181,7 +221,7 @@ p {
 
 #question {
     text-align: center;
-    font-size: 1.3em;
+    font-size: 1.5em;
     color: #333;
     padding: 0 10px 25px 10px;
 }
