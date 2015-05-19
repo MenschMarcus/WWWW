@@ -71,7 +71,7 @@ class WWWW.QuestionHandler
 
     @_map.setView([51.505, -0.09], @_startZoom)
     # tiles = L.tileLayer "tiles/{z}/{x}/{y}.png"
-    tiles = L.tileLayer "http://waswarwannwo.histoglobe.com/tiles_02/{z}/{x}/{y}.png"
+    tiles = L.tileLayer "img/tiles/{z}/{x}/{y}.png"
     tiles.addTo @_map
     @_map.attributionControl.setPrefix ''
 

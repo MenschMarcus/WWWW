@@ -41,6 +41,9 @@
           <br>
           <p><a class="btn block primary" href="question.php">Spiel starten</a></p>
         </div>
+        <div class="text-center">
+          <img id="histoglobe" src="img/histoglobe.png" />
+        </div>
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
       <div id="link-imprint">
