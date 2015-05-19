@@ -1,12 +1,12 @@
 #map-zoom-control {
-  top: 60px;
+  top: 205px;
   left: 55px;
   position: absolute;
 }
 
 
 #map-zoom-slider {
-  height: 400px;
+  height: 270px;
   width: 10px;
 }
 

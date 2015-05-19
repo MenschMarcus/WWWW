@@ -13,8 +13,21 @@ p {
     margin: 10px 0;
 }
 
+#main-layout {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.layout-row {
+    display: table-row;
+}
+
+.layout-row.shrink {
+    height: 0;
+}
+
 .phone-outer {
-    position: relative;
     background-color: #000;
 
     width:430px;
@@ -26,7 +39,6 @@ p {
 }
 
 .phone-inner {
-    position: relative;
     background-color: #3b434e;
     color: #fff;
     height: 100%;
@@ -88,7 +100,7 @@ p {
 }
 
 /* #### Desktops #### */
-@media screen and (max-width: 420px) {
+/*@media screen and (max-width: 420px) {
     body {
         font-size: 1.1em;
     }
@@ -103,36 +115,17 @@ p {
         border-radius: 00px;
         padding: 0px;
     }
-}
+}*/
 
+
+/* #### Bottom Controls #### */
 
 .control-bar {
     position: absolute;
-    height: 60px;
     bottom: 0px;
+    height: 60px;
     width: 100%;
-    background-color: #222;
-    font-size: 1.2em;
     z-index: 3;
-}
-
-.control-bar
-.question-progress {
-    position: absolute;
-    bottom: 0px;
-    /*margin: -5px;*/
-    width: 100%;
-    height: 60px;
-    background: rgba(80, 80, 80, 1);
-    -webkit-transform: translate3d(0px, 0px, 0px);
-}
-
-.control-bar
-.question-progress.animate {
-    -webkit-transition: width 30.0s linear !important;
-       -moz-transition: width 30.0s linear !important;
-         -o-transition: width 30.0s linear !important;
-            transition: width 30.0s linear !important;
 }
 
 .control-bar
@@ -157,20 +150,19 @@ p {
     top: 8px;
 }
 
+/* #### Question Bar #### */
+
 .question-bar {
-    position: absolute;
-    bottom: 60px;
+    display: table-cell;
+    position: relative;
     width: 100%;
-    background-color: rgb(241, 242, 246);
-    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
-    padding: 10px;
+    background-color: #fff;
     z-index: 2;
     color: rgba(0, 0, 0, 0.5);
-    font-size: 1.1em;
-    border-top: 3px solid #777;
 }
 
 #question-number-container {
+    padding: 10px;
     color: #aaa;
 }
 
@@ -179,30 +171,7 @@ p {
     text-align: center;
     font-size: 1.3em;
     color: #333;
-}
-
-#hide-question-bar {
-    position: absolute;
-    left: 50%;
-    display: none;
-    top: -45px;
-}
-#hide-question-bar-inner {
-    position: relative;
-    left: -50%;
-    cursor: pointer;
-    font-size: 2em;
-    width: 50px;
-    height: 45px;
-    margin: 0 auto;
-    background-color: rgb(241, 242, 246);
-    border-radius: 20px 20px 0 0;
-    text-align: center;
-    color: #777;
-
-    border-top: 3px solid #777;
-    border-right: 3px solid #777;
-    border-left: 3px solid #777;
+    padding: 0 10px 25px 10px;
 }
 
 #score {
@@ -211,30 +180,47 @@ p {
     text-align: center;
 }
 
+.question-progress-background {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 9px;
+    background: #29a87b;
+}
+
+.question-progress {
+    position: absolute;
+    bottom: 0px;
+    width: 0%;
+    height: 9px;
+    background: #be4a4a;
+}
+
+.question-progress.animate {
+    -webkit-transition: width 30.0s linear !important;
+       -moz-transition: width 30.0s linear !important;
+         -o-transition: width 30.0s linear !important;
+            transition: width 30.0s linear !important;
+}
+
 .map-area {
-    /*position: relative;*/
-    /*top: 0px;*/
-    /*height: 100%;*/
-    /*padding-bottom: 60px;*/
+    position: relative;
+    display: table-cell;
 }
 
 .map {
     cursor: pointer !important;
-    /*height: 100%;*/
+    height: 100% !important;
 }
 
 .timeline {
-    top: 0px;
-    height: 45px;
+    top: 0;
+    height: 180px;
     width: 100%;
     position: absolute;
+    box-shadow: 0 0 40px #000, 0 0 40px #000;
 
-    background-color: white;
-    background-size: 100% auto;
-    background-position: 0 0px;
-    background-repeat: no-repeat;
-
-    border-bottom: 3px solid #777;
+    background-color: rgba(53, 61, 72, 0.9);
 }
 
 .start {
@@ -242,17 +228,6 @@ p {
     top: 50px;
 }
 
-.title-image {
-    /*background-image: url("../img/title.jpg");*/
-    background-size: cover;
-}
-
-.well {
-    background-color: white;
-    background-image: none;
-    border: none;
-    color: #444;
-}
 
 #link-imprint {
     color: #BBBBBB;
@@ -266,29 +241,9 @@ p {
     color: #BBBBBB;
 }
 
-h3 {
-    margin-top: 10px;
-    margin-bottom: 30px;
-    font-size: 2em;
-}
-
 #imprint {
     color: #BBBBBB;
     margin: 5px 5px 5px 5px;
-}
-
-.panel > .panel-heading {
-    cursor: pointer;
-}
-
-
-h1 {
-    font-size: 30px;
-    margin-top: 10px;
-}
-
-.panel-group {
-    margin-bottom: 5px;
 }
 
 .social-buttons {
