@@ -12,7 +12,7 @@
 
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
 
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>  <link rel="stylesheet" type="text/css" href="style/style.css" />
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>  <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
 
   <script type="text/javascript">
@@ -43,7 +43,7 @@
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
       <div id="link-imprint">
-        <p>&copy; HistoGlobe GbR 2014 - <a href="imprint.php">Impressum</a></p>
+        <p>&copy; HistoGlobe GbR 2014 - 2015 - <a href="imprint.php">Impressum</a></p>
       </div>
   </div>
 </body>

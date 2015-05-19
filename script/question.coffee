@@ -40,7 +40,7 @@ class WWWW.QuestionHandler
     @_questionCount = 1
     @_session_id = null
 
-    @_highscoreHandler = new WWWW.HighscoreHandler()
+    # @_highscoreHandler = new WWWW.HighscoreHandler()
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
@@ -507,7 +507,7 @@ class WWWW.QuestionHandler
     $("#round-end").addClass("invisible");
     $("#next-round").removeClass("invisible");
 
-    @_highscoreHandler.update @_totalScore
+    # @_highscoreHandler.update @_totalScore
 
     @_totalScore = 0
     @_roundCount++
