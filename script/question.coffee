@@ -39,8 +39,8 @@ class WWWW.QuestionHandler
     @_roundCount = 1
     @_questionCount = 1
     @_session_id = null
-    @_minZoom = 0
-    @_maxZoom = 4
+    @_minZoom = 1
+    @_maxZoom = 5
     @_startZoom = 3
 
     # @_highscoreHandler = new WWWW.HighscoreHandler()
