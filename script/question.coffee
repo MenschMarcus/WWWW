@@ -41,6 +41,7 @@ class WWWW.QuestionHandler
     @_session_id = null
     @_minZoom = 0
     @_maxZoom = 4
+    @_startZoom = 3
 
     # @_highscoreHandler = new WWWW.HighscoreHandler()
 
@@ -61,8 +62,14 @@ class WWWW.QuestionHandler
       boxZoom: false
       keyboard: false
 
+    @_dontUpdateZoomHandle = false
+    @_map.on "zoomend", () =>
+      unless @_dontUpdateZoomHandle
+        @_updateZoomHandle @_map.getZoom()
+      @_dontUpdateZoomHandle = false
 
-    @_map.setView([51.505, -0.09], 3)
+
+    @_map.setView([51.505, -0.09], @_startZoom)
     # tiles = L.tileLayer "tiles/{z}/{x}/{y}.png"
     tiles = L.tileLayer "img/tiles/{z}/{x}/{y}.png"
     tiles.addTo @_map
@@ -93,19 +100,21 @@ class WWWW.QuestionHandler
         height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
         offset = $("#map-zoom-handle-outer").offset().top - $("#map-zoom-slider").offset().top
 
+        $("#map-zoom-handle-outer").removeClass "animate"
         relativeOffset = 1.0 - offset / height
         currentZoom = Math.floor relativeOffset * (@_maxZoom - @_minZoom)
+        @_dontUpdateZoomHandle = true
         @_map.setZoom currentZoom
 
-    $("#map-zoom-handle-outer").offset
-      top: 500
-
+    @_updateZoomHandle @_startZoom
 
     $("#map-zoom-plus").click () =>
       @_map.zoomIn()
+      @_updateZoomHandle Math.min(@_map.getZoom() + 1, @_maxZoom)
 
     $("#map-zoom-minus").click () =>
       @_map.zoomOut()
+      @_updateZoomHandle Math.max(@_map.getZoom() - 1, @_minZoom)
 
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
@@ -574,3 +583,15 @@ class WWWW.QuestionHandler
       x : $(@_timelineDiv).width()/2
       y : $(@_timelineDiv).height() - 51
     @_tlMarker.setPosition startPos
+
+  _updateZoomHandle: (zoom) =>
+
+    height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
+    relativeZoom = 1.0 - zoom / (@_maxZoom - @_minZoom)
+    relativePos = relativeZoom * height
+
+    $("#map-zoom-handle-outer").addClass "animate"
+
+    $("#map-zoom-handle-outer").offset
+      top: relativePos + $("#map-zoom-slider").offset().top
+
