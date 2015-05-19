@@ -13,9 +13,6 @@
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
   <script type="text/javascript" src="build/executePHPFunction.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-social.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-theme.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
   <link rel="stylesheet" type="text/css" href="style/statistics.css" />

@@ -26,9 +26,6 @@
   <script type="text/javascript" src="build/mobileKeyboardHandler.js"></script>
 
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/site.min.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootflat.min.css">
   <link rel="stylesheet" type="text/css" href="script/third-party/raty/jquery.raty.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
@@ -36,6 +33,7 @@
   <link rel="stylesheet" type="text/css" href="style/highscores.css" />
   <link rel="stylesheet" type="text/css" href="style/zoom_control.css" />
 
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>  <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
@@ -114,15 +112,12 @@
             </div>
           </div>
 
+          <!--
           <div id="round-end-display">
 
             <div id="score" class="well">
               <h1>Gesamtpunkte: <span id="total-score"></span> </h1>
               <div class="social-buttons">
-                <!-- <span class="fb-share-button" data-href="http://waswarwannwo.histoglobe.com/" data-type="button_count"></span>
-                <span>
-                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://waswarwannwo.histoglobe.com">Twittern</a>
-                </span> -->
                 <span st_url="http://waswarwannwo.histoglobe.com/" class='st_facebook_hcount' displayText='Facebook'></span>
                 <span st_url="http://waswarwannwo.histoglobe.com/" class='st_twitter_hcount' displayText='Tweet'></span>
                 <span st_url="http://waswarwannwo.histoglobe.com/" class='st_googleplus_hcount' displayText='Google +'></span>
@@ -171,21 +166,10 @@
                     </div>
                     <div class="row">
                       <div class="col-xs-6">
-                        <!-- <div id="user-question-location-group" class="form-group floating-label-form-group">
-                          <input id="user-question-location" class="form-control" type="text" name="user-question-location" placeholder="Antwort Ort">
-                        </div> -->
                         <div id="user-question-name-group" class="form-group floating-label-form-group">
                           <input id="user-question-name" class="form-control" type="text" name="user-question-name" placeholder="Dein Name">
                         </div>
                       </div>
-                      <!-- <div class="col-xs-6">
-                        <div id="user-question-year-group" class="form-group floating-label-form-group">
-                          <input id="user-question-year" class="form-control" type="text" name="user-question-year" placeholder="Antwort Jahr">
-                        </div>
-                        <div id="user-question-email-group" class="form-group floating-label-form-group">
-                          <input id="user-question-email" class="form-control" type="text" name="user-question-email" placeholder="Deine Email-Adresse">
-                        </div>
-                      </div> -->
                     </div>
 
                     <div id="user-question-answer" class="feedback-answer"> Vielen Dank für deine Frage!</div>
@@ -232,8 +216,10 @@
         </div>
       </div>
     </div>
+    -->
 
     <!-- Abort dialog -->
+    <!--
     <div id="abort-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -251,7 +237,9 @@
         </div>
       </div>
     </div>
+    -->
 
+    <!--
     <div id="name-email-display" >
       <div id="name-group" class="form-group col-xs-12 floating-label-form-group">
         <label class="control-label" for="name">Name</label>
@@ -266,8 +254,8 @@
         <button id="submit-name-email" type="submit_button" class="btn btn-success">Los!</button>
       </div>
     </div>
+    -->
 
-    <script src="script/third-party/bootstrap.min.js"></script>
 </body>
 
 </html>
