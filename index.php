@@ -12,7 +12,8 @@
 
   <script type="text/javascript" src="build/BrowserDetector.js"></script>
 
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>  <link rel="stylesheet" type="text/css" href="style/style.css" />
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
 
   <script type="text/javascript">

@@ -85,14 +85,11 @@ class WWWW.QuestionHandler
 
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
-    @_countDownDiv = $('#count-down')
 
     @_timePerQuestion = 30 #in seconds
-    @_remainingTime = 0 #in seconds
 
     @_questionAnswered = false
     @_questionTimeout = null
-    @_countDownTimeout = null
 
     @_currentAnswer = new WWWW.Answer()
 
@@ -192,16 +189,6 @@ class WWWW.QuestionHandler
       @submitRating()
       @roundEnd()
 
-    $('#hide-question-bar').on 'click', () =>
-      if $("#results").css("display") is "none"
-        $("#results").animate({height: "show", opacity: "show"});
-        $("#question").animate({height: "hide", opacity: "hide"});
-        $("#question-number-container").animate({height: "hide", opacity: "hide"});
-      else
-        $("#results").animate({height: "hide", opacity: "hide"});
-        $("#question").animate({height: "show", opacity: "show"});
-        $("#question-number-container").animate({height: "show", opacity: "show"});
-
     $("#rate-question").raty
       starType: "i"
       hints: ["","","","",""]
@@ -237,10 +224,9 @@ class WWWW.QuestionHandler
   questionAnswered: =>
     unless @_questionAnswered
       @_barDiv.removeClass 'animate'
-      @_barDiv.css "width", "100%"
+      @_barDiv.css "width", "0%"
 
       window.clearTimeout @_questionTimeout
-      window.clearTimeout @_countDownTimeout
 
       @_questionAnswered = true
       @_currentAnswer.end_time = (new Date()).getTime()
@@ -327,9 +313,7 @@ class WWWW.QuestionHandler
       @_currentQuestionRating = null
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
-      @_countDownDiv.text('');
       $("#results").animate({height: "show", opacity: "show"});
-      $("#hide-question-bar").animate({opacity: "show"});
       $("#question").animate({height: "hide", opacity: "hide"});
       $("#question-number-container").animate({height: "hide", opacity: "hide"});
 
@@ -346,7 +330,7 @@ class WWWW.QuestionHandler
 
         # reset loading bar
         @_barDiv.addClass 'animate'
-        @_barDiv.css "width", "0%"
+        @_barDiv.css "width", "100%"
 
         @_mapMarker.opacity = 1.0
         # @_mapMarker.unfade()
@@ -354,7 +338,6 @@ class WWWW.QuestionHandler
 
         $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
-        $("#hide-question-bar").animate({opacity: "hide"});
         $("#question").animate({height: "show", opacity: "show"});
         $("#question-number-container").animate({height: "show", opacity: "show"});
 
@@ -363,16 +346,6 @@ class WWWW.QuestionHandler
         $("#round-end").addClass("invisible");
         $("#submit-answer").removeClass("invisible");
         $("#submit-answer").removeClass("disabled");
-
-
-        @_remainingTime = @_timePerQuestion
-
-        updateCountDown = () =>
-          if @_remainingTime--
-            @_countDownDiv.text(@_remainingTime + ' Sekunden verbleibend');
-            @_countDownTimeout =  window.setTimeout updateCountDown, 1000
-
-        @_countDownTimeout = window.setTimeout updateCountDown, 0
 
         newQuestionId = WWWW.TEST_START_ID
 
@@ -502,7 +475,6 @@ class WWWW.QuestionHandler
     $("#results").animate({height: "hide", opacity: "hide"});
     $("#question-bar").animate({height: "hide", opacity: "hide"});
     $("#round-end-display").animate({height: "show", opacity: "show"});
-    $("#hide-question-bar").animate({opacity: "hide"});
 
     $("#round-end").addClass("invisible");
     $("#next-round").removeClass("invisible");
