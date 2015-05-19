@@ -26,9 +26,6 @@
   <script type="text/javascript" src="build/mobileKeyboardHandler.js"></script>
 
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/site.min.css">
-  <link rel="stylesheet" type="text/css" href="style/third-party/bootflat.min.css">
   <link rel="stylesheet" type="text/css" href="script/third-party/raty/jquery.raty.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
