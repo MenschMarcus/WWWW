@@ -116,6 +116,21 @@ class WWWW.QuestionHandler
       @_map.zoomOut()
       @_updateZoomHandle Math.max(@_map.getZoom() - 1, @_minZoom)
 
+
+    $("#tl-zoom-handle-outer").draggable
+      addClasses: false
+      axis: "x"
+      containment: "parent"
+      # drag: (event)=>
+      #   height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
+      #   offset = $("#map-zoom-handle-outer").offset().top - $("#map-zoom-slider").offset().top
+
+      #   $("#map-zoom-handle-outer").removeClass "animate"
+      #   relativeOffset = 1.0 - offset / height
+      #   currentZoom = Math.floor relativeOffset * (@_maxZoom - @_minZoom)
+      #   @_dontUpdateZoomHandle = true
+      #   @_map.setZoom currentZoom
+
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 

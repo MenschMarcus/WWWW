@@ -105,16 +105,27 @@
           <div class="map-area">
             <div class="map" id="map"></div>
             <div id="map-zoom-control">
-              <img src="img/plus.svg" id="map-zoom-plus"></img>
+              <img id="map-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
               <div id="map-zoom-slider">
                 <div id="map-zoom-line"></div>
                 <div id="map-zoom-handle-outer">
                   <div id="map-zoom-handle-inner"></div>
                 </div>
               </div>
-              <img src="img/minus.svg" id="map-zoom-minus"></img>
+              <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
             </div>
-            <div class="timeline" id="timeline"></div>
+            <div class="timeline" id="timeline">
+              <div id="tl-zoom-control">
+                <img id="tl-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
+                <div id="tl-zoom-slider">
+                  <div id="tl-zoom-line"></div>
+                  <div id="tl-zoom-handle-outer">
+                    <div id="tl-zoom-handle-inner"></div>
+                  </div>
+                </div>
+                <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
+              </div>
+            </div>
             <div class="control-bar">
               <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><i class="fa fa-times"></i></button>
               <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><i class="fa fa-check"></i></div>
