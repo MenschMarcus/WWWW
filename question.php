@@ -34,6 +34,7 @@
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
   <link rel="stylesheet" type="text/css" href="style/highscores.css" />
+  <link rel="stylesheet" type="text/css" href="style/zoom_control.css" />
 
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -79,6 +80,12 @@
       <div class="phone-inner">
         <div class="map-area">
           <div class="map" id="map"></div>
+        </div>
+        <div id="map-zoom-control">
+          <div id="map-zoom-slider">
+            <div id="map-zoom-line"></div>
+            <div id="map-zoom-handle"></div>
+          </div>
         </div>
         <div class="timeline" id="timeline"></div>
         <div class="question-bar">

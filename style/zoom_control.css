@@ -1,0 +1,27 @@
+#map-zoom-slider {
+  height: 400px;
+  width: 10px;
+  top: 50px;
+  left: 55px;
+  position: absolute;
+}
+
+#map-zoom-line {
+  background-color: #272e38;
+  width: 2px;
+  height: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#map-zoom-handle {
+  background-color: #3e4756;
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  border-color: #5dc3d1;
+  border-width: 2px;
+  border-style: solid;
+  margin-left: -10px;
+  top: -100px;
+}

@@ -51,10 +51,10 @@ class WWWW.QuestionHandler
     @_map = L.map 'map',
       maxZoom: 4
       zoomControl: false
-      dragging: false
-      touchZoom: false
-      scrollWheelZoom: false
-      doubleClickZoom: false
+      dragging: true
+      touchZoom: true
+      scrollWheelZoom: true
+      doubleClickZoom: true
       boxZoom: false
       keyboard: false
 
@@ -82,12 +82,16 @@ class WWWW.QuestionHandler
     })
     @_mapMarker.addTo @_map
 
+    $("#map-zoom-handle").draggable
+      addClasses: false
+      axis: "y"
+      containment: "parent"
 
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
     @_countDownDiv = $('#count-down')
 
-    @_timePerQuestion = 30 #in seconds
+    @_timePerQuestion = 300 #in seconds
     @_remainingTime = 0 #in seconds
 
     @_questionAnswered = false
