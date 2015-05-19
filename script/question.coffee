@@ -39,6 +39,8 @@ class WWWW.QuestionHandler
     @_roundCount = 1
     @_questionCount = 1
     @_session_id = null
+    @_minZoom = 0
+    @_maxZoom = 4
 
     # @_highscoreHandler = new WWWW.HighscoreHandler()
 
@@ -49,7 +51,8 @@ class WWWW.QuestionHandler
 
     @_mapDiv = document.getElementById("map")
     @_map = L.map 'map',
-      maxZoom: 4
+      minZoom: @_minZoom
+      maxZoom: @_maxZoom
       zoomControl: false
       dragging: true
       touchZoom: true
@@ -82,10 +85,27 @@ class WWWW.QuestionHandler
     })
     @_mapMarker.addTo @_map
 
-    $("#map-zoom-handle").draggable
+    $("#map-zoom-handle-outer").draggable
       addClasses: false
       axis: "y"
       containment: "parent"
+      drag: (event)=>
+        height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
+        offset = $("#map-zoom-handle-outer").offset().top - $("#map-zoom-slider").offset().top
+
+        relativeOffset = 1.0 - offset / height
+        currentZoom = Math.floor relativeOffset * (@_maxZoom - @_minZoom)
+        @_map.setZoom currentZoom
+
+    $("#map-zoom-handle-outer").offset
+      top: 50
+
+
+    $("#map-zoom-plus").click () =>
+      @_map.zoomIn()
+
+    $("#map-zoom-minus").click () =>
+      @_map.zoomOut()
 
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')

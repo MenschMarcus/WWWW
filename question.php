@@ -78,11 +78,15 @@
       <div class="phone-inner">
         <div class="map-area">
           <div class="map" id="map"></div>
-        </div>
-        <div id="map-zoom-control">
-          <div id="map-zoom-slider">
-            <div id="map-zoom-line"></div>
-            <div id="map-zoom-handle"></div>
+          <div id="map-zoom-control">
+            <img src="img/plus.svg" id="map-zoom-plus"></img>
+            <div id="map-zoom-slider">
+              <div id="map-zoom-line"></div>
+              <div id="map-zoom-handle-outer">
+                <div id="map-zoom-handle-inner"></div>
+              </div>
+            </div>
+            <img src="img/minus.svg" id="map-zoom-minus"></img>
           </div>
         </div>
         <div class="timeline" id="timeline"></div>
