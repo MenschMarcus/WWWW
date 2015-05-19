@@ -31,6 +31,7 @@
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
   <link rel="stylesheet" type="text/css" href="style/highscores.css" />
+  <link rel="stylesheet" type="text/css" href="style/zoom_control.css" />
 
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -103,6 +104,16 @@
           </div><div class="layout-row">
           <div class="map-area">
             <div class="map" id="map"></div>
+            <div id="map-zoom-control">
+              <img src="img/plus.svg" id="map-zoom-plus"></img>
+              <div id="map-zoom-slider">
+                <div id="map-zoom-line"></div>
+                <div id="map-zoom-handle-outer">
+                  <div id="map-zoom-handle-inner"></div>
+                </div>
+              </div>
+              <img src="img/minus.svg" id="map-zoom-minus"></img>
+            </div>
             <div class="timeline" id="timeline"></div>
             <div class="control-bar">
               <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><i class="fa fa-times"></i></button>
