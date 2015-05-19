@@ -110,7 +110,7 @@ class WWWW.QuestionHandler
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 
-    @_timePerQuestion = 3000 #in seconds
+    @_timePerQuestion = 30 #in seconds
 
     @_questionAnswered = false
     @_questionTimeout = null
@@ -314,7 +314,8 @@ class WWWW.QuestionHandler
 
     # score += timeBonus
 
-    $("#answer-total-score").html score + if score is 1 then " Punkt" else " Punkte"
+    $("#answer-total-score").html score
+    $("#answer-total-score-label").html if score is 1 then "Erreichter Punkt" else "Erreichte Punkte"
     $("#answer-max-score").html @_maxScore
 
     @_totalScore += score
@@ -338,8 +339,6 @@ class WWWW.QuestionHandler
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
       $("#results").animate({height: "show", opacity: "show"});
-      $("#question").animate({height: "hide", opacity: "hide"});
-      $("#question-number-container").animate({height: "hide", opacity: "hide"});
 
       if @_questionCount is (@_questionsPerRound + 1)
         $("#submit-answer").addClass("invisible");
@@ -360,10 +359,7 @@ class WWWW.QuestionHandler
         # @_mapMarker.unfade()
         @_tlMarker.unfade()
 
-        $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
-        $("#question").animate({height: "show", opacity: "show"});
-        $("#question-number-container").animate({height: "show", opacity: "show"});
 
         $("#next-question").addClass("invisible");
         $("#next-round").addClass("invisible");
@@ -497,7 +493,6 @@ class WWWW.QuestionHandler
     # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
     $("#results").animate({height: "hide", opacity: "hide"});
-    $("#question-bar").animate({height: "hide", opacity: "hide"});
     $("#round-end-display").animate({height: "show", opacity: "show"});
 
     $("#round-end").addClass("invisible");
