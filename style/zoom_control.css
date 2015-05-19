@@ -67,14 +67,16 @@
 
 
 #tl-zoom-control {
-  top: 10px;
+  bottom: 25px;
   width: 100%;
+  padding-left: 36px;
+  padding-right: 36px;
   position: absolute;
 }
 
 #tl-zoom-slider {
   height: 10px;
-  width: 70%;
+  width: 66%;
   margin-right: 5%;
   margin-left: 5%;
   margin-top: 13px;
@@ -93,7 +95,7 @@
 #tl-zoom-handle-outer {
   width: 31px;
   height: 31px;
-  margin-top: -18px;
+  margin-top: -31px;
 }
 
 #tl-zoom-handle-outer.animate {
@@ -104,20 +106,18 @@
 }
 
 #tl-zoom-handle-inner {
-  background-color: #3e4756;
+/*  background-color: #3e4756;
   width: 31px;
   height: 31px;
   border-radius: 50%;
   border-color: #5dc3d1;
   border-width: 2px;
-  border-style: solid;
+  border-style: solid;*/
 }
 
 #tl-zoom-plus {
-  margin-right: 2%;
 }
 
 #tl-zoom-minus {
   float: left;
-  margin-left: 2%;
 }

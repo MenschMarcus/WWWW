@@ -39,8 +39,8 @@ class WWWW.QuestionHandler
     @_roundCount = 1
     @_questionCount = 1
     @_session_id = null
-    @_minZoom = 0
-    @_maxZoom = 4
+    @_minZoom = 1
+    @_maxZoom = 5
     @_startZoom = 3
 
     # @_highscoreHandler = new WWWW.HighscoreHandler()
@@ -65,7 +65,7 @@ class WWWW.QuestionHandler
     @_dontUpdateZoomHandle = false
     @_map.on "zoomend", () =>
       unless @_dontUpdateZoomHandle
-        @_updateZoomHandle @_map.getZoom()
+        @_updateMapZoomHandle @_map.getZoom()
       @_dontUpdateZoomHandle = false
 
 
@@ -106,15 +106,15 @@ class WWWW.QuestionHandler
         @_dontUpdateZoomHandle = true
         @_map.setZoom currentZoom
 
-    @_updateZoomHandle @_startZoom
+    @_updateMapZoomHandle @_startZoom
 
     $("#map-zoom-plus").click () =>
       @_map.zoomIn()
-      @_updateZoomHandle Math.min(@_map.getZoom() + 1, @_maxZoom)
+      @_updateMapZoomHandle Math.min(@_map.getZoom() + 1, @_maxZoom)
 
     $("#map-zoom-minus").click () =>
       @_map.zoomOut()
-      @_updateZoomHandle Math.max(@_map.getZoom() - 1, @_minZoom)
+      @_updateMapZoomHandle Math.max(@_map.getZoom() - 1, @_minZoom)
 
 
     $("#tl-zoom-handle-outer").draggable
@@ -134,7 +134,7 @@ class WWWW.QuestionHandler
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 
-    @_timePerQuestion = 3000 #in seconds
+    @_timePerQuestion = 30 #in seconds
 
     @_questionAnswered = false
     @_questionTimeout = null
@@ -257,15 +257,15 @@ class WWWW.QuestionHandler
         # @_mapMarker.setPosition newPos
 
     # place timeline marker on click
-    $(@_timelineDiv).on 'click', (event) =>
-      unless @_tlMarker.isLocked()
-        offset = $(@_timelineDiv).offset()
-        newPos =
-          x : event.clientX - offset.left
-          y : $(@_timelineDiv).height() - 51
+    # $(@_timelineDiv).on 'click', (event) =>
+    #   unless @_tlMarker.isLocked()
+    #     offset = $(@_timelineDiv).offset()
+    #     newPos =
+    #       x : event.clientX - offset.left
+    #       y : $(@_timelineDiv).height() - 51
 
-        @_tlMarker.setPosition newPos
-        $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+    #     @_tlMarker.setPosition newPos
+    #     $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
 
     $("#round-end-display").hide();
 
@@ -338,7 +338,8 @@ class WWWW.QuestionHandler
 
     # score += timeBonus
 
-    $("#answer-total-score").html score + if score is 1 then " Punkt" else " Punkte"
+    $("#answer-total-score").html score
+    $("#answer-total-score-label").html if score is 1 then "Erreichter Punkt" else "Erreichte Punkte"
     $("#answer-max-score").html @_maxScore
 
     @_totalScore += score
@@ -362,8 +363,6 @@ class WWWW.QuestionHandler
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
       $("#results").animate({height: "show", opacity: "show"});
-      $("#question").animate({height: "hide", opacity: "hide"});
-      $("#question-number-container").animate({height: "hide", opacity: "hide"});
 
       if @_questionCount is (@_questionsPerRound + 1)
         $("#submit-answer").addClass("invisible");
@@ -384,10 +383,7 @@ class WWWW.QuestionHandler
         # @_mapMarker.unfade()
         @_tlMarker.unfade()
 
-        $("#question-bar").animate({height: "show", opacity: "show"});
         $("#results").animate({height: "hide", opacity: "hide"});
-        $("#question").animate({height: "show", opacity: "show"});
-        $("#question-number-container").animate({height: "show", opacity: "show"});
 
         $("#next-question").addClass("invisible");
         $("#next-round").addClass("invisible");
@@ -521,7 +517,6 @@ class WWWW.QuestionHandler
     # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
     $("#results").animate({height: "hide", opacity: "hide"});
-    $("#question-bar").animate({height: "hide", opacity: "hide"});
     $("#round-end-display").animate({height: "show", opacity: "show"});
 
     $("#round-end").addClass("invisible");
@@ -604,10 +599,10 @@ class WWWW.QuestionHandler
       y : $(@_timelineDiv).height() - 51
     @_tlMarker.setPosition startPos
 
-  _updateZoomHandle: (zoom) =>
+  _updateMapZoomHandle: (zoom) =>
 
     height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
-    relativeZoom = 1.0 - zoom / (@_maxZoom - @_minZoom)
+    relativeZoom = 1.0 - (zoom - @_minZoom) / (@_maxZoom - @_minZoom)
     relativePos = relativeZoom * height
 
     $("#map-zoom-handle-outer").addClass "animate"

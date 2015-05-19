@@ -32,8 +32,9 @@
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
   <link rel="stylesheet" type="text/css" href="style/highscores.css" />
   <link rel="stylesheet" type="text/css" href="style/zoom_control.css" />
+  <link rel="stylesheet" type="text/css" href="style/pulse_dot.css" />
 
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400' rel='stylesheet' type='text/css'>
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
@@ -88,17 +89,6 @@
               <div class="question-progress-background"></div>
               <div id="question-progress" class="question-progress animate"></div>
 
-              <div id="results" class="text-center">
-                <div id="score">
-                  <h1><span id="answer-total-score"></span></h1>
-                  <!-- <div>(<span id="answer-score"></span> + <span id="answer-time-bonus"></span>)</div> -->
-                  <div><span id="answer-location"></span>, <span id="answer-year"></span></div>
-                  <div>Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
-                </div>
-                <div id="answer-info"></div>
-                <br/>
-                Wie hat dir die Frage gefallen? <div id="rate-question"></div>
-              </div>
             </div>
           </div>
           </div><div class="layout-row">
@@ -120,18 +110,30 @@
                 <div id="tl-zoom-slider">
                   <div id="tl-zoom-line"></div>
                   <div id="tl-zoom-handle-outer">
-                    <div id="tl-zoom-handle-inner"></div>
+                    <div id="tl-zoom-handle-inner" class="pd-container">
+                      <div class="pd-pulse"></div>
+                      <div class="pd-dot"></div>
+                    </div>
                   </div>
                 </div>
                 <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
               </div>
             </div>
-            <div class="control-bar">
-              <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><i class="fa fa-times"></i></button>
-              <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><i class="fa fa-check"></i></div>
-              <div id="next-question" class="btn btn-success answer btn-lg invisible"><i class="fa fa-check"></i> Nächste Frage!</div>
-              <div id="round-end" class="btn btn-success answer btn-lg invisible"><i class="fa fa-check"></i> Runde beenden!</div>
-              <div id="next-round" class="btn btn-success answer btn-lg invisible"><i class="fa fa-check"></i> Neue Runde starten!</div>
+            <div id="abort"><img src="img/cross.svg" /></div>
+            <div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div>
+            <div id="next-question" class="link invisible"><img src="img/check.svg" /> Nächste Frage!</div>
+            <div id="round-end" class="link invisible"><i class="fa fa-check"></i> Runde beenden!</div>
+            <div id="next-round" class="link invisible"><i class="fa fa-check"></i> Neue Runde starten!</div>
+            <div id="results" class="text-center">
+              <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
+              <div id="answer-info"></div>
+              <div id="score">
+                <div id="answer-total-score"></div>
+                <div id="answer-total-score-label"></div>
+                <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+              </div>
+              <!-- <br/>
+              Wie hat dir die Frage gefallen? <div id="rate-question"></div> -->
             </div>
           </div>
           </div>
