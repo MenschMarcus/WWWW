@@ -162,6 +162,7 @@ p {
 }
 
 #question-number-container {
+    padding: 10px;
     color: #aaa;
 }
 
@@ -170,7 +171,7 @@ p {
     text-align: center;
     font-size: 1.3em;
     color: #333;
-    padding: 10px;
+    padding: 0 10px 25px 10px;
 }
 
 #score {
@@ -213,17 +214,13 @@ p {
 }
 
 .timeline {
-    top: 0px;
-    height: 45px;
+    top: 0;
+    height: 180px;
     width: 100%;
     position: absolute;
+    box-shadow: 0 0 40px #000, 0 0 40px #000;
 
-    background-color: white;
-    background-size: 100% auto;
-    background-position: 0 0px;
-    background-repeat: no-repeat;
-
-    border-bottom: 3px solid #777;
+    background-color: rgba(53, 61, 72, 0.9);
 }
 
 .start {

@@ -102,8 +102,8 @@
           </div>
           </div><div class="layout-row">
           <div class="map-area">
-            <div class="timeline" id="timeline"></div>
             <div class="map" id="map"></div>
+            <div class="timeline" id="timeline"></div>
             <div class="control-bar">
               <button type="button" data-toggle="modal" data-target="#abort-dialog" class="btn btn-danger abort btn-lg"><i class="fa fa-times"></i></button>
               <div id="submit-answer" class="btn btn-success answer btn-lg btn-success"><i class="fa fa-check"></i></div>
