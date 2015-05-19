@@ -7,6 +7,7 @@ body {
     height: 100%;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    margin: 0;
 }
 
 p {
@@ -105,15 +106,15 @@ p {
 
 #logo {
     width: 100px;
-    margin: 100px 0;
+    margin: 70px 0;
 }
 
 #histoglobe {
     margin: 80px 0;
 }
 
-/* #### Desktops #### */
-/*@media screen and (max-width: 420px) {
+/* #### Mobile #### */
+@media screen and (max-width: 520px) {
     body {
         font-size: 1.1em;
     }
@@ -128,7 +129,7 @@ p {
         border-radius: 00px;
         padding: 0px;
     }
-}*/
+}
 
 
 /* #### Bottom Controls #### */
