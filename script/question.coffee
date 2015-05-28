@@ -149,9 +149,21 @@ class WWWW.QuestionHandler
 
       @_updateTimeline()
 
+    $("#tl-zoom-slider").click (event) =>
+      console.log $("#tl-zoom-handle-outer").offset().left
+      console.log event.pageX
+
+      pos = event.pageX -
+            $("#tl-zoom-handle-outer").width() / 2
+
+      $("#tl-zoom-handle-outer").offset
+        left : pos
+
+      @_updateTimeline()
+
+
     $("#tl-correct").hide();
 
-    @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 
     @_timePerQuestion = 30 #in seconds
