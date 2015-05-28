@@ -304,6 +304,31 @@ p {
     background-color: rgba(53, 61, 72, 0.9);
 }
 
+.tl-year-box-text {
+    font-size: 1.2em;
+}
+
+.tl-year-box-year {
+    font-size: 4em;
+    font-weight: 200;
+}
+
+.tl-year-box-left {
+
+}
+
+.tl-year-box-center {
+    text-align: center;
+}
+
+#tl-year-box {
+    padding-top: 20px;
+}
+
+#tl-correct {
+    color: #28aa7a;
+}
+
 .start {
     position: relative;
     top: 50px;
