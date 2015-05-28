@@ -307,8 +307,32 @@ p {
     background-color: rgba(53, 61, 72, 0.9);
 }
 
+.tl-year-box {
+    text-align: center;
+    width: 150px;
+    position: absolute;
+    margin-left: -75px;
+
+    -webkit-transition: left 0.2s linear !important;
+       -moz-transition: left 0.2s linear !important;
+         -o-transition: left 0.2s linear !important;
+            transition: left 0.2s linear !important;
+}
+
+.tl-year-box.center {
+    left: 50%;
+}
+
+.tl-year-box.left {
+    left: 30%;
+}
+
+.tl-year-box.right {
+    left: 70%;
+}
+
 .tl-year-box-text {
-    font-size: 1.2em;
+    font-size: 1.3em;
 }
 
 .tl-year-box-year {
@@ -316,15 +340,7 @@ p {
     font-weight: 200;
 }
 
-.tl-year-box-left {
-
-}
-
-.tl-year-box-center {
-    text-align: center;
-}
-
-#tl-year-box {
+#tl-year-container {
     padding-top: 20px;
 }
 

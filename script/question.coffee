@@ -125,6 +125,8 @@ class WWWW.QuestionHandler
       #   @_dontUpdateZoomHandle = true
       #   @_map.setZoom currentZoom
 
+    $("#tl-correct").hide();
+
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 
@@ -243,6 +245,10 @@ class WWWW.QuestionHandler
     # tlResultPos = @_timeToPixel(@_currentQuestion.year)
     # tlResultPos.y = $(@_timelineDiv).height() - 51
 
+    $("#tl-chosen").removeClass("center");
+    $("#tl-chosen").addClass("right");
+    $("#tl-correct").fadeIn();
+
     answerLatLng = @_map.getCenter()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
@@ -324,6 +330,11 @@ class WWWW.QuestionHandler
       $("#round-end").addClass("invisible");
       $("#submit-answer").removeClass("invisible");
       $("#submit-answer").removeClass("disabled");
+
+      $("#tl-chosen").removeClass("right");
+      $("#tl-chosen").addClass("center");
+      $("#tl-correct").fadeOut(0.1);
+
 
       newQuestionId = WWWW.TEST_START_ID
 
