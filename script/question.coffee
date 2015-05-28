@@ -131,19 +131,55 @@ class WWWW.QuestionHandler
       addClasses: false
       axis: "x"
       containment: "parent"
-      # drag: (event)=>
-      #   height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
-      #   offset = $("#map-zoom-handle-outer").offset().top - $("#map-zoom-slider").offset().top
+      drag: (event)=>
+        @_updateTimeline()
+      stop: (event)=>
+        @_updateTimeline()
 
-      #   $("#map-zoom-handle-outer").removeClass "animate"
-      #   relativeOffset = 1.0 - offset / height
-      #   currentZoom = Math.floor relativeOffset * (@_maxZoom - @_minZoom)
-      #   @_dontUpdateZoomHandle = true
-      #   @_map.setZoom currentZoom
+    $("#tl-zoom-plus").click () =>
+      pos = $("#tl-zoom-handle-outer").offset().left -
+            $("#tl-zoom-slider").offset().left +
+            $("#tl-zoom-handle-outer").width() / 2
+
+      currentYear = @_pixelToTime pos
+      new_year = Math.min @_currentTimeline.max_year, currentYear + 1
+      new_pos = @_timeToPixel new_year
+
+      $("#tl-zoom-handle-outer").offset
+        left : new_pos
+
+      @_updateTimeline()
+
+    $("#tl-zoom-minus").click () =>
+
+      pos = $("#tl-zoom-handle-outer").offset().left -
+            $("#tl-zoom-slider").offset().left +
+            $("#tl-zoom-handle-outer").width() / 2
+
+      currentYear = @_pixelToTime pos
+      new_year = Math.max @_currentTimeline.min_year, currentYear - 1
+      new_pos = @_timeToPixel new_year
+
+      $("#tl-zoom-handle-outer").offset
+        left : new_pos
+
+      @_updateTimeline()
+
+    $("#tl-zoom-slider").click (event) =>
+      console.log $("#tl-zoom-handle-outer").offset().left
+      console.log event.pageX
+
+      pos = event.pageX -
+            $("#tl-zoom-handle-outer").width() / 2
+
+      $("#tl-zoom-handle-outer").offset
+        left : pos
+
+      @_updateTimeline()
+
 
     $("#tl-correct").hide();
 
-    @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 
     @_timePerQuestion = 30 #in seconds
@@ -259,6 +295,7 @@ class WWWW.QuestionHandler
     # tlResultPos = @_timeToPixel(@_currentQuestion.year)
     # tlResultPos.y = $(@_timelineDiv).height() - 51
 
+    $("#tl-correct-year").html @_currentQuestion.year
     $("#tl-chosen").removeClass("center");
     $("#tl-chosen").addClass("right");
     $("#tl-correct").fadeIn();
@@ -332,7 +369,6 @@ class WWWW.QuestionHandler
 
   postNewQuestion: =>
     if @_questions?
-      @_resetMarkers()
       @_questionAnswered = false
 
       # reset loading bar
@@ -401,6 +437,7 @@ class WWWW.QuestionHandler
             curCenter = tlCenter
             curDist = dist
 
+      @_resetMarkers()
 
       $('#question').html @_currentQuestion.text
       $('#question-number').html @_questionCount
@@ -513,10 +550,13 @@ class WWWW.QuestionHandler
     Math.round(L.latLng(latLng1.lat, latLng1.lng).distanceTo(L.latLng(latLng2.lat, latLng2.lng))/1000)
 
   _pixelToTime: (pos) =>
-    relX = pos.x / $("#tl-zoom-line").width()
+    time = 0
 
-    timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
-    time = Math.round(relX * timeDiff + @_currentTimeline.min_year)
+    if @_currentTimeline?
+      relX = pos/ $("#tl-zoom-line").width()
+
+      timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
+      time = Math.round(relX * timeDiff + @_currentTimeline.min_year)
 
     time
 
@@ -524,20 +564,22 @@ class WWWW.QuestionHandler
   _timeToPixel: (time) =>
     relTime = (time - @_currentTimeline.min_year) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-    pos =
-      x : relTime * $("#tl-zoom-line").width()
-      y : 0
+    pos = relTime * $("#tl-zoom-line").width() +
+          $("#tl-zoom-slider").offset().left  -
+          $("#tl-zoom-handle-outer").width() / 2
 
     pos
 
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
 
-  _resetMarkers: () ->
-    startPos =
-      x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 51
-    # @_tlMarker.setPosition startPos
+  _resetMarkers: () =>
+    startPos = $("#tl-zoom-line").width()/2
+
+    $("#tl-zoom-handle-outer").offset
+      left : startPos  + $("#tl-zoom-line").offset().left
+
+    @_updateTimeline()
 
   _updateMapZoomHandle: (zoom) =>
 
@@ -549,4 +591,12 @@ class WWWW.QuestionHandler
 
     $("#map-zoom-handle-outer").offset
       top: relativePos + $("#map-zoom-slider").offset().top
+
+  _updateTimeline: () =>
+    pos = $("#tl-zoom-handle-outer").offset().left -
+          $("#tl-zoom-slider").offset().left +
+          $("#tl-zoom-handle-outer").width() / 2
+
+    $("#tl-chosen-year").html @_pixelToTime pos
+
 

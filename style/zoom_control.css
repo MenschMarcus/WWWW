@@ -67,7 +67,7 @@
 
 
 #tl-zoom-control {
-  bottom: 25px;
+  bottom: 0px;
   width: 100%;
   padding-left: 36px;
   padding-right: 36px;
@@ -75,7 +75,7 @@
 }
 
 #tl-zoom-slider {
-  height: 10px;
+  height: 30px;
   width: 66%;
   margin-right: 5%;
   margin-left: 5%;
