@@ -53,14 +53,19 @@
 #map-marker {
   pointer-events: none;
   position: absolute;
-  bottom: 50%;
-  left: 50%;
 }
 
 #map-result-marker .pd-container,
 #map-marker .pd-container {
   position: relative;
   background: none;
-  bottom: -10px;
+  bottom: 10px;
   margin-left: -10px;
 }
+
+.leaflet-zoom-animated {
+  -webkit-transition: all 0.25s cubic-bezier(0,0,0.25,1) !important;
+     -moz-transition: all 0.25s cubic-bezier(0,0,0.25,1) !important;
+       -o-transition: all 0.25s cubic-bezier(0,0,0.25,1) !important;
+          transition: all 0.25s cubic-bezier(0,0,0.25,1) !important;
+  }

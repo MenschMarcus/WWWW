@@ -79,29 +79,24 @@
       <div class="phone-inner">
         <div id="main-layout">
           <div class="layout-row shrink">
-          <div class="question-bar">
-            <div id="question-bar">
+            <div class="question-bar">
               <div id="question-number-container">
                 <span class="text-left">Frage <span id="question-number">1</span></span>
                 <span class="pull-right"><span id="question-author"></span></span>
               </div>
               <div id="question"></div>
               <div id="answer-info"></div>
-              <div class="question-progress-background"></div>
-              <div id="question-progress" class="question-progress animate"></div>
 
             </div>
           </div>
-          </div><div class="layout-row">
+          <div class="layout-row shrink" style="height:9px">
+            <div class="question-progress-background"></div>
+            <div id="question-progress" class="question-progress animate"></div>
+          </div>
+          <div class="layout-row">
           <div class="map-area">
             <div class="map" id="map"></div>
             <div id="map-marker">
-              <div class="pd-container">
-                <div class="pd-pulse"></div>
-                <div class="pd-dot"></div>
-              </div>
-            </div>
-            <div id="map-result-marker">
               <div class="pd-container">
                 <div class="pd-pulse"></div>
                 <div class="pd-dot"></div>
