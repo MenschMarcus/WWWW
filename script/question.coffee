@@ -299,6 +299,10 @@ class WWWW.QuestionHandler
     @_mapResultMarkerWrong.setOpacity 1.0
     @_mapResultMarkerCorrect.setLatLng @_currentQuestion.latLng
 
+    @_map.fitBounds [@_currentQuestion.latLng, @_map.getCenter()],
+      paddingTopLeft: [190, 20]
+      paddingBottomRight: [190, 10]
+
     $("#tl-correct-year").html @_currentQuestion.year
     $("#tl-chosen").removeClass("center");
     $("#tl-chosen").addClass("right");
