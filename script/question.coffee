@@ -308,10 +308,6 @@ class WWWW.QuestionHandler
       paddingTopLeft: [190, 20]
       paddingBottomRight: [190, 10]
 
-    $("#tl-correct-year").html @_currentQuestion.year
-    $("#tl-chosen").removeClass("center");
-    $("#tl-chosen").addClass("right");
-    $("#tl-correct").fadeIn();
 
     currentPos = $("#tl-zoom-handle-outer").offset()
 
@@ -341,6 +337,18 @@ class WWWW.QuestionHandler
     $("#answer-spatial-distance").html spatialDistance + " km"
     $("#answer-temporal-distance").html temporalDistance + if temporalDistance is 1 then " Jahr" else " Jahre"
     $("#answer-info").html @_currentQuestion.answer
+
+    $("#tl-correct-year").html @_currentQuestion.year
+    $("#tl-chosen").removeClass("center");
+
+    if answerTime - @_currentQuestion.year >= 0
+      $("#tl-chosen").addClass("right");
+      $("#tl-correct").addClass("left");
+    else
+      $("#tl-chosen").addClass("left");
+      $("#tl-correct").addClass("right");
+
+    $("#tl-correct").fadeIn();
 
     spatialScore = 1 - spatialDistance/@_answerMaxDistance
     spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel) / (1-@_answerChanceLevel) else 0
@@ -399,6 +407,9 @@ class WWWW.QuestionHandler
       $("#submit-answer").show("fast");
 
       $("#tl-chosen").removeClass("right");
+      $("#tl-chosen").removeClass("left");
+      $("#tl-correct").removeClass("right");
+      $("#tl-correct").removeClass("left");
       $("#tl-chosen").addClass("center");
       $("#tl-correct").fadeOut(0.1);
 

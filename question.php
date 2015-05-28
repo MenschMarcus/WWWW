@@ -118,7 +118,7 @@
                   <div id="tl-chosen-text" class="tl-year-box-text">gewähltes Jahr</div>
                   <div id="tl-chosen-year" class="tl-year-box-year">1900</div>
                 </div>
-                <div id="tl-correct" class="tl-year-box tl-year-box left">
+                <div id="tl-correct" class="tl-year-box tl-year-box">
                   <div id="tl-correct-text" class="tl-year-box-text">korrektes Jahr</div>
                   <div id="tl-correct-year" class="tl-year-box-year">1800</div>
                 </div>
