@@ -181,6 +181,7 @@ class WWWW.QuestionHandler
       opts =
         step: () =>
           @_updateTimeline()
+        duration : 200
 
       $("#tl-zoom-handle-outer").animate property, opts
 
@@ -313,8 +314,6 @@ class WWWW.QuestionHandler
 
     answerTime = @_pixelToTime timePos
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
-
-    console.log temporalDistance
 
     $("#answer-location").html @_currentQuestion.location
     $("#answer-year").html @_currentQuestion.year

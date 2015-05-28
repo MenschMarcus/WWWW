@@ -34,7 +34,7 @@
 #map-zoom-handle-outer {
   padding-left: 42px;
   width: 70px;
-  margin-left: -55px;
+  margin-left: -49px;
 }
 
 #map-zoom-handle-outer.animate {
@@ -46,8 +46,8 @@
 
 #map-zoom-handle-inner {
   background-color: #3e4756;
-  width: 31px;
-  height: 31px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   border-color: #5dc3d1;
   border-width: 2px;
@@ -75,11 +75,10 @@
 }
 
 #tl-zoom-slider {
-  height: 30px;
+  height: 50px;
   width: 66%;
   margin-right: 5%;
   margin-left: 5%;
-  margin-top: 13px;
   cursor: pointer;
   float: left;
 }
@@ -90,6 +89,7 @@
   height: 2px;
   margin-right: auto;
   margin-left: auto;
+  margin-top: 24px;
 }
 
 #tl-zoom-handle-outer {
@@ -116,8 +116,10 @@
 }
 
 #tl-zoom-plus {
+  margin-top: 12px;
 }
 
 #tl-zoom-minus {
   float: left;
+  margin-top: 12px;
 }
