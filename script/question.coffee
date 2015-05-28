@@ -312,6 +312,8 @@ class WWWW.QuestionHandler
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
       $("#results").animate({height: "show", opacity: "show"});
+      $("#answer-info").animate({height: "show", opacity: "show"});
+      $("#question").animate({height: "hide", opacity: "hide"});
     , 2000
 
   postNewQuestion: =>
@@ -324,6 +326,8 @@ class WWWW.QuestionHandler
       @_barDiv.css "width", "100%"
 
       $("#results").animate({height: "hide", opacity: "hide"});
+      $("#answer-info").animate({height: "hide", opacity: "hide"});
+      $("#question").animate({height: "show", opacity: "show"});
 
       $("#next-question").addClass("invisible");
       $("#next-round").addClass("invisible");

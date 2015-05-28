@@ -86,6 +86,7 @@
                 <span class="pull-right"><span id="question-author"></span></span>
               </div>
               <div id="question"></div>
+              <div id="answer-info"></div>
               <div class="question-progress-background"></div>
               <div id="question-progress" class="question-progress animate"></div>
 
@@ -146,7 +147,6 @@
             <div id="round-end" class="link invisible"><i class="fa fa-check"></i> Runde beenden!</div>
             <div id="results" class="text-center">
               <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
-              <div id="answer-info"></div>
               <div id="score">
                 <div id="answer-total-score"></div>
                 <div id="answer-total-score-label"></div>
