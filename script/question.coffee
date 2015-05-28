@@ -64,19 +64,21 @@ class WWWW.QuestionHandler
       scrollWheelZoom: "center"
       keyboard: false
 
-    icon = L.icon
+    icon_correct = L.icon
       iconUrl: 'img/marker_map.png',
       iconRetinaUrl: 'img/marker_map.png',
-      iconSize: [80, 100],
-      iconAnchor: [40, 94],
-      shadowUrl: 'img/shadow.png',
-      shadowRetinaUrl: 'img/shadow.png',
-      shadowSize: [54, 29],
-      shadowAnchor: [27, 20]
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+
+    icon_wrong = L.icon
+      iconUrl: 'img/marker_map_result.png',
+      iconRetinaUrl: 'img/marker_map_result.png',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
 
     @_mapMarker = $("#map-marker")
-    @_mapResultMarkerCorrect = new L.Marker([50.5, 30.5], {icon:icon}).addTo @_map
-    @_mapResultMarkerWrong = new L.Marker([50.5, 30.5], {icon:icon}).addTo @_map
+    @_mapResultMarkerCorrect = new L.Marker([50.5, 30.5], {icon:icon_correct}).addTo @_map
+    @_mapResultMarkerWrong = new L.Marker([50.5, 30.5], {icon:icon_wrong}).addTo @_map
 
     @_dontUpdateZoomHandle = false
     @_map.on "zoomend", () =>
