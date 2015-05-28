@@ -119,10 +119,8 @@ class WWWW.QuestionHandler
         pos = $("#tl-zoom-handle-outer").offset().left -
               $("#tl-zoom-slider").offset().left +
               $("#tl-zoom-handle-outer").width() / 2
-        console.log "min", @_currentTimeline.min_year
-        console.log "center", (@_currentTimeline.min_year + @_currentTimeline.max_year)/2
-        console.log "max", @_currentTimeline.max_year
-        console.log "current", @_pixelToTime pos
+
+        $("#tl-chosen-year").html @_pixelToTime pos
 
 
     $("#tl-correct").hide();
@@ -245,6 +243,7 @@ class WWWW.QuestionHandler
     # tlResultPos = @_timeToPixel(@_currentQuestion.year)
     # tlResultPos.y = $(@_timelineDiv).height() - 51
 
+    $("#tl-correct-year").html @_currentQuestion.year
     $("#tl-chosen").removeClass("center");
     $("#tl-chosen").addClass("right");
     $("#tl-correct").fadeIn();
@@ -502,7 +501,7 @@ class WWWW.QuestionHandler
     relTime = (time - @_currentTimeline.min_year) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
     pos =
-      x : relTime * $("#tl-zoom-line").width()
+      x : relTime * ($("#tl-zoom-line").width() - $("#tl-zoom-handle-outer").width())
       y : 0
 
     pos
@@ -511,10 +510,12 @@ class WWWW.QuestionHandler
     return degree * (Math.PI / 180)
 
   _resetMarkers: () ->
-    startPos =
-      x : $(@_timelineDiv).width()/2
-      y : $(@_timelineDiv).height() - 51
-    # @_tlMarker.setPosition startPos
+    startPos = $(@_timelineDiv).width()/2
+
+    $("#tl-zoom-handle-outer").offset
+      left : startPos
+
+    # $("#tl-chosen-year").html
 
   _updateMapZoomHandle: (zoom) =>
 
