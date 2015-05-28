@@ -64,7 +64,7 @@ class WWWW.QuestionHandler
     @_dontUpdateZoomHandle = false
     @_map.on "zoomend", () =>
       unless @_dontUpdateZoomHandle
-        @_updateZoomHandle @_map.getZoom()
+        @_updateMapZoomHandle @_map.getZoom()
       @_dontUpdateZoomHandle = false
 
 
@@ -105,15 +105,30 @@ class WWWW.QuestionHandler
         @_dontUpdateZoomHandle = true
         @_map.setZoom currentZoom
 
-    @_updateZoomHandle @_startZoom
+    @_updateMapZoomHandle @_startZoom
 
     $("#map-zoom-plus").click () =>
       @_map.zoomIn()
-      @_updateZoomHandle Math.min(@_map.getZoom() + 1, @_maxZoom)
+      @_updateMapZoomHandle Math.min(@_map.getZoom() + 1, @_maxZoom)
 
     $("#map-zoom-minus").click () =>
       @_map.zoomOut()
-      @_updateZoomHandle Math.max(@_map.getZoom() - 1, @_minZoom)
+      @_updateMapZoomHandle Math.max(@_map.getZoom() - 1, @_minZoom)
+
+
+    $("#tl-zoom-handle-outer").draggable
+      addClasses: false
+      axis: "x"
+      containment: "parent"
+      # drag: (event)=>
+      #   height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
+      #   offset = $("#map-zoom-handle-outer").offset().top - $("#map-zoom-slider").offset().top
+
+      #   $("#map-zoom-handle-outer").removeClass "animate"
+      #   relativeOffset = 1.0 - offset / height
+      #   currentZoom = Math.floor relativeOffset * (@_maxZoom - @_minZoom)
+      #   @_dontUpdateZoomHandle = true
+      #   @_map.setZoom currentZoom
 
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
@@ -234,15 +249,15 @@ class WWWW.QuestionHandler
         # @_mapMarker.setPosition newPos
 
     # place timeline marker on click
-    $(@_timelineDiv).on 'click', (event) =>
-      unless @_tlMarker.isLocked()
-        offset = $(@_timelineDiv).offset()
-        newPos =
-          x : event.clientX - offset.left
-          y : $(@_timelineDiv).height() - 51
+    # $(@_timelineDiv).on 'click', (event) =>
+    #   unless @_tlMarker.isLocked()
+    #     offset = $(@_timelineDiv).offset()
+    #     newPos =
+    #       x : event.clientX - offset.left
+    #       y : $(@_timelineDiv).height() - 51
 
-        @_tlMarker.setPosition newPos
-        $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+    #     @_tlMarker.setPosition newPos
+    #     $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
 
     $("#round-end-display").hide();
 
@@ -556,10 +571,10 @@ class WWWW.QuestionHandler
       y : $(@_timelineDiv).height() - 51
     @_tlMarker.setPosition startPos
 
-  _updateZoomHandle: (zoom) =>
+  _updateMapZoomHandle: (zoom) =>
 
     height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
-    relativeZoom = 1.0 - zoom / (@_maxZoom - @_minZoom)
+    relativeZoom = 1.0 - (zoom - @_minZoom) / (@_maxZoom - @_minZoom)
     relativePos = relativeZoom * height
 
     $("#map-zoom-handle-outer").addClass "animate"

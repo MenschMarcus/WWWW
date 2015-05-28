@@ -32,6 +32,7 @@
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
   <link rel="stylesheet" type="text/css" href="style/highscores.css" />
   <link rel="stylesheet" type="text/css" href="style/zoom_control.css" />
+  <link rel="stylesheet" type="text/css" href="style/pulse_dot.css" />
 
   <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400' rel='stylesheet' type='text/css'>
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -94,16 +95,30 @@
           <div class="map-area">
             <div class="map" id="map"></div>
             <div id="map-zoom-control">
-              <img src="img/plus.svg" id="map-zoom-plus"></img>
+              <img id="map-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
               <div id="map-zoom-slider">
                 <div id="map-zoom-line"></div>
                 <div id="map-zoom-handle-outer">
                   <div id="map-zoom-handle-inner"></div>
                 </div>
               </div>
-              <img src="img/minus.svg" id="map-zoom-minus"></img>
+              <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
             </div>
-            <div class="timeline" id="timeline"></div>
+            <div class="timeline" id="timeline">
+              <div id="tl-zoom-control">
+                <img id="tl-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
+                <div id="tl-zoom-slider">
+                  <div id="tl-zoom-line"></div>
+                  <div id="tl-zoom-handle-outer">
+                    <div id="tl-zoom-handle-inner" class="pd-container">
+                      <div class="pd-pulse"></div>
+                      <div class="pd-dot"></div>
+                    </div>
+                  </div>
+                </div>
+                <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
+              </div>
+            </div>
             <div id="abort"><img src="img/cross.svg" /></div>
             <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div></div>
             <div id="round-end" class="link invisible"><i class="fa fa-check"></i> Runde beenden!</div>
