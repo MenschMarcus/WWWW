@@ -86,6 +86,7 @@
                 <span class="pull-right"><span id="question-author"></span></span>
               </div>
               <div id="question"></div>
+              <div id="answer-info"></div>
               <div class="question-progress-background"></div>
               <div id="question-progress" class="question-progress animate"></div>
 
@@ -94,8 +95,14 @@
           </div><div class="layout-row">
           <div class="map-area">
             <div class="map" id="map"></div>
-            <div id="map-marker-container">
-              <div id="map-marker" class="pd-container">
+            <div id="map-marker">
+              <div class="pd-container">
+                <div class="pd-pulse"></div>
+                <div class="pd-dot"></div>
+              </div>
+            </div>
+            <div id="map-result-marker">
+              <div class="pd-container">
                 <div class="pd-pulse"></div>
                 <div class="pd-dot"></div>
               </div>
@@ -140,7 +147,6 @@
             <div id="round-end" class="link invisible"><i class="fa fa-check"></i> Runde beenden!</div>
             <div id="results" class="text-center">
               <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
-              <div id="answer-info"></div>
               <div id="score">
                 <div id="answer-total-score"></div>
                 <div id="answer-total-score-label"></div>
