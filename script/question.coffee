@@ -490,9 +490,6 @@ class WWWW.QuestionHandler
 
         @_mapMarker.setLatLng L.latLng(target_pos.lat, target_pos.lng)
 
-        # update timeline
-        $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
-
         # hide old result and update result markers
         $("#round-end-display").animate({height: "hide", opacity: "hide"});
 
