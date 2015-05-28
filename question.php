@@ -134,10 +134,10 @@
                     </div>
                   </div>
                   <div id="tl-zoom-handle-outer-answer" class="tl-zoom-handle-outer">
-                    <img src="img/marker.png" width="20px"></img>
+                    <img src="img/marker_result.png" width="20px"></img>
                   </div>
                   <div id="tl-zoom-handle-outer-result" class="tl-zoom-handle-outer">
-                    <img src="img/marker_result.png" width="20px"></img>
+                    <img src="img/marker.png" width="20px"></img>
                   </div>
                 </div>
                 <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
