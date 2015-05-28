@@ -139,7 +139,7 @@
                   <div id="tl-chosen-text" class="tl-year-box-text">gewähltes Jahr</div>
                   <div id="tl-chosen-year" class="tl-year-box-year">1900</div>
                 </div>
-                <div id="tl-correct" class="tl-year-box tl-year-box left">
+                <div id="tl-correct" class="tl-year-box tl-year-box">
                   <div id="tl-correct-text" class="tl-year-box-text">korrektes Jahr</div>
                   <div id="tl-correct-year" class="tl-year-box-year">1800</div>
                 </div>
@@ -148,11 +148,17 @@
                 <img id="tl-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
                 <div id="tl-zoom-slider">
                   <div id="tl-zoom-line"></div>
-                  <div id="tl-zoom-handle-outer">
+                  <div id="tl-zoom-handle-outer" class="tl-zoom-handle-outer">
                     <div id="tl-zoom-handle-inner" class="pd-container">
                       <div class="pd-pulse"></div>
                       <div class="pd-dot"></div>
                     </div>
+                  </div>
+                  <div id="tl-zoom-handle-outer-answer" class="tl-zoom-handle-outer">
+                    <img src="img/marker_result.png" width="20px"></img>
+                  </div>
+                  <div id="tl-zoom-handle-outer-result" class="tl-zoom-handle-outer">
+                    <img src="img/marker.png" width="20px"></img>
                   </div>
                 </div>
                 <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
