@@ -115,15 +115,15 @@ class WWWW.QuestionHandler
       addClasses: false
       axis: "x"
       containment: "parent"
-      # drag: (event)=>
-      #   height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
-      #   offset = $("#map-zoom-handle-outer").offset().top - $("#map-zoom-slider").offset().top
+      drag: (event)=>
+        pos = $("#tl-zoom-handle-outer").offset().left -
+              $("#tl-zoom-slider").offset().left +
+              $("#tl-zoom-handle-outer").width() / 2
+        console.log "min", @_currentTimeline.min_year
+        console.log "center", (@_currentTimeline.min_year + @_currentTimeline.max_year)/2
+        console.log "max", @_currentTimeline.max_year
+        console.log "current", @_pixelToTime pos
 
-      #   $("#map-zoom-handle-outer").removeClass "animate"
-      #   relativeOffset = 1.0 - offset / height
-      #   currentZoom = Math.floor relativeOffset * (@_maxZoom - @_minZoom)
-      #   @_dontUpdateZoomHandle = true
-      #   @_map.setZoom currentZoom
 
     $("#tl-correct").hide();
 
@@ -486,7 +486,7 @@ class WWWW.QuestionHandler
     Math.round(L.latLng(latLng1.lat, latLng1.lng).distanceTo(L.latLng(latLng2.lat, latLng2.lng))/1000)
 
   _pixelToTime: (pos) =>
-    relX = pos.x / $("#tl-zoom-line").width()
+    relX = pos/ $("#tl-zoom-line").width()
 
     timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
     time = Math.round(relX * timeDiff + @_currentTimeline.min_year)
