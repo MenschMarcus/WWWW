@@ -65,14 +65,14 @@ class WWWW.QuestionHandler
       keyboard: false
 
     icon_correct = L.icon
-      iconUrl: 'img/marker_map.png',
-      iconRetinaUrl: 'img/marker_map.png',
+      iconUrl: 'img/marker.png',
+      iconRetinaUrl: 'img/marker.png',
       iconSize: [20, 20],
       iconAnchor: [10, 10]
 
     icon_wrong = L.icon
-      iconUrl: 'img/marker_map_result.png',
-      iconRetinaUrl: 'img/marker_map_result.png',
+      iconUrl: 'img/marker_result.png',
+      iconRetinaUrl: 'img/marker_result.png',
       iconSize: [20, 20],
       iconAnchor: [10, 10]
 
@@ -140,53 +140,57 @@ class WWWW.QuestionHandler
 
     $("#tl-zoom-plus").click () =>
 
-      pos = $("#tl-zoom-handle-outer").offset().left -
-            $("#tl-zoom-slider").offset().left +
-            $("#tl-zoom-handle-outer").width() / 2
+      unless @_questionAnswered
+        pos = $("#tl-zoom-handle-outer").offset().left -
+              $("#tl-zoom-slider").offset().left +
+              $("#tl-zoom-handle-outer").width() / 2
 
-      currentYear = @_pixelToTime pos
-      new_year = Math.min @_currentTimeline.max_year, currentYear + 1
-      new_pos = @_timeToPixel new_year
+        currentYear = @_pixelToTime pos
+        new_year = Math.min @_currentTimeline.max_year, currentYear + 1
+        new_pos = @_timeToPixel new_year
 
-      $("#tl-zoom-handle-outer").offset
-        left : new_pos
+        $("#tl-zoom-handle-outer").offset
+          left : new_pos
 
-      @_updateTimeline()
+        @_updateTimeline()
 
     $("#tl-zoom-minus").click () =>
 
-      pos = $("#tl-zoom-handle-outer").offset().left -
-            $("#tl-zoom-slider").offset().left +
-            $("#tl-zoom-handle-outer").width() / 2
+      unless @_questionAnswered
+        pos = $("#tl-zoom-handle-outer").offset().left -
+              $("#tl-zoom-slider").offset().left +
+              $("#tl-zoom-handle-outer").width() / 2
 
-      currentYear = @_pixelToTime pos
-      new_year = Math.max @_currentTimeline.min_year, currentYear - 1
-      new_pos = @_timeToPixel new_year
+        currentYear = @_pixelToTime pos
+        new_year = Math.max @_currentTimeline.min_year, currentYear - 1
+        new_pos = @_timeToPixel new_year
 
-      $("#tl-zoom-handle-outer").offset
-        left : new_pos
+        $("#tl-zoom-handle-outer").offset
+          left : new_pos
 
-      @_updateTimeline()
+        @_updateTimeline()
 
     $("#tl-zoom-slider").click (event) =>
-      $("#tl-zoom-handle-outer").addClass "animate"
 
-      pos = event.pageX -
-            $("#tl-zoom-slider").offset().left -
-            $("#tl-zoom-handle-outer").width() / 2
+      unless @_questionAnswered
+        pos = event.pageX -
+              $("#tl-zoom-slider").offset().left -
+              $("#tl-zoom-handle-outer").width() / 2
 
-      property =
-        left: pos
+        property =
+          left: pos
 
-      opts =
-        step: () =>
-          @_updateTimeline()
-        duration : 200
+        opts =
+          step: () =>
+            @_updateTimeline()
+          duration : 200
 
-      $("#tl-zoom-handle-outer").animate property, opts
+        $("#tl-zoom-handle-outer").animate property, opts
 
 
-    $("#tl-correct").hide();
+    $("#tl-correct").hide()
+    $("#tl-zoom-handle-outer-answer").hide()
+    $("#tl-zoom-handle-outer-result").hide()
 
     @_barDiv = $('#question-progress')
 
@@ -309,6 +313,9 @@ class WWWW.QuestionHandler
     $("#tl-chosen").addClass("right");
     $("#tl-correct").fadeIn();
 
+    currentPos = $("#tl-zoom-handle-outer").offset()
+
+
     answerLatLng = @_map.getCenter()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
@@ -317,7 +324,17 @@ class WWWW.QuestionHandler
               $("#tl-zoom-handle-outer").width() / 2
 
     answerTime = @_pixelToTime timePos
+    tlResultPos = @_timeToPixel @_currentQuestion.year
+
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
+    $("#tl-zoom-handle-outer-answer").fadeIn()
+    $("#tl-zoom-handle-outer-answer").offset currentPos
+    $("#tl-zoom-handle-outer-result").fadeIn()
+    $("#tl-zoom-handle-outer-result").offset
+      top : currentPos.top
+      left : tlResultPos
+
+    $("#tl-zoom-handle-outer").hide()
 
     $("#answer-location").html @_currentQuestion.location
     $("#answer-year").html @_currentQuestion.year
@@ -586,6 +603,10 @@ class WWWW.QuestionHandler
     return degree * (Math.PI / 180)
 
   _resetMarkers: () =>
+    $("#tl-zoom-handle-outer").show()
+    $("#tl-zoom-handle-outer-answer").hide()
+    $("#tl-zoom-handle-outer-result").hide()
+
     startPos = $("#tl-zoom-line").width()/2
 
     $("#tl-zoom-handle-outer").offset
