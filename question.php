@@ -42,7 +42,7 @@
 
   <script type="text/javascript">
 
-  var mobile = false;
+    var mobile = false;
 
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       var ww =$(window).width()
