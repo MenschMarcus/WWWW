@@ -140,8 +140,7 @@ class WWWW.QuestionHandler
 
     @_browserDetector = new WWWW.BrowserDetector()
 
-    @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
-    @_mapResultMarker.lock()
+    @_mapResultMarker = $("#map-result-marker")
 
 
     @_timelines = null
@@ -263,7 +262,8 @@ class WWWW.QuestionHandler
   showResults: =>
     mapResultPos = @_latLngToPixel @_currentQuestion.latLng
 
-    @_mapResultMarker.setPosition mapResultPos
+    @_mapResultMarker.position mapResultPos
+    @_mapResultMarker.animate({left: mapResultPos.x + 'px', top: mapResultPos.y + 'px'});
     @_mapResultMarker.show()
 
     tlResultPos = @_timeToPixel(@_currentQuestion.year)

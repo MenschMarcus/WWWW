@@ -94,8 +94,14 @@
           </div><div class="layout-row">
           <div class="map-area">
             <div class="map" id="map"></div>
-            <div id="map-marker-container">
-              <div id="map-marker" class="pd-container">
+            <div id="map-marker">
+              <div class="pd-container">
+                <div class="pd-pulse"></div>
+                <div class="pd-dot"></div>
+              </div>
+            </div>
+            <div id="map-result-marker">
+              <div class="pd-container">
                 <div class="pd-pulse"></div>
                 <div class="pd-dot"></div>
               </div>

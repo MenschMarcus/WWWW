@@ -3,6 +3,7 @@
   background: #45453f;
 }
 
+
 .pd-pulse {
   width: 20px;
   height: 20px;
@@ -13,6 +14,14 @@
   background-color: #5dc3d1;
   z-index: 10;
   position: absolute;
+}
+
+.wrong .pd-pulse {
+  background: #ff0000;
+}
+
+.correct .pd-pulse {
+  background: #00ff00;
 }
 
 .pd-dot {
@@ -34,6 +43,11 @@
   left: -18px;
   z-index: 1;
   opacity: 0;
+}
+
+.wrong .pd-dot,
+.correct .pd-dot {
+  display: none;
 }
 
 @-moz-keyframes pd-pulse {
