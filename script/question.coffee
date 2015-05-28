@@ -467,6 +467,7 @@ class WWWW.QuestionHandler
       if getRandomInt(0, 1) is 1
         fuzzyY = -fuzzyY
 
+
       target_pos =
         x: pos.x + fuzzyX * viewport_width * scale
         y: pos.y + fuzzyY * viewport_height * scale
@@ -478,12 +479,6 @@ class WWWW.QuestionHandler
         animate: true
 
       @_mapMarker.setLatLng L.latLng(target_pos.lat, target_pos.lng)
-
-      # update timeline
-      $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
-
-      # hide old result and update result markers
-      $("#round-end-display").animate({height: "hide", opacity: "hide"});
 
       @_mapResultMarker.hide()
       @_mapMarker.dragging.enable()
