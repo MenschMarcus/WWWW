@@ -32,23 +32,23 @@
 <body>
   <div class="phone-outer">
     <div class="phone-inner">
-        <div class="text-center">
-          <img id="logo" src="img/logo.svg" />
-        </div>
-        <div class="text-center">
-          <p><a class="btn block" href="#"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></a></p>
-          <p><a class="btn block" href="#"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></a></p>
-          <br>
-          <p><a class="btn block primary" href="question.php">Spiel starten</a></p>
-        </div>
-        <div class="text-center">
-          <img id="histoglobe" src="img/histoglobe.png" />
-        </div>
+      <div class="text-center">
+        <img id="logo" src="img/logo.svg" />
+      </div>
+      <div class="text-center">
+        <p><a class="btn block" href="#"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></a></p>
+        <p><a class="btn block" href="#"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></a></p>
+        <br>
+        <p><a class="btn block primary" href="question.php">Spiel starten</a></p>
+      </div>
+      <div id="histoglobe" class="text-center">
+        <img src="img/histoglobe.png" />
       </div>
       <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
-      <div id="link-imprint">
-        <p>&copy; HistoGlobe GbR 2014 - 2015 - <a href="imprint.php">Impressum</a></p>
-      </div>
+    </div>
+  </div>
+  <div id="link-imprint">
+    <p>&copy; HistoGlobe GbR 2014 - 2015 - <a href="imprint.php">Impressum</a></p>
   </div>
 </body>
 

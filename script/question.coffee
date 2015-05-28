@@ -59,6 +59,7 @@ class WWWW.QuestionHandler
       scrollWheelZoom: true
       doubleClickZoom: true
       boxZoom: false
+      scrollWheelZoom: "center"
       keyboard: false
 
     @_dontUpdateZoomHandle = false
@@ -84,12 +85,6 @@ class WWWW.QuestionHandler
       shadowSize: [54, 29],
       shadowAnchor: [27, 20]
 
-
-    @_mapMarker = L.marker(new L.LatLng(47.9, 10), {
-      draggable: true
-      icon: icon
-    })
-    @_mapMarker.addTo @_map
 
     $("#map-zoom-handle-outer").draggable
       addClasses: false
@@ -145,9 +140,6 @@ class WWWW.QuestionHandler
 
     @_browserDetector = new WWWW.BrowserDetector()
 
-    # @_mapMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-answer"
-
-
     @_mapResultMarker = new WWWW.Marker @_mapDiv, "marker marker-map marker-map-result"
     @_mapResultMarker.lock()
 
@@ -156,7 +148,6 @@ class WWWW.QuestionHandler
     @_currentTimeline = null
 
     @_resetMarkers()
-    # @_mapMarker.show()
 
     yearResultDiv = document.createElement "div"
     yearResultDiv.id = "yearResultDiv"
@@ -223,15 +214,12 @@ class WWWW.QuestionHandler
 
     # place map marker on click
     @_map.on 'click', (event) =>
-      if @_mapMarker.dragging.enabled()
-      # unless @_mapMarker.isLocked()
-        offset = $(@_mapDiv).offset()
-        newPos =
-          x : event.originalEvent.clientX - offset.left
-          y : event.originalEvent.clientY - offset.top
+      offset = $(@_mapDiv).offset()
+      newPos =
+        x : event.originalEvent.clientX - offset.left
+        y : event.originalEvent.clientY - offset.top
 
-        @_mapMarker.setLatLng event.latlng
-        # @_mapMarker.setPosition newPos
+      @_map.panTo event.latlng
 
     $("#round-end-display").hide();
 
@@ -251,18 +239,12 @@ class WWWW.QuestionHandler
 
     @_mapResultMarker.setPosition mapResultPos
     @_mapResultMarker.show()
-    # @_mapMarker.lock()
-    @_mapMarker.dragging.disable()
 
     # tlResultPos = @_timeToPixel(@_currentQuestion.year)
     # tlResultPos.y = $(@_timelineDiv).height() - 51
 
-    answerLatLng = @_mapMarker.getLatLng()
-    # answerLatLng = @_pixelToLatLng @_mapMarker.getPosition()
+    answerLatLng = @_map.getCenter()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
-
-    @_mapMarker.opacity = 0.5
-    # @_mapMarker.fade()
 
     # answerTime = @_pixelToTime $()
     answerTime = 600
@@ -334,9 +316,6 @@ class WWWW.QuestionHandler
       # reset loading bar
       @_barDiv.addClass 'animate'
       @_barDiv.css "width", "100%"
-
-      @_mapMarker.opacity = 1.0
-      # @_mapMarker.unfade()
 
       $("#results").animate({height: "hide", opacity: "hide"});
 
@@ -445,11 +424,7 @@ class WWWW.QuestionHandler
         duration: 0.5
         animate: true
 
-      @_mapMarker.setLatLng L.latLng(target_pos.lat, target_pos.lng)
-
       @_mapResultMarker.hide()
-      @_mapMarker.dragging.enable()
-      # @_mapMarker.release()
 
       @_currentAnswer.session_id = 0
       @_currentAnswer.start_time = (new Date()).getTime()
@@ -521,10 +496,6 @@ class WWWW.QuestionHandler
     return degree * (Math.PI / 180)
 
   _resetMarkers: () ->
-    # startPos =
-    #   x : $(@_mapDiv).width()/2
-    #   y : $(@_mapDiv).height()/2
-    # @_mapMarker.setPosition startPos
     startPos =
       x : $(@_timelineDiv).width()/2
       y : $(@_timelineDiv).height() - 51
