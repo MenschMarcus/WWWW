@@ -49,7 +49,7 @@ class WWWW.QuestionHandler
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
     @_answerChanceLevel = 0.8 # time and space need to be at least 75% correct to score any point
-    @_timeBonusThreshold = 5 # time in seconds that may pass before time bonus is reduced
+    @_answerMaxDistance = 10000 # km
 
     @_mapDiv = document.getElementById("map")
     @_map = L.map 'map',
@@ -318,16 +318,13 @@ class WWWW.QuestionHandler
     answerTime = @_pixelToTime timePos
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
 
-    console.log temporalDistance
-
     $("#answer-location").html @_currentQuestion.location
     $("#answer-year").html @_currentQuestion.year
     $("#answer-spatial-distance").html spatialDistance + " km"
     $("#answer-temporal-distance").html temporalDistance + if temporalDistance is 1 then " Jahr" else " Jahre"
     $("#answer-info").html @_currentQuestion.answer
 
-    spatialSpread = @_getMeterDistance @_map.getBounds().getSouthWest(), @_map.getBounds().getNorthEast()
-    spatialScore = 1 - spatialDistance/spatialSpread
+    spatialScore = 1 - spatialDistance/@_answerMaxDistance
     spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel) / (1-@_answerChanceLevel) else 0
     spatialScore = (Math.min(1.0, (spatialScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
@@ -335,21 +332,7 @@ class WWWW.QuestionHandler
     yearScore = if yearScore >= @_answerChanceLevel then (yearScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
     yearScore = (Math.min(1.0, (yearScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
-    timeLeft = @_timePerQuestion - (@_currentAnswer.end_time - @_currentAnswer.start_time) / 1000
-    timeBonus = 0
-    if timeLeft >= (@_timePerQuestion - @_timeBonusThreshold)
-      timeBonus = @_maxTimeBonus
-    else
-      timeBonus = timeLeft / (@_timePerQuestion - @_timeBonusThreshold) * @_maxTimeBonus
-
     score = Math.round((Math.pow(spatialScore, 3) + Math.pow(yearScore, 3)) / 2 * @_maxScore)
-
-    timeBonus = Math.round(timeBonus/100 * score)
-
-    # $("#answer-score").html score + if score is 1 then " Punkt" else " Punkte"
-    # $("#answer-time-bonus").html timeBonus + (if score is 1 then " Punkt" else " Punkte") + " Zeitbonus"
-
-    # score += timeBonus
 
     $("#answer-total-score").html score
     $("#answer-total-score-label").html if score is 1 then "Erreichter Punkt" else "Erreichte Punkte"
