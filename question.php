@@ -12,7 +12,7 @@
   <script type="text/javascript" src="script/third-party/raty/jquery.raty.js"></script>
   <script type="text/javascript" src="script/third-party/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script type="text/javascript" src="script/third-party/leaflet.js"></script>
 
 
   <script src="https://apis.google.com/js/plusone.js"></script>
@@ -25,7 +25,7 @@
   <script type="text/javascript" src="build/feedback.js"></script>
   <script type="text/javascript" src="build/mobileKeyboardHandler.js"></script>
 
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="style/third_party/leaflet.css" />
   <link rel="stylesheet" type="text/css" href="script/third-party/raty/jquery.raty.css">
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="stylesheet" type="text/css" href="style/marker.css" />
@@ -94,6 +94,12 @@
           </div><div class="layout-row">
           <div class="map-area">
             <div class="map" id="map"></div>
+            <div id="map-marker-container">
+              <div id="map-marker" class="pd-container">
+                <div class="pd-pulse"></div>
+                <div class="pd-dot"></div>
+              </div>
+            </div>
             <div id="map-zoom-control">
               <img id="map-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
               <div id="map-zoom-slider">
