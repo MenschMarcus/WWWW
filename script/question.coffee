@@ -32,7 +32,6 @@ class WWWW.QuestionHandler
     @_currentQuestion = null
     @_currentQuestionRating = null
     @_totalQuestionCount = 0
-    @_questionsPerRound = 5
     @_maxScore = 1000
     @_maxTimeBonus = 10 # in percent of the achieved score
     @_totalScore = 0
@@ -200,8 +199,6 @@ class WWWW.QuestionHandler
                 lng : parseFloat(question.long)
 
             @_totalQuestionCount = @_questions?.length
-            if @_questionsPerRound > @_totalQuestionCount
-              @_questionsPerRound = @_totalQuestionCount
             @postNewQuestion()
 
     # submit answer on click
@@ -216,11 +213,6 @@ class WWWW.QuestionHandler
     # post new question on click
     $('#next-round').on 'click', () =>
       @postNewQuestion()
-
-    # end round on click
-    $('#round-end').on 'click', () =>
-      @submitRating()
-      @roundEnd()
 
     $("#rate-question").raty
       starType: "i"
@@ -348,173 +340,153 @@ class WWWW.QuestionHandler
       $("#next-question").removeClass("invisible");
       $("#submit-answer").addClass("invisible");
       $("#results").animate({height: "show", opacity: "show"});
-
-      if @_questionCount is (@_questionsPerRound + 1)
-        $("#submit-answer").addClass("invisible");
-        $("#round-end").removeClass("invisible");
     , 2000
 
   postNewQuestion: =>
     if @_questions?
-      unless @_questionCount is (@_questionsPerRound + 1)
-        @_resetMarkers()
-        @_questionAnswered = false
+      @_resetMarkers()
+      @_questionAnswered = false
 
-        # reset loading bar
-        @_barDiv.addClass 'animate'
-        @_barDiv.css "width", "100%"
+      # reset loading bar
+      @_barDiv.addClass 'animate'
+      @_barDiv.css "width", "100%"
 
-        @_mapMarker.opacity = 1.0
-        # @_mapMarker.unfade()
-        @_tlMarker.unfade()
+      @_mapMarker.opacity = 1.0
+      # @_mapMarker.unfade()
+      @_tlMarker.unfade()
 
-        $("#results").animate({height: "hide", opacity: "hide"});
+      $("#results").animate({height: "hide", opacity: "hide"});
 
-        $("#next-question").addClass("invisible");
-        $("#next-round").addClass("invisible");
-        $("#round-end").addClass("invisible");
-        $("#submit-answer").removeClass("invisible");
-        $("#submit-answer").removeClass("disabled");
+      $("#next-question").addClass("invisible");
+      $("#next-round").addClass("invisible");
+      $("#round-end").addClass("invisible");
+      $("#submit-answer").removeClass("invisible");
+      $("#submit-answer").removeClass("disabled");
 
-        newQuestionId = WWWW.TEST_START_ID
+      newQuestionId = WWWW.TEST_START_ID
 
-        if WWWW.TEST_RUN
+      if @_askedQuestions.length is @_totalQuestionCount
+        @_askedQuestions = []
 
-          @_currentQuestion = null
+      if WWWW.TEST_RUN
 
-          if @_askedQuestions.length > 0
-            newQuestionId = @_askedQuestions[@_askedQuestions.length-1]+1
+        @_currentQuestion = null
 
-          while @_currentQuestion is null and newQuestionId < 500
-            questions = $.grep @_questions, (e) =>
-              parseInt(e.id) is newQuestionId
-            console.log newQuestionId, questions
+        if @_askedQuestions.length > 0
+          newQuestionId = @_askedQuestions[@_askedQuestions.length-1]+1
 
-            if questions.length > 0
-              @_currentQuestion = questions[0]
-            else
-              newQuestionId += 1
+        while @_currentQuestion is null and newQuestionId < 500
+          questions = $.grep @_questions, (e) =>
+            parseInt(e.id) is newQuestionId
+          console.log newQuestionId, questions
 
-        else
-          # search for new question
+          if questions.length > 0
+            @_currentQuestion = questions[0]
+          else
+            newQuestionId += 1
+
+      else
+        # search for new question
+        newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
+        while @_askedQuestions.indexOf(newQuestionId) isnt -1
           newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
-          while @_askedQuestions.indexOf(newQuestionId) isnt -1
-            newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
 
-          @_currentQuestion = @_questions[newQuestionId]
+        @_currentQuestion = @_questions[newQuestionId]
 
-        # update question
-        @_askedQuestions.push newQuestionId
-        @_currentMap = @_maps[@_currentQuestion.map_id]
+      # update question
+      @_askedQuestions.push newQuestionId
+      @_currentMap = @_maps[@_currentQuestion.map_id]
 
-        @_currentTimeline = @_timelines[0]
-        curCenter = (@_currentTimeline.min_year + @_currentTimeline.max_year) * 0.5
-        curDist = Math.abs(curCenter - @_currentQuestion.year)/(@_currentTimeline.max_year - @_currentTimeline.min_year)
+      @_currentTimeline = @_timelines[0]
+      curCenter = (@_currentTimeline.min_year + @_currentTimeline.max_year) * 0.5
+      curDist = Math.abs(curCenter - @_currentQuestion.year)/(@_currentTimeline.max_year - @_currentTimeline.min_year)
 
-        for tl in @_timelines
-          if tl?
-            tlCenter = (tl.min_year + tl.max_year) * 0.5
-            dist = Math.abs(tlCenter - @_currentQuestion.year)/(tl.max_year - tl.min_year)
+      for tl in @_timelines
+        if tl?
+          tlCenter = (tl.min_year + tl.max_year) * 0.5
+          dist = Math.abs(tlCenter - @_currentQuestion.year)/(tl.max_year - tl.min_year)
 
-            if dist < curDist
-              @_currentTimeline = tl
-              curCenter = tlCenter
-              curDist = dist
+          if dist < curDist
+            @_currentTimeline = tl
+            curCenter = tlCenter
+            curDist = dist
 
 
-        $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
-        $('#question').html @_currentQuestion.text
-        $('#question-number').html @_questionCount
-        $('#questions-per-round').html @_questionsPerRound
+      $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
+      $('#question').html @_currentQuestion.text
+      $('#question-number').html @_questionCount
 
-        if @_currentQuestion.author? and @_currentQuestion.author isnt ""
-          $('#question-author').html "Frage von: " + @_currentQuestion.author
-        else
-          $('#question-author').html ""
+      if @_currentQuestion.author? and @_currentQuestion.author isnt ""
+        $('#question-author').html "Frage von: " + @_currentQuestion.author
+      else
+        $('#question-author').html ""
 
-        # calculate random viewport
-        pos = @_latLngToPixel
-          lat: @_currentQuestion.latLng.lat
-          lng: @_currentQuestion.latLng.lng
+      # calculate random viewport
+      pos = @_latLngToPixel
+        lat: @_currentQuestion.latLng.lat
+        lng: @_currentQuestion.latLng.lng
 
-        paddingTopBottom = 150
-        paddingLeftRight = 35
+      paddingTopBottom = 150
+      paddingLeftRight = 35
 
-        size = @_map.getSize()
-        viewport_width = size.x - paddingLeftRight*2
-        viewport_height = size.y - paddingTopBottom*2
+      size = @_map.getSize()
+      viewport_width = size.x - paddingLeftRight*2
+      viewport_height = size.y - paddingTopBottom*2
 
-        zoom = 3
-        scale = 0.5
+      zoom = 3
+      scale = 0.5
 
-        # console.log @_currentQuestion.latLng
+      # console.log @_currentQuestion.latLng
 
-        # if @_currentQuestion.latLng.lat > 0 and @_currentQuestion.latLng.lat < 90 and
-        #    @_currentQuestion.latLng.lng > -20 and @_currentQuestion.latLng.lng < 40
+      # if @_currentQuestion.latLng.lat > 0 and @_currentQuestion.latLng.lat < 90 and
+      #    @_currentQuestion.latLng.lng > -20 and @_currentQuestion.latLng.lng < 40
 
-        #   zoom = 4
+      #   zoom = 4
 
-        fuzzyX = 1 - Math.pow(getRandomFloat(0, 1), 1)
-        fuzzyY = 1 - Math.pow(getRandomFloat(0, 1), 1)
+      fuzzyX = 1 - Math.pow(getRandomFloat(0, 1), 1)
+      fuzzyY = 1 - Math.pow(getRandomFloat(0, 1), 1)
 
-        if getRandomInt(0, 1) is 1
-          fuzzyX = -fuzzyX
+      if getRandomInt(0, 1) is 1
+        fuzzyX = -fuzzyX
 
-        if getRandomInt(0, 1) is 1
-          fuzzyY = -fuzzyY
+      if getRandomInt(0, 1) is 1
+        fuzzyY = -fuzzyY
 
-        target_pos =
-          x: pos.x + fuzzyX * viewport_width * scale
-          y: pos.y + fuzzyY * viewport_height * scale
+      target_pos =
+        x: pos.x + fuzzyX * viewport_width * scale
+        y: pos.y + fuzzyY * viewport_height * scale
 
-        target_pos = @_pixelToLatLng target_pos
+      target_pos = @_pixelToLatLng target_pos
 
-        @_map.setView L.latLng(target_pos.lat, target_pos.lng), zoom,
-          duration: 0.5
-          animate: true
+      @_map.setView L.latLng(target_pos.lat, target_pos.lng), zoom,
+        duration: 0.5
+        animate: true
 
-        @_mapMarker.setLatLng L.latLng(target_pos.lat, target_pos.lng)
+      @_mapMarker.setLatLng L.latLng(target_pos.lat, target_pos.lng)
 
-        # update timeline
-        $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
+      # update timeline
+      $('#timeline').css "background-image", "url('img/#{@_currentTimeline.file_name}')"
 
-        # hide old result and update result markers
-        $("#round-end-display").animate({height: "hide", opacity: "hide"});
+      # hide old result and update result markers
+      $("#round-end-display").animate({height: "hide", opacity: "hide"});
 
-        @_mapResultMarker.hide()
-        @_mapMarker.dragging.enable()
-        # @_mapMarker.release()
+      @_mapResultMarker.hide()
+      @_mapMarker.dragging.enable()
+      # @_mapMarker.release()
 
-        @_tlResultMarker.hide()
-        @_tlMarker.release()
+      @_tlResultMarker.hide()
+      @_tlMarker.release()
 
-        @_currentAnswer.session_id = 0
-        @_currentAnswer.start_time = (new Date()).getTime()
+      @_currentAnswer.session_id = 0
+      @_currentAnswer.start_time = (new Date()).getTime()
 
-        # submit answer when time is up
-        @_questionTimeout = window.setTimeout () =>
-           @questionAnswered()
-        , @_timePerQuestion * 1000
+      # submit answer when time is up
+      @_questionTimeout = window.setTimeout () =>
+         @questionAnswered()
+      , @_timePerQuestion * 1000
 
-  roundEnd: =>
 
-    $("#total-score").html @_totalScore
-    # $("#total-max-score").html @_maxScore * @_questionsPerRound
 
-    $("#results").animate({height: "hide", opacity: "hide"});
-    $("#round-end-display").animate({height: "show", opacity: "show"});
-
-    $("#round-end").addClass("invisible");
-    $("#next-round").removeClass("invisible");
-
-    # @_highscoreHandler.update @_totalScore
-
-    @_totalScore = 0
-    @_roundCount++
-    @_questionCount = 1
-
-    if @_askedQuestions.length is @_totalQuestionCount
-      @_askedQuestions = []
 
   submitAnswer: =>
     @_currentAnswer.session_id = @_session_id
