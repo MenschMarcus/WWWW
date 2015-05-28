@@ -41,6 +41,8 @@ class WWWW.QuestionHandler
     @_minZoom = 1
     @_maxZoom = 5
     @_startZoom = 3
+    @_questionAnswered = false
+
 
     # @_highscoreHandler = new WWWW.HighscoreHandler()
 
@@ -62,19 +64,6 @@ class WWWW.QuestionHandler
       scrollWheelZoom: "center"
       keyboard: false
 
-    @_dontUpdateZoomHandle = false
-    @_map.on "zoomend", () =>
-      unless @_dontUpdateZoomHandle
-        @_updateMapZoomHandle @_map.getZoom()
-      @_dontUpdateZoomHandle = false
-
-
-    @_map.setView([51.505, -0.09], @_startZoom)
-    # tiles = L.tileLayer "tiles/{z}/{x}/{y}.png"
-    tiles = L.tileLayer "img/tiles/{z}/{x}/{y}.png"
-    tiles.addTo @_map
-    @_map.attributionControl.setPrefix ''
-
     icon = L.icon
       iconUrl: 'img/marker_map.png',
       iconRetinaUrl: 'img/marker_map.png',
@@ -84,6 +73,33 @@ class WWWW.QuestionHandler
       shadowRetinaUrl: 'img/shadow.png',
       shadowSize: [54, 29],
       shadowAnchor: [27, 20]
+
+    @_mapMarker = $("#map-marker")
+    @_mapResultMarkerCorrect = new L.Marker([50.5, 30.5], {icon:icon}).addTo @_map
+    @_mapResultMarkerWrong = new L.Marker([50.5, 30.5], {icon:icon}).addTo @_map
+
+    @_dontUpdateZoomHandle = false
+    @_map.on "zoomend", () =>
+      unless @_dontUpdateZoomHandle
+        @_updateMapZoomHandle @_map.getZoom()
+      @_dontUpdateZoomHandle = false
+
+    @_map.on "moveend", () =>
+      unless @_questionAnswered
+        latlng = @_map.getCenter()
+        pixel = @_map.latLngToContainerPoint latlng
+        @_mapMarker.animate {left: pixel.x + "px", top: pixel.y + "px"}
+        @_mapResultMarkerCorrect.setLatLng latlng
+        @_mapResultMarkerWrong.setLatLng latlng
+
+
+
+    @_map.setView([51.505, -0.09], @_startZoom)
+    # tiles = L.tileLayer "tiles/{z}/{x}/{y}.png"
+    tiles = L.tileLayer "img/tiles/{z}/{x}/{y}.png"
+    tiles.addTo @_map
+    @_map.attributionControl.setPrefix ''
+
 
 
     $("#map-zoom-handle-outer").draggable
@@ -173,7 +189,6 @@ class WWWW.QuestionHandler
 
     @_timePerQuestion = 30 #in seconds
 
-    @_questionAnswered = false
     @_questionTimeout = null
 
     @_currentAnswer = new WWWW.Answer()
@@ -183,7 +198,6 @@ class WWWW.QuestionHandler
 
     @_browserDetector = new WWWW.BrowserDetector()
 
-    @_mapResultMarker = $("#map-result-marker")
 
 
     @_timelines = null
@@ -279,9 +293,9 @@ class WWWW.QuestionHandler
   showResults: =>
     mapResultPos = @_latLngToPixel @_currentQuestion.latLng
 
-    @_mapResultMarker.position mapResultPos
-    @_mapResultMarker.animate({left: mapResultPos.x + 'px', top: mapResultPos.y + 'px'});
-    @_mapResultMarker.show()
+    @_mapResultMarkerCorrect.setOpacity 1.0
+    @_mapResultMarkerWrong.setOpacity 1.0
+    @_mapResultMarkerCorrect.setLatLng @_currentQuestion.latLng
 
     # tlResultPos = @_timeToPixel(@_currentQuestion.year)
     # tlResultPos.y = $(@_timelineDiv).height() - 51
@@ -344,7 +358,8 @@ class WWWW.QuestionHandler
 
     @_questionCount += 1
 
-    $("#submit-answer").addClass("disabled");
+    $("#submit-answer").hide("fast");
+    @_mapMarker.hide();
 
     unless WWWW.DRY_RUN
       @submitAnswer()
@@ -352,7 +367,6 @@ class WWWW.QuestionHandler
     window.setTimeout () =>
       @_currentQuestionRating = null
       $("#next-question").removeClass("invisible");
-      $("#submit-answer").addClass("invisible");
       $("#results").animate({height: "show", opacity: "show"});
       $("#answer-info").animate({height: "show", opacity: "show"});
       $("#question").animate({height: "hide", opacity: "hide"});
@@ -373,8 +387,7 @@ class WWWW.QuestionHandler
       $("#next-question").addClass("invisible");
       $("#next-round").addClass("invisible");
       $("#round-end").addClass("invisible");
-      $("#submit-answer").removeClass("invisible");
-      $("#submit-answer").removeClass("disabled");
+      $("#submit-answer").show("fast");
 
       $("#tl-chosen").removeClass("right");
       $("#tl-chosen").addClass("center");
@@ -481,7 +494,17 @@ class WWWW.QuestionHandler
         duration: 0.5
         animate: true
 
-      @_mapResultMarker.hide()
+      # @_mapMarker.setLatLng [target_pos.lat, target_pos.lng]
+
+      @_mapMarker.show("fast")
+      @_mapResultMarkerCorrect.setOpacity 0.0
+      @_mapResultMarkerWrong.setOpacity 0.0
+
+
+      # @_mapResultMarker.animate {opacity:"hide"}, ()=>
+      #   latlng = @_map.getCenter()
+      #   pixel = @_map.latLngToContainerPoint latlng
+      #   @_mapResultMarker.offset {left: pixel.x, top: pixel.y}
 
       @_currentAnswer.session_id = 0
       @_currentAnswer.start_time = (new Date()).getTime()
