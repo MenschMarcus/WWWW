@@ -117,6 +117,16 @@
               <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
             </div>
             <div class="timeline" id="timeline">
+              <div id="tl-year-container">
+                <div id="tl-chosen" class="tl-year-box tl-year-box center">
+                  <div id="tl-chosen-text" class="tl-year-box-text">gewähltes Jahr</div>
+                  <div id="tl-chosen-year" class="tl-year-box-year">1900</div>
+                </div>
+                <div id="tl-correct" class="tl-year-box tl-year-box left">
+                  <div id="tl-correct-text" class="tl-year-box-text">korrektes Jahr</div>
+                  <div id="tl-correct-year" class="tl-year-box-year">1800</div>
+                </div>
+              </div>
               <div id="tl-zoom-control">
                 <img id="tl-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
                 <div id="tl-zoom-slider">

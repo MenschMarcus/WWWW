@@ -125,6 +125,8 @@ class WWWW.QuestionHandler
       #   @_dontUpdateZoomHandle = true
       #   @_map.setZoom currentZoom
 
+    $("#tl-correct").hide();
+
     @_timelineDiv = document.getElementById("timeline")
     @_barDiv = $('#question-progress')
 
@@ -146,26 +148,11 @@ class WWWW.QuestionHandler
     @_timelines = null
     @_currentTimeline = null
 
-    @_tlMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-answer", "x", true
-
     @_resetMarkers()
-    @_tlMarker.show()
-
-    yearDiv = document.createElement "div"
-    yearDiv.id = "yearDiv"
-    yearDiv.className = "yearDiv"
-    @_tlMarker.getDiv().appendChild yearDiv
-
-    $(@_tlMarker.getDiv()).on "drag", (event, ui)=>
-      $(yearDiv).html @_pixelToTime @_tlMarker.getPosition()
-
-    @_tlResultMarker = new WWWW.Marker @_timelineDiv, "marker marker-time marker-time-result", "x", true
-    @_tlResultMarker.lock()
 
     yearResultDiv = document.createElement "div"
     yearResultDiv.id = "yearResultDiv"
     yearResultDiv.className = "yearDiv"
-    @_tlResultMarker.getDiv().appendChild yearResultDiv
 
     WWWW.executePHPFunction "getSessionID", "", (s_id) =>
       @_currentAnswer.session_id = s_id
@@ -235,17 +222,6 @@ class WWWW.QuestionHandler
 
       @_map.panTo event.latlng
 
-    # place timeline marker on click
-    # $(@_timelineDiv).on 'click', (event) =>
-    #   unless @_tlMarker.isLocked()
-    #     offset = $(@_timelineDiv).offset()
-    #     newPos =
-    #       x : event.clientX - offset.left
-    #       y : $(@_timelineDiv).height() - 51
-
-    #     @_tlMarker.setPosition newPos
-    #     $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
-
     $("#round-end-display").hide();
 
   questionAnswered: =>
@@ -266,20 +242,18 @@ class WWWW.QuestionHandler
     @_mapResultMarker.animate({left: mapResultPos.x + 'px', top: mapResultPos.y + 'px'});
     @_mapResultMarker.show()
 
-    tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    tlResultPos.y = $(@_timelineDiv).height() - 51
-    @_tlResultMarker.setPosition tlResultPos
-    @_tlResultMarker.show()
-    $("#yearResultDiv").html @_pixelToTime tlResultPos
+    # tlResultPos = @_timeToPixel(@_currentQuestion.year)
+    # tlResultPos.y = $(@_timelineDiv).height() - 51
 
-    @_tlMarker.lock()
+    $("#tl-chosen").removeClass("center");
+    $("#tl-chosen").addClass("right");
+    $("#tl-correct").fadeIn();
 
     answerLatLng = @_map.getCenter()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
-    @_tlMarker.fade()
-
-    answerTime = @_pixelToTime @_tlMarker.getPosition()
+    # answerTime = @_pixelToTime $()
+    answerTime = 600
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
 
     $("#answer-location").html @_currentQuestion.location
@@ -348,7 +322,6 @@ class WWWW.QuestionHandler
       # reset loading bar
       @_barDiv.addClass 'animate'
       @_barDiv.css "width", "100%"
-      @_tlMarker.unfade()
 
       $("#results").animate({height: "hide", opacity: "hide"});
 
@@ -357,6 +330,11 @@ class WWWW.QuestionHandler
       $("#round-end").addClass("invisible");
       $("#submit-answer").removeClass("invisible");
       $("#submit-answer").removeClass("disabled");
+
+      $("#tl-chosen").removeClass("right");
+      $("#tl-chosen").addClass("center");
+      $("#tl-correct").fadeOut(0.1);
+
 
       newQuestionId = WWWW.TEST_START_ID
 
@@ -407,7 +385,6 @@ class WWWW.QuestionHandler
             curDist = dist
 
 
-      $("#yearDiv").html @_pixelToTime @_tlMarker.getPosition()
       $('#question').html @_currentQuestion.text
       $('#question-number').html @_questionCount
 
@@ -460,9 +437,6 @@ class WWWW.QuestionHandler
 
       @_mapResultMarker.hide()
 
-      @_tlResultMarker.hide()
-      @_tlMarker.release()
-
       @_currentAnswer.session_id = 0
       @_currentAnswer.start_time = (new Date()).getTime()
 
@@ -512,7 +486,7 @@ class WWWW.QuestionHandler
     Math.round(L.latLng(latLng1.lat, latLng1.lng).distanceTo(L.latLng(latLng2.lat, latLng2.lng))/1000)
 
   _pixelToTime: (pos) =>
-    relX = pos.x / $("#timeline").width()
+    relX = pos.x / $("#tl-zoom-line").width()
 
     timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
     time = Math.round(relX * timeDiff + @_currentTimeline.min_year)
@@ -524,7 +498,7 @@ class WWWW.QuestionHandler
     relTime = (time - @_currentTimeline.min_year) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
 
     pos =
-      x : relTime * $("#timeline").width()
+      x : relTime * $("#tl-zoom-line").width()
       y : 0
 
     pos
@@ -536,7 +510,7 @@ class WWWW.QuestionHandler
     startPos =
       x : $(@_timelineDiv).width()/2
       y : $(@_timelineDiv).height() - 51
-    @_tlMarker.setPosition startPos
+    # @_tlMarker.setPosition startPos
 
   _updateMapZoomHandle: (zoom) =>
 
