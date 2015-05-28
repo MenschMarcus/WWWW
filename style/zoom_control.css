@@ -99,10 +99,10 @@
 }
 
 #tl-zoom-handle-outer.animate {
-  -webkit-transition: top 0.2s linear !important;
-     -moz-transition: top 0.2s linear !important;
-       -o-transition: top 0.2s linear !important;
-          transition: top 0.2s linear !important;
+  /*-webkit-transition: left 0.2s linear !important;
+     -moz-transition: left 0.2s linear !important;
+       -o-transition: left 0.2s linear !important;
+          transition: left 0.2s linear !important;*/
 }
 
 #tl-zoom-handle-inner {
