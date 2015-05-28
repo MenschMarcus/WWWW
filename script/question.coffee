@@ -181,6 +181,7 @@ class WWWW.QuestionHandler
       opts =
         step: () =>
           @_updateTimeline()
+        duration : 200
 
       $("#tl-zoom-handle-outer").animate property, opts
 
