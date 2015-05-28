@@ -139,6 +139,7 @@ class WWWW.QuestionHandler
         @_updateTimeline()
 
     $("#tl-zoom-plus").click () =>
+
       pos = $("#tl-zoom-handle-outer").offset().left -
             $("#tl-zoom-slider").offset().left +
             $("#tl-zoom-handle-outer").width() / 2
@@ -168,16 +169,20 @@ class WWWW.QuestionHandler
       @_updateTimeline()
 
     $("#tl-zoom-slider").click (event) =>
-      console.log $("#tl-zoom-handle-outer").offset().left
-      console.log event.pageX
+      $("#tl-zoom-handle-outer").addClass "animate"
 
       pos = event.pageX -
+            $("#tl-zoom-slider").offset().left -
             $("#tl-zoom-handle-outer").width() / 2
 
-      $("#tl-zoom-handle-outer").offset
-        left : pos
+      property =
+        left: pos
 
-      @_updateTimeline()
+      opts =
+        step: () =>
+          @_updateTimeline()
+
+      $("#tl-zoom-handle-outer").animate property, opts
 
 
     $("#tl-correct").hide();
