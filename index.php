@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <title>WWWW</title>
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
@@ -17,15 +17,32 @@
   <link rel="stylesheet" type="text/css" href="style/feedback.css" />
 
   <script type="text/javascript">
+
+    var mobile = false;
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+      var ww =$(window).width()
+      var wh =$(window).height()
+      var mw = 480; // min width of site
+      var mh = 700; // min height of site
+      var w_ratio =  ww / mw;
+      var h_ratio =  wh / mh;
+
+      var ratio = Math.min(w_ratio, h_ratio);
+
+      $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
+      mobile = true;
+    }
+
     $(document).ready(function($) {
       $("#feedback-fail").hide()
       var browserDetector = new WWWW.BrowserDetector();
       var p = browserDetector.platform;
 
-      // if (p=="Android" || p=="iPhone" || p=="iPad" || p=="iPhone/iPod" || p=="unknown") {
-      //   $("#instructions").hide()
-      //   $("#feedback-fail").hide().slideDown()
-      // }
+      if (mobile) {
+        $("body").addClass("mobile");
+      }
+
     });
   </script>
 </head>

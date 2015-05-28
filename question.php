@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <script type="text/javascript" src="script/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="script/third-party/jquery-ui-1.10.4.min.js"></script>
@@ -41,6 +41,23 @@
   <script type="text/javascript">stLight.options({publisher: "ur-14bc1105-dbac-3c4b-e2aa-609a8f8c9a5b", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
 
   <script type="text/javascript">
+
+  var mobile = false;
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+      var ww =$(window).width()
+      var wh =$(window).height()
+      var mw = 520; // min width of site
+      var mh = 900; // min height of site
+      var w_ratio =  ww / mw;
+      var h_ratio =  wh / mh;
+
+      var ratio = Math.min(w_ratio, h_ratio);
+
+      $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
+      mobile = true;
+    }
+
     window.___gcfg = {lang: 'de'};
     $(document).ready(function($) {
       var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
@@ -48,6 +65,10 @@
       var feedback = new WWWW.FeedbackHandler();
 
       $('#question-progress').css({width:'100%'});
+
+      if (mobile) {
+        $("body").addClass("mobile");
+      }
 
       // google+
       // (function() {
