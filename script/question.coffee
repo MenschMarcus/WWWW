@@ -297,9 +297,6 @@ class WWWW.QuestionHandler
     @_mapResultMarkerWrong.setOpacity 1.0
     @_mapResultMarkerCorrect.setLatLng @_currentQuestion.latLng
 
-    # tlResultPos = @_timeToPixel(@_currentQuestion.year)
-    # tlResultPos.y = $(@_timelineDiv).height() - 51
-
     $("#tl-correct-year").html @_currentQuestion.year
     $("#tl-chosen").removeClass("center");
     $("#tl-chosen").addClass("right");
@@ -308,9 +305,14 @@ class WWWW.QuestionHandler
     answerLatLng = @_map.getCenter()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
-    # answerTime = @_pixelToTime $()
-    answerTime = 600
+    timePos = $("#tl-zoom-handle-outer").offset().left -
+              $("#tl-zoom-slider").offset().left +
+              $("#tl-zoom-handle-outer").width() / 2
+
+    answerTime = @_pixelToTime timePos
     temporalDistance = Math.abs(answerTime - @_currentQuestion.year)
+
+    console.log temporalDistance
 
     $("#answer-location").html @_currentQuestion.location
     $("#answer-year").html @_currentQuestion.year
