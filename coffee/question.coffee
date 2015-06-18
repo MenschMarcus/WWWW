@@ -321,6 +321,18 @@ class WWWW.QuestionHandler
     @_currentAnswer.round_count = @_roundCount
     @_currentAnswer.q_id = @_currentQuestion.id
 
+    scoreRequest = {}
+    scoreRequest["Data"] = {}
+    scoreRequest["Data"]["question_#{@_currentQuestion.id}"] = "#{score}"
+
+    console.log scoreRequest
+    if exports.settings.session_ticket?
+      exports.client.UpdateUserData scoreRequest,
+        (error, result) =>
+          console.log error
+          console.log result
+
+
     @_questionCount += 1
 
     $("#submit-answer").hide("fast");
