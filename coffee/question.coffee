@@ -247,6 +247,7 @@ class WWWW.QuestionHandler
 
           WWWW.executePHPFunction "getQuestions", null, (question_string) =>
             @_questions = JSON.parse question_string
+            console.log @_questions
             for question, i in @_questions
               question.latLng =
                 lat : parseFloat(question.lat)
@@ -458,12 +459,6 @@ class WWWW.QuestionHandler
       @_resetMarkers()
 
       $('#question').html @_currentQuestion.text
-      $('#question-number').html @_questionCount
-
-      if @_currentQuestion.author? and @_currentQuestion.author isnt ""
-        $('#question-author').html "Frage von: " + @_currentQuestion.author
-      else
-        $('#question-author').html ""
 
       # calculate random viewport
       pos = @_latLngToPixel
