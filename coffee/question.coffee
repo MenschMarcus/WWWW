@@ -73,6 +73,7 @@ class WWWW.QuestionHandler
       iconAnchor: [10, 10]
 
     @_mapMarker = $("#map-marker")
+    @_mapMarker.hide()
     @_mapResultMarkerCorrect = new L.Marker([50.5, 30.5], {icon:icon_correct}).addTo @_map
     @_mapResultMarkerWrong = new L.Marker([50.5, 30.5], {icon:icon_wrong}).addTo @_map
 
@@ -181,6 +182,7 @@ class WWWW.QuestionHandler
 
 
     $("#tl-correct").hide()
+    $("#tl-zoom-handle-outer").hide()
     $("#tl-zoom-handle-outer-answer").hide()
     $("#tl-zoom-handle-outer-result").hide()
 
@@ -192,11 +194,9 @@ class WWWW.QuestionHandler
 
     @_currentAnswer = new WWWW.Answer()
 
-    @_browserDetector = new WWWW.BrowserDetector()
-
     @_timeline = null
 
-    @_resetMarkers()
+    # @_resetMarkers()
 
     yearResultDiv = document.createElement "div"
     yearResultDiv.id = "yearResultDiv"
@@ -213,7 +213,7 @@ class WWWW.QuestionHandler
             lat : parseFloat(question.lat)
             lng : parseFloat(question.long)
         @_totalQuestionCount = @_questions?.length
-        @postNewQuestion()
+        # @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -237,6 +237,11 @@ class WWWW.QuestionHandler
       @_map.panTo event.latlng
 
     $("#round-end-display").hide();
+
+  run: =>
+    $("#tl-zoom-handle-outer").show()
+    @_mapMarker.show()
+    @postNewQuestion()
 
   questionAnswered: =>
     unless @_questionAnswered
