@@ -202,16 +202,18 @@ class WWWW.QuestionHandler
     yearResultDiv.id = "yearResultDiv"
     yearResultDiv.className = "yearDiv"
 
-
-    WWWW.executePHPFunction "getQuestions", null, (question_string) =>
-      @_questions = JSON.parse question_string
-      for question, i in @_questions
-        question.latLng =
-          lat : parseFloat(question.lat)
-          lng : parseFloat(question.long)
-
-      @_totalQuestionCount = @_questions?.length
-      @postNewQuestion()
+    $.ajax
+      url: "data/question.csv"
+      dataType: "text"
+      success: (csvd) =>
+        @_questions = $.csv.toObjects csvd,
+          separator: '|'
+        for question, i in @_questions
+          question.latLng =
+            lat : parseFloat(question.lat)
+            lng : parseFloat(question.long)
+        @_totalQuestionCount = @_questions?.length
+        @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
