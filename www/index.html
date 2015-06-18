@@ -35,6 +35,7 @@
     }
 
     $(document).ready(function($) {
+      console.log(settings)
       $("#feedback-fail").hide()
       var browserDetector = new WWWW.BrowserDetector();
       var p = browserDetector.platform;
@@ -52,7 +53,6 @@
         var pwd     = $("#login-dialog-email-password").val();
 
         var request = {
-          "TitleId": "CC05",
           "Email": address,
           "Password": pwd
         };
@@ -63,7 +63,17 @@
             console.log(result);
 
             if (result) {
-              console.log(settings.session_ticket);
+              console.log(exports.settings.session_ticket);
+
+              $("#login-email-state").html("mit Email eingeloggt");
+              $("#login-dialog-email").toggle();
+              $("#login-button-email").addClass("success");
+              exports.client.GetUserData(null,
+                function(error, result) {
+                  console.log(error);
+                  console.log(result);
+                }
+              );
             }
           }
         );
@@ -79,9 +89,9 @@
         <img id="logo" src="img/logo.svg" />
       </div>
       <div class="text-center">
-        <p><div class="btn block" id="login-button-email" href="#"><img src="img/googleplus.svg"> <span>mit Email einloggen</span></div></p>
+        <p><div class="btn block" id="login-button-email" href="#"><img src="img/googleplus.svg"> <span id="login-email-state">mit Email einloggen</span></div></p>
         <div id="login-dialog-email">
-          <p>Email: <input id="login-dialog-email-text" type="text"></input></p>
+          <p>Email: <input id="login-dialog-email-text" type="email" autocomplete="on"></input></p>
           <p>Passwort: <input id="login-dialog-email-password" type="password"></input></p>
           <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
         </div>
