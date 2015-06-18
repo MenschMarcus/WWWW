@@ -15,7 +15,6 @@ class WWWW.Answer
   constructor: () ->
     @q_id = null
     @round_count = null
-    @session_id = null
     @lat = null
     @long = null
     @year = null
@@ -37,14 +36,11 @@ class WWWW.QuestionHandler
     @_totalScore = 0
     @_roundCount = 1
     @_questionCount = 1
-    @_session_id = null
     @_minZoom = 1
     @_maxZoom = 5
     @_startZoom = 3
     @_questionAnswered = false
 
-
-    # @_highscoreHandler = new WWWW.HighscoreHandler()
 
     $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
@@ -95,14 +91,10 @@ class WWWW.QuestionHandler
         @_mapResultMarkerWrong.setLatLng latlng
 
 
-
     @_map.setView([51.505, -0.09], @_startZoom)
-    # tiles = L.tileLayer "tiles/{z}/{x}/{y}.png"
     tiles = L.tileLayer "img/tiles/{z}/{x}/{y}.png"
     tiles.addTo @_map
     @_map.attributionControl.setPrefix ''
-
-
 
     $("#map-zoom-handle-outer").draggable
       addClasses: false
@@ -146,7 +138,7 @@ class WWWW.QuestionHandler
               $("#tl-zoom-handle-outer").width() / 2
 
         currentYear = @_pixelToTime pos
-        new_year = Math.min @_currentTimeline.max_year, currentYear + 1
+        new_year = Math.min @_timeline.max_year, currentYear + 1
         new_pos = @_timeToPixel new_year
 
         $("#tl-zoom-handle-outer").offset
@@ -162,7 +154,7 @@ class WWWW.QuestionHandler
               $("#tl-zoom-handle-outer").width() / 2
 
         currentYear = @_pixelToTime pos
-        new_year = Math.max @_currentTimeline.min_year, currentYear - 1
+        new_year = Math.max @_timeline.min_year, currentYear - 1
         new_pos = @_timeToPixel new_year
 
         $("#tl-zoom-handle-outer").offset
@@ -200,15 +192,9 @@ class WWWW.QuestionHandler
 
     @_currentAnswer = new WWWW.Answer()
 
-    @_maps = null
-    @_currentMap = null
-
     @_browserDetector = new WWWW.BrowserDetector()
 
-
-
-    @_timelines = null
-    @_currentTimeline = null
+    @_timeline = null
 
     @_resetMarkers()
 
@@ -216,45 +202,16 @@ class WWWW.QuestionHandler
     yearResultDiv.id = "yearResultDiv"
     yearResultDiv.className = "yearDiv"
 
-    WWWW.executePHPFunction "getSessionID", "", (s_id) =>
-      @_currentAnswer.session_id = s_id
-      @_session_id = s_id
 
-      WWWW.executePHPFunction "getMaps", "", (map_string) =>
-        @_maps = new Object()
-        maps = JSON.parse map_string
+    WWWW.executePHPFunction "getQuestions", null, (question_string) =>
+      @_questions = JSON.parse question_string
+      for question, i in @_questions
+        question.latLng =
+          lat : parseFloat(question.lat)
+          lng : parseFloat(question.long)
 
-        for map in maps
-          map.minLatLng =
-            lat : parseInt(map.lat_min)
-            lng : parseInt(map.long_min)
-
-          map.maxLatLng =
-            lat : parseInt(map.lat_max)
-            lng : parseInt(map.long_max)
-
-          @_maps[map.id] = map
-
-        WWWW.executePHPFunction "getTimelines", "", (tl_string) =>
-          #@_timelines = new Object()
-          @_timelines = []
-          tls = JSON.parse tl_string
-
-          for tl in tls
-            tl.min_year = parseInt(tl.min_year)
-            tl.max_year = parseInt(tl.max_year)
-            @_timelines.push tl
-
-          WWWW.executePHPFunction "getQuestions", null, (question_string) =>
-            @_questions = JSON.parse question_string
-            console.log @_questions
-            for question, i in @_questions
-              question.latLng =
-                lat : parseFloat(question.lat)
-                lng : parseFloat(question.long)
-
-            @_totalQuestionCount = @_questions?.length
-            @postNewQuestion()
+      @_totalQuestionCount = @_questions?.length
+      @postNewQuestion()
 
     # submit answer on click
     $('#submit-answer').on 'click', () =>
@@ -262,7 +219,6 @@ class WWWW.QuestionHandler
 
     # post new question on click
     $('#next-question').on 'click', () =>
-      @submitRating()
       @postNewQuestion()
 
     # post new question on click
@@ -348,7 +304,7 @@ class WWWW.QuestionHandler
     spatialScore = if spatialScore >= @_answerChanceLevel then (spatialScore - @_answerChanceLevel) / (1-@_answerChanceLevel) else 0
     spatialScore = (Math.min(1.0, (spatialScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
-    yearScore = 1 - temporalDistance / (@_currentTimeline.max_year - @_currentTimeline.min_year)
+    yearScore = 1 - temporalDistance / (@_timeline.max_year - @_timeline.min_year)
     yearScore = if yearScore >= @_answerChanceLevel then (yearScore - @_answerChanceLevel)/ (1-@_answerChanceLevel) else 0
     yearScore = (Math.min(1.0, (yearScore + 1.0 - @_answerPrecisionThreshold)) - 1.0 + @_answerPrecisionThreshold ) / @_answerPrecisionThreshold
 
@@ -440,21 +396,14 @@ class WWWW.QuestionHandler
 
       # update question
       @_askedQuestions.push newQuestionId
-      @_currentMap = @_maps[@_currentQuestion.map_id]
 
-      @_currentTimeline = @_timelines[0]
-      curCenter = (@_currentTimeline.min_year + @_currentTimeline.max_year) * 0.5
-      curDist = Math.abs(curCenter - @_currentQuestion.year)/(@_currentTimeline.max_year - @_currentTimeline.min_year)
+      # increase timeline range
+      timeRange = -1*Math.min(0, parseInt(@_currentQuestion.year) - 2000) + 50
+      timeShift = getRandomFloat(0.1, 0.9)
 
-      for tl in @_timelines
-        if tl?
-          tlCenter = (tl.min_year + tl.max_year) * 0.5
-          dist = Math.abs(tlCenter - @_currentQuestion.year)/(tl.max_year - tl.min_year)
-
-          if dist < curDist
-            @_currentTimeline = tl
-            curCenter = tlCenter
-            curDist = dist
+      @_timeline =
+        min_year: Math.floor(parseInt(@_currentQuestion.year) - timeRange*timeShift)
+        max_year: Math.ceil(parseInt(@_currentQuestion.year) + timeRange*(1-timeShift))
 
       @_resetMarkers()
 
@@ -514,7 +463,6 @@ class WWWW.QuestionHandler
       #   pixel = @_map.latLngToContainerPoint latlng
       #   @_mapResultMarker.offset {left: pixel.x, top: pixel.y}
 
-      @_currentAnswer.session_id = 0
       @_currentAnswer.start_time = (new Date()).getTime()
 
       # submit answer when time is up
@@ -523,34 +471,6 @@ class WWWW.QuestionHandler
       , @_timePerQuestion * 1000
 
 
-
-
-  submitAnswer: =>
-    @_currentAnswer.session_id = @_session_id
-    a = @_currentAnswer
-    send =
-      table: "answer"
-      values: "#{a.q_id}, #{a.round_count}, '#{a.session_id}',
-               #{a.lat}, #{a.long}, #{a.year}, #{a.score}, #{a.start_time},
-               #{a.end_time}, '#{@_browserDetector.platform}',
-               '#{@_browserDetector.browser}', '#{@_browserDetector.version}'"
-      names: "`q_id`, `round_count`, `session_id`,
-              `lat`, `long`, `year`, `score`, `start_time`,
-              `end_time`, `platform`,
-              `browser`, `version`"
-
-    WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-      console.log "answer was submitted with response #{response}"
-
-  submitRating: =>
-    if @_currentQuestionRating? and not WWWW.DRY_RUN
-      send =
-        table: "question_rating"
-        values: "'#{@_currentAnswer.q_id}', '#{@_session_id}', '#{@_currentQuestionRating}'"
-        names: "`q_id`, `session_id`, `rating`"
-
-      WWWW.executePHPFunction "insertIntoDB", send, (response) =>
-        console.log "rating was submitted with response #{response}"
 
   _pixelToLatLng: (pos) =>
     @_map.containerPointToLatLng(L.point(pos.x, pos.y))
@@ -564,17 +484,17 @@ class WWWW.QuestionHandler
   _pixelToTime: (pos) =>
     time = 0
 
-    if @_currentTimeline?
+    if @_timeline?
       relX = pos/ $("#tl-zoom-line").width()
 
-      timeDiff = @_currentTimeline.max_year - @_currentTimeline.min_year
-      time = Math.round(relX * timeDiff + @_currentTimeline.min_year)
+      timeDiff = @_timeline.max_year - @_timeline.min_year
+      time = Math.round(relX * timeDiff + @_timeline.min_year)
 
     time
 
 
   _timeToPixel: (time) =>
-    relTime = (time - @_currentTimeline.min_year) / (@_currentTimeline.max_year - @_currentTimeline.min_year)
+    relTime = (time - @_timeline.min_year) / (@_timeline.max_year - @_timeline.min_year)
 
     pos = relTime * $("#tl-zoom-line").width() +
           $("#tl-zoom-slider").offset().left  -
