@@ -268,13 +268,6 @@ class WWWW.QuestionHandler
     $('#next-round').on 'click', () =>
       @postNewQuestion()
 
-    $("#rate-question").raty
-      starType: "i"
-      hints: ["","","","",""]
-      #path : 'script/third-party/raty/images/'
-      click: (rating, event) =>
-        @_currentQuestionRating = rating
-
     # place map marker on click
     @_map.on 'click', (event) =>
       offset = $(@_mapDiv).offset()
@@ -555,7 +548,6 @@ class WWWW.QuestionHandler
       console.log "answer was submitted with response #{response}"
 
   submitRating: =>
-    $("#rate-question").raty "reload"
     if @_currentQuestionRating? and not WWWW.DRY_RUN
       send =
         table: "question_rating"
