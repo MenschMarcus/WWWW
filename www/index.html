@@ -11,6 +11,7 @@
 
   <script type="text/javascript" src="js/third-party/jquery-1.10.2.js"></script>
   <script type="text/javascript" src="js/third-party/BrowserDetect.js"></script>
+  <script type="text/javascript" src="js/third-party/playfab.js"></script>
 
   <script type="text/javascript" src="js/wwww.min.js"></script>
 
@@ -42,6 +43,32 @@
         $("body").addClass("mobile");
       }
 
+      $("#login-dialog-email").hide();
+      $("#login-button-email").click(function() {
+        $("#login-dialog-email").toggle();
+      });
+      $("#login-email-submit").click(function() {
+        var address = $("#login-dialog-email-text").val();
+        var pwd     = $("#login-dialog-email-password").val();
+
+        var request = {
+          "TitleId": "CC05",
+          "Email": address,
+          "Password": pwd
+        };
+
+        exports.client.LoginWithEmailAddress(request,
+          function(error, result) {
+            console.log(error);
+            console.log(result);
+
+            if (result) {
+              console.log(settings.session_ticket);
+            }
+          }
+        );
+      });
+
     });
   </script>
 </head>
@@ -52,8 +79,14 @@
         <img id="logo" src="img/logo.svg" />
       </div>
       <div class="text-center">
-        <p><a class="btn block" href="#"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></a></p>
-        <p><a class="btn block" href="#"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></a></p>
+        <p><div class="btn block" id="login-button-email" href="#"><img src="img/googleplus.svg"> <span>mit Email einloggen</span></div></p>
+        <div id="login-dialog-email">
+          <p>Email: <input id="login-dialog-email-text" type="text"></input></p>
+          <p>Passwort: <input id="login-dialog-email-password" type="password"></input></p>
+          <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
+        </div>
+        <p><div class="btn block"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></div></p>
+        <p><div class="btn block"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></div></p>
         <br>
         <p><a class="btn block primary" href="question.html">Spiel starten</a></p>
       </div>
