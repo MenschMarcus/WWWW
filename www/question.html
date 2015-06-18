@@ -23,7 +23,7 @@
 
     var mobile = false;
 
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       var ww =$(window).width()
       var wh =$(window).height()
       var mw = 520; // min width of site
@@ -35,7 +35,7 @@
 
       $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
       mobile = true;
-    }
+    // }
 
     $(document).ready(function($) {
       var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
@@ -119,7 +119,6 @@
             </div>
             <div id="abort"><img src="img/cross.svg" /></div>
             <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div></div>
-            <div id="round-end" class="link invisible"><i class="fa fa-check"></i> Runde beenden!</div>
             <div id="results" class="text-center">
               <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
               <div id="score">
@@ -128,7 +127,6 @@
                 <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
                 <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
                 <div id="abort2"><img src="img/cross.svg" /></div>
-                <div id="next-round" class="link invisible"><i class="fa fa-check"></i> Neue Runde starten!</div>
               </div>
             </div>
           </div>

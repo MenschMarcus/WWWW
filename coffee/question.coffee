@@ -227,15 +227,6 @@ class WWWW.QuestionHandler
     $('#next-round').on 'click', () =>
       @postNewQuestion()
 
-    # place map marker on click
-    @_map.on 'click', (event) =>
-      offset = $(@_mapDiv).offset()
-      newPos =
-        x : event.originalEvent.clientX - offset.left
-        y : event.originalEvent.clientY - offset.top
-
-      @_map.panTo event.latlng
-
     $("#round-end-display").hide();
 
   questionAnswered: =>
