@@ -1,2 +1,4 @@
 *.sublime-workspace
 build
+www/js/wwww.min.js
+www/css/wwww.min.css
