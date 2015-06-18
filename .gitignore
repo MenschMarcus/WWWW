@@ -1,5 +1,6 @@
 *.sublime-workspace
 build
+www/data
 www/js/wwww.min.js
 www/css/wwww.min.css
 platforms

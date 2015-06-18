@@ -10,3 +10,6 @@ jFiles=$(find build -name '*.js')
 uglifyjs $jFiles -o $DIR/www/js/wwww.min.js -mc
 
 lessc --no-color -x less/wwww.less www/css/wwww.min.css
+
+mkdir -p www/data
+cp data/question.csv www/data/question.csv
