@@ -52,15 +52,19 @@
         var pwd     = $("#login-dialog-email-password").val();
 
         var request = {
-           "TitleId": "CC05",
-           "Email": address,
-           "Password": pwd
+          "TitleId": "CC05",
+          "Email": address,
+          "Password": pwd
         };
 
         exports.client.LoginWithEmailAddress(request,
           function(error, result) {
             console.log(error);
             console.log(result);
+
+            if (result) {
+              console.log(settings.session_ticket);
+            }
           }
         );
       });
