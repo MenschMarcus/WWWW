@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8">
+  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <title>WasWarWannWo</title>
+
+  <link rel="stylesheet" type="text/css" href="css/third_party/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="css/third_party/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/wwww.min.css" />
+
+  <script type="text/javascript" src="js/third-party/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="js/third-party/jquery-ui-1.10.4.min.js"></script>
+  <script type="text/javascript" src="js/third-party/jquery.ui.touch-punch.min.js"></script>
+  <script type="text/javascript" src="js/third-party/jquery.csv-0.71.min.js"></script>
+  <script type="text/javascript" src="js/third-party/leaflet.js"></script>
+  <script type="text/javascript" src="js/third-party/playfab.js"></script>
+
+  <script type="text/javascript" src="js/wwww.min.js"></script>
+
+  <script type="text/javascript">
+
+    var ww =$(window).width()
+    var wh =$(window).height()
+    var mw = 480; // min width of site
+    var mh = 700; // min height of site
+    var w_ratio =  ww / mw;
+    var h_ratio =  wh / mh;
+
+    var ratio = Math.min(w_ratio, h_ratio);
+
+    $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
+
+    $(document).ready(function($) {
+      $("#feedback-fail").hide()
+
+      var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
+      var theapp = new WWWW.QuestionHandler();
+
+      $("body").addClass("mobile");
+
+      $("#login-dialog-email").hide();
+      $("#login-button-email").click(function() {
+        $("#login-dialog-email").toggle();
+      });
+      $("#login-email-submit").click(function() {
+        var address = $("#login-dialog-email-text").val();
+        var pwd     = $("#login-dialog-email-password").val();
+
+        var request = {
+          "Email": address,
+          "Password": pwd
+        };
+
+        exports.client.LoginWithEmailAddress(request,
+          function(error, result) {
+            console.log(error);
+            console.log(result);
+
+            if (result) {
+              console.log(exports.settings.session_ticket);
+
+              $("#login-email-state").html("mit Email eingeloggt");
+              $("#login-dialog-email").toggle();
+              $("#login-button-email").addClass("success");
+              exports.client.GetUserData(null,
+                function(error, result) {
+                  console.log(error);
+                  console.log(result);
+                }
+              );
+            }
+          }
+        );
+      });
+
+      $("#start-button").click(function() {
+        $("#title-screen").fadeOut();
+        $("#link-imprint").hide();
+        // $("#question-screen").show();
+        theapp.run();
+
+        $("#question-progress").css({width:'100%'});
+      });
+
+    });
+  </script>
+</head>
+<body>
+  <div class="phone-outer">
+    <div class="phone-inner">
+
+      <div id="question-screen">
+        <div id="main-layout">
+          <div class="layout-row shrink">
+            <div class="question-bar">
+              <div id="question"></div>
+              <div id="answer-info"></div>
+            </div>
+          </div>
+          <div class="layout-row shrink" style="height:9px">
+            <div class="question-progress-background"></div>
+            <div id="question-progress" class="question-progress animate"></div>
+          </div>
+          <div class="layout-row">
+          <div class="map-area">
+            <div class="map" id="map"></div>
+            <div id="map-marker">
+              <div class="pd-container">
+                <div class="pd-pulse"></div>
+                <div class="pd-dot"></div>
+              </div>
+            </div>
+            <div id="map-zoom-control">
+              <img id="map-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
+              <div id="map-zoom-slider">
+                <div id="map-zoom-line"></div>
+                <div id="map-zoom-handle-outer">
+                  <div id="map-zoom-handle-inner"></div>
+                </div>
+              </div>
+              <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
+            </div>
+            <div class="timeline" id="timeline">
+              <div id="tl-year-container">
+                <div id="tl-chosen" class="tl-year-box tl-year-box center">
+                  <div id="tl-chosen-text" class="tl-year-box-text">gewähltes Jahr</div>
+                  <div id="tl-chosen-year" class="tl-year-box-year">1900</div>
+                </div>
+                <div id="tl-correct" class="tl-year-box tl-year-box">
+                  <div id="tl-correct-text" class="tl-year-box-text">korrektes Jahr</div>
+                  <div id="tl-correct-year" class="tl-year-box-year">1800</div>
+                </div>
+              </div>
+              <div id="tl-zoom-control">
+                <img id="tl-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
+                <div id="tl-zoom-slider">
+                  <div id="tl-zoom-line"></div>
+                  <div id="tl-zoom-handle-outer" class="tl-zoom-handle-outer">
+                    <div id="tl-zoom-handle-inner" class="pd-container">
+                      <div class="pd-pulse"></div>
+                      <div class="pd-dot"></div>
+                    </div>
+                  </div>
+                  <div id="tl-zoom-handle-outer-answer" class="tl-zoom-handle-outer">
+                    <img src="img/marker_result.png" width="20px"></img>
+                  </div>
+                  <div id="tl-zoom-handle-outer-result" class="tl-zoom-handle-outer">
+                    <img src="img/marker.png" width="20px"></img>
+                  </div>
+                </div>
+                <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
+              </div>
+            </div>
+            <div id="abort"><img src="img/cross.svg" /></div>
+            <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div></div>
+            <div id="results" class="text-center">
+              <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
+              <div id="score">
+                <div id="answer-total-score"></div>
+                <div id="answer-total-score-label"></div>
+                <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+                <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
+                <div id="abort2"><img src="img/cross.svg" /></div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="title-screen">
+        <div class="text-center">
+          <img id="logo" src="img/logo.svg" />
+        </div>
+        <div class="text-center">
+          <p><div class="btn block" id="login-button-email" href="#"><img src="img/googleplus.svg"> <span id="login-email-state">mit Email einloggen</span></div></p>
+          <div id="login-dialog-email">
+            <p>Email: <input id="login-dialog-email-text" type="email" autocomplete="on"></input></p>
+            <p>Passwort: <input id="login-dialog-email-password" type="password"></input></p>
+            <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
+          </div>
+          <p><div class="btn block"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></div></p>
+          <p><div class="btn block"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></div></p>
+          <br>
+          <p><div id="start-button" class="btn block primary">Spiel starten</div></p>
+        </div>
+        <div id="histoglobe" class="text-center">
+          <img src="img/histoglobe.png" />
+        </div>
+        <div id="feedback-fail" class="feedback-start-fail"> WWWW läuft leider noch nicht auf deiner Plattform! Probiere es an deinem Rechner.</div>
+      </div>
+
+
+    </div>
+  </div>
+</body>
+
+</html>
