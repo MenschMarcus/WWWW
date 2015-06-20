@@ -172,7 +172,7 @@ class WWWW.QuestionHandler
       unless @_questionAnswered
         pos = event.pageX -
               $("#tl-zoom-slider").offset().left -
-              $("#tl-zoom-handle-outer").width() / 2
+              $("#tl-zoom-handle-outer").outerWidth() / 2
 
         property =
           left: pos
@@ -267,8 +267,7 @@ class WWWW.QuestionHandler
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
     timePos = $("#tl-zoom-handle-outer").offset().left -
-              $("#tl-zoom-slider").offset().left +
-              $("#tl-zoom-handle-outer").width() / 2
+              $("#tl-zoom-slider").offset().left
 
     answerTime = @_pixelToTime timePos
     tlResultPos = @_timeToPixel @_currentQuestion.year
@@ -415,7 +414,7 @@ class WWWW.QuestionHandler
         min_year: Math.floor(parseInt(@_currentQuestion.year) - timeRange*timeShift)
         max_year: Math.ceil(parseInt(@_currentQuestion.year) + timeRange*(1-timeShift))
 
-      console.log @_timeline
+      console.log @_timeline, @_currentQuestion.year
 
       @_resetMarkers()
 
@@ -497,7 +496,7 @@ class WWWW.QuestionHandler
     time = 0
 
     if @_timeline?
-      relX = pos/ $("#tl-zoom-line").width()
+      relX = pos / ($("#tl-zoom-line").width() - $("#tl-zoom-handle-outer").width())
 
       timeDiff = @_timeline.max_year - @_timeline.min_year
       time = Math.round(relX * timeDiff + @_timeline.min_year)
@@ -508,9 +507,8 @@ class WWWW.QuestionHandler
   _timeToPixel: (time) =>
     relTime = (time - @_timeline.min_year) / (@_timeline.max_year - @_timeline.min_year)
 
-    pos = relTime * $("#tl-zoom-line").width() +
-          $("#tl-zoom-slider").offset().left  -
-          $("#tl-zoom-handle-outer").width() / 2
+    pos = relTime * ($("#tl-zoom-line").width() - $("#tl-zoom-handle-outer").width()) +
+          $("#tl-zoom-slider").offset().left
 
     pos
 
@@ -542,8 +540,7 @@ class WWWW.QuestionHandler
 
   _updateTimeline: () =>
     pos = $("#tl-zoom-handle-outer").offset().left -
-          $("#tl-zoom-slider").offset().left +
-          $("#tl-zoom-handle-outer").width() / 2
+          $("#tl-zoom-slider").offset().left
 
     $("#tl-chosen-year").html @_pixelToTime pos
 
