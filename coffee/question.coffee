@@ -52,10 +52,9 @@ class WWWW.QuestionHandler
       zoomControl: false
       dragging: true
       touchZoom: true
-      scrollWheelZoom: true
-      doubleClickZoom: true
+      scrollWheelZoom: false
+      doubleClickZoom: false
       boxZoom: false
-      scrollWheelZoom: "center"
       keyboard: false
 
     icon_correct = L.icon
@@ -74,6 +73,13 @@ class WWWW.QuestionHandler
     @_mapMarker.hide()
     @_mapResultMarkerCorrect = new L.Marker([50.5, 30.5], {icon:icon_correct}).addTo @_map
     @_mapResultMarkerWrong = new L.Marker([50.5, 30.5], {icon:icon_wrong}).addTo @_map
+
+    $('#map').on 'mousewheel', (event) =>
+      event.preventDefault()
+      if (event.deltaY > 0 and @_map.getZoom() < @_maxZoom)
+        @_map.setZoomAround @_mapResultMarkerCorrect.getLatLng(), @_map.getZoom()+1
+      else if (event.deltaY < 0 and @_map.getZoom() > @_minZoom)
+        @_map.setZoomAround @_mapResultMarkerCorrect.getLatLng(), @_map.getZoom()-1
 
     @_dontUpdateZoomHandle = false
     @_map.on "zoomend", () =>
@@ -384,7 +390,6 @@ class WWWW.QuestionHandler
         while @_currentQuestion is null and newQuestionId < 500
           questions = $.grep @_questions, (e) =>
             parseInt(e.id) is newQuestionId
-          console.log newQuestionId, questions
 
           if questions.length > 0
             @_currentQuestion = questions[0]
