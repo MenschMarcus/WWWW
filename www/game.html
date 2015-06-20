@@ -22,10 +22,10 @@
 
   <script type="text/javascript">
 
-    var ww =$(window).width()
-    var wh =$(window).height()
-    var mw = 480; // min width of site
-    var mh = 700; // min height of site
+    var ww = $(window).width()
+    var wh = $(window).height()
+    var mw = 500; // min width of site
+    var mh = 800; // min height of site
     var w_ratio =  ww / mw;
     var h_ratio =  wh / mh;
 
@@ -93,35 +93,42 @@
     <div class="phone-inner">
 
       <div id="question-screen">
-        <div id="main-layout">
-          <div class="layout-row shrink">
-            <div class="question-bar">
+        <div class="map-area">
+          <div class="map" id="map"></div>
+          <div id="map-marker">
+            <div class="pd-container">
+              <div class="pd-pulse"></div>
+              <div class="pd-dot"></div>
+            </div>
+          </div>
+          <!-- <div id="map-zoom-control">
+            <img id="map-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
+            <div id="map-zoom-slider">
+              <div id="map-zoom-line"></div>
+              <div id="map-zoom-handle-outer">
+                <div id="map-zoom-handle-inner"></div>
+              </div>
+            </div>
+            <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
+          </div> -->
+          <!-- <div id="abort"><img src="img/cross.svg" /></div> -->
+          <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div></div>
+          <div id="results" class="text-center hidden">
+            <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span>. <span id="answer-info"></span></div>
+            <div id="score">
+              <div id="answer-total-score"></div>
+              <div id="answer-total-score-label"></div>
+              <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+              <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
+              <div id="abort2"><img src="img/cross.svg" /></div>
+            </div>
+          </div>
+          <div id="top-bar">
+            <div id="question-bar">
               <div id="question"></div>
-              <div id="answer-info"></div>
             </div>
-          </div>
-          <div class="layout-row shrink" style="height:9px">
-            <div class="question-progress-background"></div>
-            <div id="question-progress" class="question-progress animate"></div>
-          </div>
-          <div class="layout-row">
-          <div class="map-area">
-            <div class="map" id="map"></div>
-            <div id="map-marker">
-              <div class="pd-container">
-                <div class="pd-pulse"></div>
-                <div class="pd-dot"></div>
-              </div>
-            </div>
-            <div id="map-zoom-control">
-              <img id="map-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
-              <div id="map-zoom-slider">
-                <div id="map-zoom-line"></div>
-                <div id="map-zoom-handle-outer">
-                  <div id="map-zoom-handle-inner"></div>
-                </div>
-              </div>
-              <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
+            <div class="question-progress-background" style="height:9px">
+              <div id="question-progress" class="question-progress animate"></div>
             </div>
             <div class="timeline" id="timeline">
               <div id="tl-year-container">
@@ -154,19 +161,6 @@
                 <img id="tl-zoom-plus" class="zoom-button" src="img/plus.svg"></img>
               </div>
             </div>
-            <div id="abort"><img src="img/cross.svg" /></div>
-            <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary invisible"><img src="img/check.svg" /></div></div>
-            <div id="results" class="text-center">
-              <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span></div>
-              <div id="score">
-                <div id="answer-total-score"></div>
-                <div id="answer-total-score-label"></div>
-                <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
-                <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
-                <div id="abort2"><img src="img/cross.svg" /></div>
-              </div>
-            </div>
-          </div>
           </div>
         </div>
       </div>

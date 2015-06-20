@@ -41,8 +41,6 @@ class WWWW.QuestionHandler
     @_startZoom = 3
     @_questionAnswered = false
 
-
-    $('#results').hide({duration: 0})
     @_answerPrecisionThreshold = 0.9 # time and space need to be 95% correct to achieve the maximum score
     @_answerChanceLevel = 0.8 # time and space need to be at least 75% correct to score any point
     @_answerMaxDistance = 10000 # km
@@ -85,9 +83,9 @@ class WWWW.QuestionHandler
 
     @_map.on "moveend", () =>
       unless @_questionAnswered
-        latlng = @_map.getCenter()
-        pixel = @_map.latLngToContainerPoint latlng
-        @_mapMarker.animate {left: pixel.x + "px", top: pixel.y + "px"}
+        pos = L.point($(window).width()*0.5, $(window).height()*0.6);
+        latlng = @_map.containerPointToLatLng pos
+        @_mapMarker.animate {left: pos.x + "px", top: pos.y + "px"}
         @_mapResultMarkerCorrect.setLatLng latlng
         @_mapResultMarkerWrong.setLatLng latlng
 
@@ -252,15 +250,14 @@ class WWWW.QuestionHandler
     @_mapResultMarkerWrong.setOpacity 1.0
     @_mapResultMarkerCorrect.setLatLng @_currentQuestion.latLng
 
-    @_map.fitBounds [@_currentQuestion.latLng, @_map.getCenter()],
-      paddingTopLeft: [190, 20]
-      paddingBottomRight: [190, 10]
+    @_map.fitBounds [@_currentQuestion.latLng, @_mapResultMarkerWrong.getLatLng()],
+      padding: [20, 300]
 
 
     currentPos = $("#tl-zoom-handle-outer").offset()
 
 
-    answerLatLng = @_map.getCenter()
+    answerLatLng = @_mapResultMarkerWrong.getLatLng()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
     timePos = $("#tl-zoom-handle-outer").offset().left -
@@ -344,9 +341,8 @@ class WWWW.QuestionHandler
     window.setTimeout () =>
       @_currentQuestionRating = null
       $("#next-question").removeClass("invisible");
-      $("#results").animate({height: "show", opacity: "show"});
-      $("#answer-info").animate({height: "show", opacity: "show"});
-      $("#question").animate({height: "hide", opacity: "hide"});
+      $("#top-bar").css({top: -$("#question").outerHeight() - 9 + "px"});
+      $("#results").removeClass("hidden");
     , 2000
 
   postNewQuestion: =>
@@ -357,9 +353,8 @@ class WWWW.QuestionHandler
       @_barDiv.addClass 'animate'
       @_barDiv.css "width", "100%"
 
-      $("#results").animate({height: "hide", opacity: "hide"});
-      $("#answer-info").animate({height: "hide", opacity: "hide"});
-      $("#question").animate({height: "show", opacity: "show"});
+      $("#results").addClass("hidden");
+      $("#top-bar").css({top: "0px"});
 
       $("#next-question").addClass("invisible");
       $("#next-round").addClass("invisible");
@@ -529,14 +524,14 @@ class WWWW.QuestionHandler
 
   _updateMapZoomHandle: (zoom) =>
 
-    height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
-    relativeZoom = 1.0 - (zoom - @_minZoom) / (@_maxZoom - @_minZoom)
-    relativePos = relativeZoom * height
+    # height = $("#map-zoom-slider").height() - $("#map-zoom-handle-outer").height()
+    # relativeZoom = 1.0 - (zoom - @_minZoom) / (@_maxZoom - @_minZoom)
+    # relativePos = relativeZoom * height
 
-    $("#map-zoom-handle-outer").addClass "animate"
+    # $("#map-zoom-handle-outer").addClass "animate"
 
-    $("#map-zoom-handle-outer").offset
-      top: relativePos + $("#map-zoom-slider").offset().top
+    # $("#map-zoom-handle-outer").offset
+    #   top: relativePos + $("#map-zoom-slider").offset().top
 
   _updateTimeline: () =>
     pos = $("#tl-zoom-handle-outer").offset().left -

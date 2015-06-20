@@ -43,20 +43,6 @@ p {
     cursor: pointer;
 }
 
-#main-layout {
-    display: table;
-    height: 100%;
-    width: 100%;
-}
-
-.layout-row {
-    display: table-row;
-}
-
-.layout-row.shrink {
-    height: 0;
-}
-
 .phone-outer {
     position: relative;
     background-color: #000;
@@ -188,8 +174,8 @@ body.mobile
 
 #abort2 {
     border: 2px #ba4848 solid;
-    left: 75px;
-    bottom: 60px;
+    left: 65px;
+    bottom: 80px;
     padding: 0px;
     text-align: center;
     width: 80px;
@@ -229,8 +215,8 @@ body.mobile
 
 #next-question {
     position: absolute;
-    right: 75px;
-    bottom: 60px;
+    right: 65px;
+    bottom: 80px;
     border-radius: 50%;
     background-color: #28aa7a;
     text-align: center;
@@ -244,15 +230,18 @@ body.mobile
 
 /* #### Question Bar #### */
 
-.question-bar {
-    padding: 20px;
-    display: table-cell;
+#top-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    transition: top 0.5s;
+}
+
+#question-bar {
     position: relative;
     width: 100%;
-    background-color: #fff;
     color: rgba(0, 0, 0, 0.5);
-    height: 0px;
-    overflow: hidden;
 }
 
 #question-number-container {
@@ -261,6 +250,8 @@ body.mobile
 }
 
 #question {
+    padding: 20px;
+    background-color: #fff;
     text-align: center;
     font-size: 1.5em;
     color: #333;
@@ -268,7 +259,6 @@ body.mobile
 
 
 .question-progress-background {
-    position: absolute;
     width: 100%;
     height: 9px;
     left: 0px;
@@ -297,11 +287,17 @@ body.mobile
     background-color: #fff;
     box-shadow: 0 10px 30px #000;
     color: #000;
+
+    transition: bottom 0.5s, opacity 0.5s;
+}
+
+#results.hidden {
+    opacity: 0;
+    bottom: -350px;
 }
 
 #answer {
     color: #000;
-    font-weight: 400;
     padding: 20px 10px 0px 10px;
     text-align: center;
 }
@@ -321,6 +317,10 @@ body.mobile
     font-size: 0.9em;
 }
 
+#answer-year, #answer-location {
+    font-weight: 400;
+}
+
 #score {
     margin: 10px 10px 30px 10px;
     text-align: center;
@@ -328,7 +328,8 @@ body.mobile
 
 .map-area {
     position: relative;
-    display: table-cell;
+    width: 100%;
+    height: 100%;
 }
 
 .map {
@@ -338,10 +339,9 @@ body.mobile
 }
 
 .timeline {
-    top: 0;
+    position: relative;
     height: 180px;
     width: 100%;
-    position: absolute;
     box-shadow: 0 3px 20px rgba(0, 0, 0, 0.5);
     background-color: rgba(53, 61, 72, 0.9);
 }
