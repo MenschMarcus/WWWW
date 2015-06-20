@@ -414,8 +414,6 @@ class WWWW.QuestionHandler
         min_year: Math.floor(parseInt(@_currentQuestion.year) - timeRange*timeShift)
         max_year: Math.ceil(parseInt(@_currentQuestion.year) + timeRange*(1-timeShift))
 
-      console.log @_timeline, @_currentQuestion.year
-
       @_resetMarkers()
 
       $('#question').html @_currentQuestion.text
@@ -520,10 +518,10 @@ class WWWW.QuestionHandler
     $("#tl-zoom-handle-outer-answer").hide()
     $("#tl-zoom-handle-outer-result").hide()
 
-    startPos = $("#tl-zoom-line").width()/2
+    startPos = $("#tl-zoom-line").width()/2 - $("#tl-zoom-handle-outer").outerWidth()/2
 
     $("#tl-zoom-handle-outer").offset
-      left : startPos  + $("#tl-zoom-line").offset().left
+      left : startPos + $("#tl-zoom-line").offset().left
 
     @_updateTimeline()
 
