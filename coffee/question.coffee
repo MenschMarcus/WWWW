@@ -415,6 +415,8 @@ class WWWW.QuestionHandler
         min_year: Math.floor(parseInt(@_currentQuestion.year) - timeRange*timeShift)
         max_year: Math.ceil(parseInt(@_currentQuestion.year) + timeRange*(1-timeShift))
 
+      console.log @_timeline
+
       @_resetMarkers()
 
       $('#question').html @_currentQuestion.text
