@@ -267,7 +267,6 @@ class WWWW.QuestionHandler
 
     currentPos = $("#tl-zoom-handle-outer").offset()
 
-
     answerLatLng = @_mapResultMarkerWrong.getLatLng()
     spatialDistance = @_getMeterDistance answerLatLng, @_currentQuestion.latLng
 
@@ -332,11 +331,11 @@ class WWWW.QuestionHandler
 
       scoreRequest = {}
       scoreRequest["Keys"] = [idString]
-      console.log scoreRequest
       exports.client.GetUserData scoreRequest,
         (error, result) =>
-          console.log error
-          console.log result
+          console.log "Retrieving score data"
+          console.log "Error: ", error
+          console.log "Response: ", result
 
           previousScore = 0
           if result?.Data[idString]?.Value?
@@ -351,8 +350,9 @@ class WWWW.QuestionHandler
 
             exports.client.UpdateUserData udpateRequest,
               (error, result) =>
-                console.log error
-                console.log result
+                console.log "Updating user data"
+                console.log "Error: ", error
+                console.log "Response: ", result
 
     @_questionCount += 1
 
