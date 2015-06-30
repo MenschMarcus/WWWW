@@ -39,10 +39,13 @@
 
       var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
       var theapp = new WWWW.QuestionHandler();
+      var registerEmail = false;
 
       $("body").addClass("mobile");
 
       $("#login-dialog-email").hide();
+      $("#login-dialog-email-username").hide();
+      $("#login-dialog-email-password-repeat").hide();
       $("#login-button-email").click(function() {
         $("#login-dialog-email").toggle();
       });
@@ -75,6 +78,43 @@
             }
           }
         );
+      });
+
+      $("#login-email-register").click(function() {
+        if (!registerEmail) {
+          $("#login-dialog-email-username").show();
+          $("#login-dialog-email-password-repeat").show();
+          $("#login-email-register").text("Registrieren");
+          $("#login-email-submit").hide();
+          registerEmail = true;
+        } else {
+          var user    = $("#login-dialog-email-username-text").val();
+          var address = $("#login-dialog-email-text").val();
+          var pwd     = $("#login-dialog-email-password").val();
+          var pwdRep  = $("#login-dialog-email-password-repeat-text").val();
+
+          if (pwd == pwdRep) {
+
+            var request = {
+              "Username" : user,
+              "Email": address,
+              "Password": pwd
+            };
+
+            exports.client.RegisterPlayFabUser(request,
+              function(error, result) {
+                console.log(error);
+                console.log(result);
+
+                if (result) {
+                  $("#login-email-state").html("mit Email eingeloggt");
+                  $("#login-dialog-email").toggle();
+                  $("#login-button-email").addClass("success");
+                }
+              }
+            );
+          }
+        }
       });
 
       $("#start-button").click(function() {
@@ -169,12 +209,34 @@
           <img id="logo" src="img/logo.svg" />
         </div>
         <div class="text-center">
-          <p><div class="btn block" id="login-button-email" href="#"><img src="img/googleplus.svg"> <span id="login-email-state">mit Email einloggen</span></div></p>
-          <div id="login-dialog-email">
-            <p>Email: <input id="login-dialog-email-text" type="email" autocomplete="on"></input></p>
-            <p>Passwort: <input id="login-dialog-email-password" type="password"></input></p>
-            <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
-          </div>
+          <p>
+            <div class="btn block" id="login-button-email" href="#">
+              <img src="img/googleplus.svg">
+              <span id="login-email-state">mit Email einloggen</span>
+            </div>
+            <div id="login-dialog-email" class="login-dialog">
+              <table>
+                <tr id="login-dialog-email-username">
+                  <td> Nutzername: </td>
+                  <td> <input id="login-dialog-email-username-text" type="text" autocomplete="on"></input></td>
+                </tr>
+                <tr>
+                  <td>Email:</td>
+                  <td><input id="login-dialog-email-text" type="email" autocomplete="on"></input></td>
+                </tr>
+                <tr>
+                  <td> Passwort: </td>
+                  <td> <input id="login-dialog-email-password" type="password"></input></td>
+                </tr>
+                <tr id="login-dialog-email-password-repeat">
+                  <td> Passwort bestätigen: </td>
+                  <td> <input id="login-dialog-email-password-repeat-text" type="password"></input> </td>
+                </tr>
+              </table>
+              <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
+              <p><div class="btn block" id="login-email-register"><span>Neu anmelden</span></div></p>
+            </div>
+          </p>
           <p><div class="btn block"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></div></p>
           <p><div class="btn block"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></div></p>
           <br>
