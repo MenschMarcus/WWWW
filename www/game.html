@@ -249,7 +249,6 @@
 
       $("#start-button").click(function() {
         $("#title-screen").fadeOut();
-        $("#link-imprint").hide();
 
         theapp.run();
 
@@ -283,7 +282,6 @@
             </div>
             <img id="map-zoom-minus" class="zoom-button" src="img/minus.svg"></img>
           </div> -->
-          <!-- <div id="abort"><img src="img/cross.svg" /></div> -->
           <div id="submit-answer-outer"><div id="submit-answer" class="link btn primary"><img src="img/check.svg" /></div></div>
           <div id="results" class="text-center hidden">
             <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span>. <span id="answer-info"></span></div>
@@ -291,8 +289,8 @@
               <div id="answer-total-score"></div>
               <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
               <div id="answer-previous-score"></div>
-              <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
-              <div id="abort2"><img src="img/cross.svg" /></div>
+              <div id="next-question" class="link btn primary"><img src="img/arrow-right.svg" /></div>
+              <div id="abort" class="link"><img src="img/cross.svg" /></div>
             </div>
           </div>
           <div id="top-bar">
@@ -306,11 +304,11 @@
               <div id="tl-year-container">
                 <div id="tl-chosen" class="tl-year-box tl-year-box center">
                   <div id="tl-chosen-text" class="tl-year-box-text">gewähltes Jahr</div>
-                  <div id="tl-chosen-year" class="tl-year-box-year">1900</div>
+                  <div class="tl-year-box-year"><span id="tl-chosen-year">1900</span></div>
                 </div>
                 <div id="tl-correct" class="tl-year-box tl-year-box">
                   <div id="tl-correct-text" class="tl-year-box-text">korrektes Jahr</div>
-                  <div id="tl-correct-year" class="tl-year-box-year">1800</div>
+                  <div class="tl-year-box-year"><span id="tl-correct-year">1800</div></div>
                 </div>
               </div>
               <div id="tl-zoom-control">
