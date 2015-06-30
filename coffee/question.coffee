@@ -1,7 +1,7 @@
 window.WWWW ?= {}
 
 WWWW.DRY_RUN = true
-WWWW.TEST_RUN = false
+WWWW.TEST_RUN = true
 WWWW.TEST_START_ID = 0
 
 getRandomInt = (min, max) ->
