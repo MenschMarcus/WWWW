@@ -21,6 +21,8 @@
 
   <script type="text/javascript" src="js/wwww.min.js"></script>
 
+  <script src="https://apis.google.com/js/platform.js?onload=loadGapi" async defer></script>
+
   <script type="text/javascript">
 
     var ww = $(window).width()
@@ -35,10 +37,32 @@
     $('#viewport').attr('content', 'initial-scale='+r+', maximum-scale='+r+', minimum-scale='+r+', user-scalable=yes, target-densitydpi=device-dpi');
 
     var userMail = "";
+    var loginMethod = "";
+
+    function updateLoginButtons() {
+      $("#login-email-state").html("mit Email eingeloggen");
+      $("#login-button-email").removeClass("success");
+      $("#login-fb-state").html("mit Facebook eingeloggen");
+      $("#login-button-fb").removeClass("success");
+      $("#login-gplus-state").html("mit Google+ eingeloggen");
+      $("#login-button-gplus").removeClass("success");
+
+      if (loginMethod == "email") {
+        $("#login-email-state").html("mit Email eingeloggt");
+        $("#login-button-email").addClass("success");
+      } else if (loginMethod == "facebook") {
+        $("#login-fb-state").html("mit Facebook eingeloggt");
+        $("#login-button-fb").addClass("success");
+      } else if (loginMethod == "google") {
+        $("#login-gplus-state").html("mit Google+ eingeloggt");
+        $("#login-button-gplus").addClass("success");
+      }
+    }
 
     function updateCookies() {
       WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
       WWWW.setCookie("wwww-user-mail", userMail, 10);
+      WWWW.setCookie("wwww-login-method", loginMethod, 10);
     }
 
     window.fbAsyncInit = function() {
@@ -50,6 +74,17 @@
         version    : 'v2.2' // use version 2.2
       });
     }
+
+    loadGapi = function() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init({
+          client_id : "858461244854-dog9hderd11qdkvdc81fk3s5jkbsbu30.apps.googleusercontent.com",
+          response_type: "token"
+
+        });
+      });
+    }
+
 
     $(document).ready(function($) {
 
@@ -64,14 +99,16 @@
 
       var cached_ticket = WWWW.getCookie("wwww-session-ticket");
       userMail = WWWW.getCookie("wwww-user-mail")
+      loginMethod = WWWW.getCookie("wwww-login-method")
 
       $("#login-dialog-email-text").val(userMail)
 
       if (cached_ticket != "") {
+        console.log("Got existing session ticket " + cached_ticket);
         exports.settings.session_ticket = cached_ticket;
-        $("#login-button-email").addClass("success");
-        $("#login-email-state").html("mit Email eingeloggt");
       }
+
+      updateLoginButtons();
 
       $("#login-dialog-email").hide();
       $("#login-dialog-email-username").hide();
@@ -97,11 +134,11 @@
 
             if (result) {
 
-              $("#login-email-state").html("mit Email eingeloggt");
               $("#login-dialog-email").toggle();
-              $("#login-button-email").addClass("success");
 
+              loginMethod = "email";
               updateCookies();
+              updateLoginButtons();
             }
           }
         );
@@ -135,11 +172,10 @@
                 console.log("Response:", result);
 
                 if (result) {
-                  $("#login-email-state").html("mit Email eingeloggt");
                   $("#login-dialog-email").toggle();
-                  $("#login-button-email").addClass("success");
-
+                  loginMethod = "email";
                   updateCookies();
+                  updateLoginButtons();
                 }
               }
             );
@@ -165,20 +201,50 @@
 
             exports.client.LoginWithFacebook(request,
               function(error, result) {
-                console.log("Registering mail user")
+                console.log("Loggin in with facebook")
                 console.log("Error:", error);
                 console.log("Response:", result);
 
                 if (result) {
-                  $("#login-fb-state").html("mit Facebook eingeloggt");
-                  $("#login-button-fb").addClass("success");
-
+                  loginMethod = "facebook";
                   updateCookies();
+                  updateLoginButtons();
                 }
               }
             );
           }
         });
+      });
+
+      $("#login-button-gplus").click(function() {
+        gapi.auth2.getAuthInstance().signIn();
+
+        gapi.auth2.getAuthInstance().isSignedIn.listen(function() {
+          var user = gapi.auth2.getAuthInstance().currentUser.get();
+
+          var request = {
+            "AccessToken": user.getAuthResponse(true).access_token,
+            "CreateAccount" : true
+          }
+
+          // console.log(user.getAuthResponse(true))
+
+          exports.client.LoginWithGoogleAccount(request,
+            function(error, result) {
+              console.log("Loggin in with google")
+              console.log("Error:", error);
+              console.log("Response:", result);
+
+              if (result) {
+                loginMethod = "google";
+                updateCookies();
+                updateLoginButtons();
+              }
+            }
+          );
+
+        });
+
       });
 
       $("#start-button").click(function() {
@@ -304,7 +370,12 @@
               <p><div class="btn block" id="login-email-register"><span>Neu anmelden</span></div></p>
             </div>
           </p>
-          <p><div class="btn block"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></div></p>
+          <p>
+            <div class="btn block" id="login-button-gplus">
+              <img src="img/googleplus.svg">
+              <span id="login-gplus-state">mit Google+ einloggen</span>
+            </div>
+          </p>
           <p>
             <div class="btn block" id="login-button-fb">
               <img src="img/facebook.svg">
