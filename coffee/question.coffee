@@ -229,6 +229,9 @@ class WWWW.QuestionHandler
     $('#next-question').on 'click', () =>
       @postNewQuestion()
 
+    $('#abort').on 'click', () =>
+      $("#title-screen").fadeIn();
+
     # post new question on click
     $('#next-round').on 'click', () =>
       @postNewQuestion()
@@ -358,7 +361,6 @@ class WWWW.QuestionHandler
 
     window.setTimeout () =>
       @_currentQuestionRating = null
-      $("#next-question").removeClass("invisible");
 
       hidePos = -$("#question").outerHeight() - 9 + "px"
 
@@ -390,9 +392,6 @@ class WWWW.QuestionHandler
         'transform'         : 'translateY(0px)'
       });
 
-      $("#next-question").addClass("invisible");
-      $("#next-round").addClass("invisible");
-      $("#round-end").addClass("invisible");
       $("#submit-answer").removeClass("hidden");
 
       $("#tl-chosen").removeClass("right");
