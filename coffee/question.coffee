@@ -288,12 +288,12 @@ class WWWW.QuestionHandler
     $("#tl-zoom-handle-outer").hide()
 
     $("#answer-location").html @_currentQuestion.location
-    $("#answer-year").html @_currentQuestion.year
+    $("#answer-year").html @_timeToString @_currentQuestion.year, false
     $("#answer-spatial-distance").html spatialDistance + " km"
     $("#answer-temporal-distance").html temporalDistance + if temporalDistance is 1 then " Jahr" else " Jahre"
     $("#answer-info").html @_currentQuestion.answer
 
-    $("#tl-correct-year").html @_currentQuestion.year
+    $("#tl-correct-year").html @_timeToString @_currentQuestion.year, true
     $("#tl-chosen").removeClass("center");
 
     if answerTime - @_currentQuestion.year >= 0
@@ -402,7 +402,7 @@ class WWWW.QuestionHandler
       $("#tl-correct").fadeOut(0.1);
 
 
-      newQuestionId = WWWW.TEST_START_ID
+      newQuestionIndex = WWWW.TEST_START_ID
 
       if @_askedQuestions.length is @_totalQuestionCount
         @_askedQuestions = []
@@ -412,27 +412,31 @@ class WWWW.QuestionHandler
         @_currentQuestion = null
 
         if @_askedQuestions.length > 0
-          newQuestionId = @_askedQuestions[@_askedQuestions.length-1]+1
+          newQuestionIndex = @_askedQuestions[@_askedQuestions.length-1]+1
 
-        while @_currentQuestion is null and newQuestionId < 500
+        while @_currentQuestion is null and newQuestionIndex < 500
           questions = $.grep @_questions, (e) =>
-            parseInt(e.id) is newQuestionId
+            parseInt(e.id) is newQuestionIndex
 
           if questions.length > 0
             @_currentQuestion = questions[0]
           else
-            newQuestionId += 1
+            newQuestionIndex += 1
 
       else
         # search for new question
-        newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
-        while @_askedQuestions.indexOf(newQuestionId) isnt -1
-          newQuestionId = getRandomInt 0, (@_totalQuestionCount - 1)
+        newQuestionIndex = getRandomInt 0, (@_totalQuestionCount - 1)
+        while @_askedQuestions.indexOf(newQuestionIndex) isnt -1
+          newQuestionIndex = getRandomInt 0, (@_totalQuestionCount - 1)
 
-        @_currentQuestion = @_questions[newQuestionId]
+        @_currentQuestion = @_questions[newQuestionIndex]
+
+      # update question year
+      if @_currentQuestion.year < 0
+        @_currentQuestion.year += 1
 
       # update question
-      @_askedQuestions.push newQuestionId
+      @_askedQuestions.push newQuestionIndex
 
       # increase timeline range
       timeRange = -1*Math.min(0, parseInt(@_currentQuestion.year) - 2000) + 50
@@ -541,6 +545,15 @@ class WWWW.QuestionHandler
   _degToRad: (degree) ->
     return degree * (Math.PI / 180)
 
+  _timeToString: (time, small) =>
+    if time < 1
+      if small
+        -(time-1) + "<span style='font-size:0.35em; font-weight:300'> v. Chr.</span>"
+      else
+        -(time-1) + " v. Chr."
+    else
+      time + ""
+
   _resetMarkers: () =>
     $("#tl-zoom-handle-outer").show()
     $("#tl-zoom-handle-outer-answer").hide()
@@ -568,6 +581,8 @@ class WWWW.QuestionHandler
     pos = $("#tl-zoom-handle-outer").offset().left -
           $("#tl-zoom-slider").offset().left
 
-    $("#tl-chosen-year").html @_pixelToTime pos
+    year = @_pixelToTime pos
+
+    $("#tl-chosen-year").html @_timeToString year, true
 
 
