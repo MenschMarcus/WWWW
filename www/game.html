@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes, target-densitydpi=device-dpi">
 
   <title>WasWarWannWo</title>
 
@@ -30,18 +30,48 @@
     var w_ratio =  ww / mw;
     var h_ratio =  wh / mh;
 
-    var ratio = Math.min(w_ratio, h_ratio);
+    var r = Math.min(w_ratio, h_ratio);
 
-    $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
+    $('#viewport').attr('content', 'initial-scale='+r+', maximum-scale='+r+', minimum-scale='+r+', user-scalable=yes, target-densitydpi=device-dpi');
+
+    var userMail = "";
+
+    function updateCookies() {
+      WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
+      WWWW.setCookie("wwww-user-mail", userMail, 10);
+    }
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '264225387098292',
+        cookie     : true,  // enable cookies to allow the server to access
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.2' // use version 2.2
+      });
+    }
 
     $(document).ready(function($) {
+
       $("#feedback-fail").hide()
 
-      var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
+      $("#debug").text(r);
+
+      // var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
       var theapp = new WWWW.QuestionHandler();
+
       var registerEmail = false;
 
-      $("body").addClass("mobile");
+      var cached_ticket = WWWW.getCookie("wwww-session-ticket");
+      userMail = WWWW.getCookie("wwww-user-mail")
+
+      $("#login-dialog-email-text").val(userMail)
+
+      if (cached_ticket != "") {
+        exports.settings.session_ticket = cached_ticket;
+        $("#login-button-email").addClass("success");
+        $("#login-email-state").html("mit Email eingeloggt");
+      }
 
       $("#login-dialog-email").hide();
       $("#login-dialog-email-username").hide();
@@ -49,32 +79,29 @@
       $("#login-button-email").click(function() {
         $("#login-dialog-email").toggle();
       });
+
       $("#login-email-submit").click(function() {
-        var address = $("#login-dialog-email-text").val();
-        var pwd     = $("#login-dialog-email-password").val();
+        userMail = $("#login-dialog-email-text").val();
+        var pwd  = $("#login-dialog-email-password").val();
 
         var request = {
-          "Email": address,
+          "Email": userMail,
           "Password": pwd
         };
 
         exports.client.LoginWithEmailAddress(request,
           function(error, result) {
-            console.log(error);
-            console.log(result);
+            console.log("Logging in with mail")
+            console.log("Error:", error);
+            console.log("Response:", result);
 
             if (result) {
-              console.log(exports.settings.session_ticket);
 
               $("#login-email-state").html("mit Email eingeloggt");
               $("#login-dialog-email").toggle();
               $("#login-button-email").addClass("success");
-              exports.client.GetUserData(null,
-                function(error, result) {
-                  console.log(error);
-                  console.log(result);
-                }
-              );
+
+              updateCookies();
             }
           }
         );
@@ -89,7 +116,7 @@
           registerEmail = true;
         } else {
           var user    = $("#login-dialog-email-username-text").val();
-          var address = $("#login-dialog-email-text").val();
+          userMail    = $("#login-dialog-email-text").val();
           var pwd     = $("#login-dialog-email-password").val();
           var pwdRep  = $("#login-dialog-email-password-repeat-text").val();
 
@@ -97,19 +124,22 @@
 
             var request = {
               "Username" : user,
-              "Email": address,
+              "Email": userMail,
               "Password": pwd
             };
 
             exports.client.RegisterPlayFabUser(request,
               function(error, result) {
-                console.log(error);
-                console.log(result);
+                console.log("Registering mail user")
+                console.log("Error:", error);
+                console.log("Response:", result);
 
                 if (result) {
                   $("#login-email-state").html("mit Email eingeloggt");
                   $("#login-dialog-email").toggle();
                   $("#login-button-email").addClass("success");
+
+                  updateCookies();
                 }
               }
             );
@@ -117,10 +147,44 @@
         }
       });
 
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+      $("#login-button-fb").click(function() {
+        FB.login(function(response){
+          if (response.status == "connected") {
+            var request = {
+              "AccessToken": response.authResponse.accessToken,
+              "CreateAccount" : true
+            }
+
+            exports.client.LoginWithFacebook(request,
+              function(error, result) {
+                console.log("Registering mail user")
+                console.log("Error:", error);
+                console.log("Response:", result);
+
+                if (result) {
+                  $("#login-fb-state").html("mit Facebook eingeloggt");
+                  $("#login-button-fb").addClass("success");
+
+                  updateCookies();
+                }
+              }
+            );
+          }
+        });
+      });
+
       $("#start-button").click(function() {
         $("#title-screen").fadeOut();
         $("#link-imprint").hide();
-        // $("#question-screen").show();
+
         theapp.run();
 
         $("#question-progress").css({width:'100%'});
@@ -132,6 +196,9 @@
 <body>
 
       <div id="question-screen">
+
+        <div id="debug" style="position:absolute;color:#0f0;font-size:0.7em;z-index:100;">huhu</div>
+
         <div class="map-area">
           <div class="map" id="map"></div>
           <div id="map-marker">
@@ -156,8 +223,8 @@
             <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span>. <span id="answer-info"></span></div>
             <div id="score">
               <div id="answer-total-score"></div>
-              <div id="answer-total-score-label"></div>
               <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+              <div id="answer-previous-score"></div>
               <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
               <div id="abort2"><img src="img/cross.svg" /></div>
             </div>
@@ -238,7 +305,12 @@
             </div>
           </p>
           <p><div class="btn block"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></div></p>
-          <p><div class="btn block"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></div></p>
+          <p>
+            <div class="btn block" id="login-button-fb">
+              <img src="img/facebook.svg">
+              <span id="login-fb-state">mit Facebook einloggen</span>
+            </div>
+          </p>
           <br>
           <p><div id="start-button" class="btn block primary">Spiel starten</div></p>
         </div>
