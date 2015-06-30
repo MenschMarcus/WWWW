@@ -349,8 +349,6 @@ class WWWW.QuestionHandler
                 console.log error
                 console.log result
 
-
-
     @_questionCount += 1
 
     $("#submit-answer").addClass("hidden");
