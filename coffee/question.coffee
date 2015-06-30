@@ -338,7 +338,7 @@ class WWWW.QuestionHandler
 
     @_questionCount += 1
 
-    $("#submit-answer").hide("fast");
+    $("#submit-answer").addClass("hidden");
     @_mapMarker.hide();
 
     unless WWWW.DRY_RUN
@@ -347,7 +347,16 @@ class WWWW.QuestionHandler
     window.setTimeout () =>
       @_currentQuestionRating = null
       $("#next-question").removeClass("invisible");
-      $("#top-bar").css({top: -$("#question").outerHeight() - 9 + "px"});
+
+      hidePos = -$("#question").outerHeight() - 9 + "px"
+
+      $("#top-bar").css({
+        '-webkit-transform' : 'translateY(' + hidePos + ')',
+        '-moz-transform'    : 'translateY(' + hidePos + ')',
+        '-ms-transform'     : 'translateY(' + hidePos + ')',
+        '-o-transform'      : 'translateY(' + hidePos + ')',
+        'transform'         : 'translateY(' + hidePos + ')'
+      });
       $("#results").removeClass("hidden");
     , 2000
 
@@ -360,12 +369,19 @@ class WWWW.QuestionHandler
       @_barDiv.css "width", "100%"
 
       $("#results").addClass("hidden");
-      $("#top-bar").css({top: "0px"});
+
+      $("#top-bar").css({
+        '-webkit-transform' : 'translateY(0px)',
+        '-moz-transform'    : 'translateY(0px)',
+        '-ms-transform'     : 'translateY(0px)',
+        '-o-transform'      : 'translateY(0px)',
+        'transform'         : 'translateY(0px)'
+      });
 
       $("#next-question").addClass("invisible");
       $("#next-round").addClass("invisible");
       $("#round-end").addClass("invisible");
-      $("#submit-answer").show("fast");
+      $("#submit-answer").removeClass("hidden");
 
       $("#tl-chosen").removeClass("right");
       $("#tl-chosen").removeClass("left");
