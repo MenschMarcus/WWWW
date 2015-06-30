@@ -6,6 +6,9 @@ html {
     -ms-user-select: none;
     user-select: none;
     cursor: default;
+
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent; /* For some Androids */
 }
 
 body {
@@ -131,37 +134,6 @@ p {
     background-color: #4d5763;
     color: #fff;
 }
-
-/* #### Mobile #### */
-@media screen and (max-width: 520px) {
-    body {
-        font-size: 1.1em;
-    }
-
-    .phone-outer {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width:100%;
-        height: auto;
-        margin: 0;
-        border-radius: 00px;
-        padding: 0px;
-    }
-}
-
-body.mobile
-.phone-outer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width:100%;
-    height: auto;
-    margin: 0;
-    border-radius: 00px;
-    padding: 0px;
-}
-
 
 /* #### Bottom Controls #### */
 
@@ -412,7 +384,7 @@ body.mobile
 
 .tl-year-box-year {
     font-size: 4em;
-    font-weight: 200;
+    font-weight: 100;
 }
 
 #tl-year-container {

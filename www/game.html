@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes, target-densitydpi=device-dpi">
 
   <title>WasWarWannWo</title>
 
@@ -30,11 +30,11 @@
     var w_ratio =  ww / mw;
     var h_ratio =  wh / mh;
 
-    var ratio = Math.min(w_ratio, h_ratio);
+    var r = Math.min(w_ratio, h_ratio);
+
+    $('#viewport').attr('content', 'initial-scale='+r+', maximum-scale='+r+', minimum-scale='+r+', user-scalable=yes, target-densitydpi=device-dpi');
 
     var userMail = "";
-
-    $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
 
     function updateCookies() {
       WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
@@ -55,12 +55,12 @@
 
       $("#feedback-fail").hide()
 
-      var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
+      $("#debug").text(r);
+
+      // var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
       var theapp = new WWWW.QuestionHandler();
 
       var registerEmail = false;
-
-      $("body").addClass("mobile");
 
       var cached_ticket = WWWW.getCookie("wwww-session-ticket");
       userMail = WWWW.getCookie("wwww-user-mail")
@@ -196,6 +196,9 @@
 <body>
 
       <div id="question-screen">
+
+        <div id="debug" style="position:absolute;color:#0f0;font-size:0.7em;z-index:100;">huhu</div>
+
         <div class="map-area">
           <div class="map" id="map"></div>
           <div id="map-marker">
