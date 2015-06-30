@@ -79,8 +79,6 @@
       gapi.load('auth2', function() {
         gapi.auth2.init({
           client_id : "858461244854-dog9hderd11qdkvdc81fk3s5jkbsbu30.apps.googleusercontent.com",
-          response_type: "token"
-
         });
       });
     }
@@ -226,8 +224,6 @@
             "AccessToken": user.getAuthResponse(true).access_token,
             "CreateAccount" : true
           }
-
-          // console.log(user.getAuthResponse(true))
 
           exports.client.LoginWithGoogleAccount(request,
             function(error, result) {
