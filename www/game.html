@@ -35,13 +35,25 @@
     $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
 
     $(document).ready(function($) {
+
       $("#feedback-fail").hide()
 
       var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
       var theapp = new WWWW.QuestionHandler();
+
       var registerEmail = false;
 
       $("body").addClass("mobile");
+
+      var cached_ticket = WWWW.getCookie("wwww-session-ticket");
+      var userMail = WWWW.getCookie("wwww-user-mail")
+      $("#login-dialog-email-text").val(userMail)
+
+      if (cached_ticket != "") {
+        exports.settings.session_ticket = cached_ticket;
+        $("#login-button-email").addClass("success");
+        $("#login-email-state").html("mit Email eingeloggt");
+      }
 
       $("#login-dialog-email").hide();
       $("#login-dialog-email-username").hide();
@@ -50,21 +62,21 @@
         $("#login-dialog-email").toggle();
       });
       $("#login-email-submit").click(function() {
-        var address = $("#login-dialog-email-text").val();
-        var pwd     = $("#login-dialog-email-password").val();
+        userMail = $("#login-dialog-email-text").val();
+        var pwd  = $("#login-dialog-email-password").val();
 
         var request = {
-          "Email": address,
+          "Email": userMail,
           "Password": pwd
         };
 
         exports.client.LoginWithEmailAddress(request,
           function(error, result) {
-            console.log(error);
-            console.log(result);
+            console.log("Logging in with mail")
+            console.log("Error:", error);
+            console.log("Response:", result);
 
             if (result) {
-              console.log(exports.settings.session_ticket);
 
               $("#login-email-state").html("mit Email eingeloggt");
               $("#login-dialog-email").toggle();
@@ -89,7 +101,7 @@
           registerEmail = true;
         } else {
           var user    = $("#login-dialog-email-username-text").val();
-          var address = $("#login-dialog-email-text").val();
+          userMail    = $("#login-dialog-email-text").val();
           var pwd     = $("#login-dialog-email-password").val();
           var pwdRep  = $("#login-dialog-email-password-repeat-text").val();
 
@@ -97,14 +109,15 @@
 
             var request = {
               "Username" : user,
-              "Email": address,
+              "Email": userMail,
               "Password": pwd
             };
 
             exports.client.RegisterPlayFabUser(request,
               function(error, result) {
-                console.log(error);
-                console.log(result);
+                console.log("Registering mail user")
+                console.log("Error:", error);
+                console.log("Response:", result);
 
                 if (result) {
                   $("#login-email-state").html("mit Email eingeloggt");
@@ -121,6 +134,10 @@
         $("#title-screen").fadeOut();
         $("#link-imprint").hide();
         // $("#question-screen").show();
+        if (exports.settings.session_ticket) {
+          WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
+          WWWW.setCookie("wwww-user-mail", userMail, 10);
+        }
         theapp.run();
 
         $("#question-progress").css({width:'100%'});
@@ -156,8 +173,8 @@
             <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span>. <span id="answer-info"></span></div>
             <div id="score">
               <div id="answer-total-score"></div>
-              <div id="answer-total-score-label"></div>
               <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+              <div id="answer-previous-score"></div>
               <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
               <div id="abort2"><img src="img/cross.svg" /></div>
             </div>
