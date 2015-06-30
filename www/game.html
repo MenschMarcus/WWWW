@@ -34,7 +34,15 @@
 
     $('#viewport').attr('content', 'initial-scale='+r+', maximum-scale='+r+', minimum-scale='+r+', user-scalable=yes, target-densitydpi=device-dpi');
 
+    var userMail = "";
+
+    function updateCookies() {
+      WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
+      WWWW.setCookie("wwww-user-mail", userMail, 10);
+    }
+
     $(document).ready(function($) {
+
       $("#feedback-fail").hide()
 
       $("#debug").text(r);
@@ -42,45 +50,96 @@
       // var mobileKeyboardHandler = new WWWW.MobileKeyboardHandler();
       var theapp = new WWWW.QuestionHandler();
 
+      var registerEmail = false;
+
+      var cached_ticket = WWWW.getCookie("wwww-session-ticket");
+      userMail = WWWW.getCookie("wwww-user-mail")
+
+      $("#login-dialog-email-text").val(userMail)
+
+      if (cached_ticket != "") {
+        exports.settings.session_ticket = cached_ticket;
+        $("#login-button-email").addClass("success");
+        $("#login-email-state").html("mit Email eingeloggt");
+      }
+
       $("#login-dialog-email").hide();
+      $("#login-dialog-email-username").hide();
+      $("#login-dialog-email-password-repeat").hide();
       $("#login-button-email").click(function() {
         $("#login-dialog-email").toggle();
       });
       $("#login-email-submit").click(function() {
-        var address = $("#login-dialog-email-text").val();
-        var pwd     = $("#login-dialog-email-password").val();
+        userMail = $("#login-dialog-email-text").val();
+        var pwd  = $("#login-dialog-email-password").val();
 
         var request = {
-          "Email": address,
+          "Email": userMail,
           "Password": pwd
         };
 
         exports.client.LoginWithEmailAddress(request,
           function(error, result) {
-            console.log(error);
-            console.log(result);
+            console.log("Logging in with mail")
+            console.log("Error:", error);
+            console.log("Response:", result);
 
             if (result) {
-              console.log(exports.settings.session_ticket);
 
               $("#login-email-state").html("mit Email eingeloggt");
               $("#login-dialog-email").toggle();
               $("#login-button-email").addClass("success");
-              exports.client.GetUserData(null,
-                function(error, result) {
-                  console.log(error);
-                  console.log(result);
-                }
-              );
+
+              updateCookies();
             }
           }
         );
       });
 
+      $("#login-email-register").click(function() {
+        if (!registerEmail) {
+          $("#login-dialog-email-username").show();
+          $("#login-dialog-email-password-repeat").show();
+          $("#login-email-register").text("Registrieren");
+          $("#login-email-submit").hide();
+          registerEmail = true;
+        } else {
+          var user    = $("#login-dialog-email-username-text").val();
+          userMail    = $("#login-dialog-email-text").val();
+          var pwd     = $("#login-dialog-email-password").val();
+          var pwdRep  = $("#login-dialog-email-password-repeat-text").val();
+
+          if (pwd == pwdRep) {
+
+            var request = {
+              "Username" : user,
+              "Email": userMail,
+              "Password": pwd
+            };
+
+            exports.client.RegisterPlayFabUser(request,
+              function(error, result) {
+                console.log("Registering mail user")
+                console.log("Error:", error);
+                console.log("Response:", result);
+
+                if (result) {
+                  $("#login-email-state").html("mit Email eingeloggt");
+                  $("#login-dialog-email").toggle();
+                  $("#login-button-email").addClass("success");
+
+                  updateCookies();
+                }
+              }
+            );
+          }
+        }
+      });
+
       $("#start-button").click(function() {
         $("#title-screen").fadeOut();
         $("#link-imprint").hide();
-        // $("#question-screen").show();
+
         theapp.run();
 
         $("#question-progress").css({width:'100%'});
@@ -119,8 +178,8 @@
             <div id="answer"><span id="answer-location"></span>, <span id="answer-year"></span>. <span id="answer-info"></span></div>
             <div id="score">
               <div id="answer-total-score"></div>
-              <div id="answer-total-score-label"></div>
               <div id="answer-error">Distanz: <span id="answer-spatial-distance"></span> / <span id="answer-temporal-distance"></span></div>
+              <div id="answer-previous-score"></div>
               <div id="next-question" class="link btn primary invisible"><img src="img/arrow-right.svg" /></div>
               <div id="abort2"><img src="img/cross.svg" /></div>
             </div>
@@ -172,12 +231,34 @@
           <img id="logo" src="img/logo.svg" />
         </div>
         <div class="text-center">
-          <p><div class="btn block" id="login-button-email" href="#"><img src="img/googleplus.svg"> <span id="login-email-state">mit Email einloggen</span></div></p>
-          <div id="login-dialog-email">
-            <p>Email: <input id="login-dialog-email-text" type="email" autocomplete="on"></input></p>
-            <p>Passwort: <input id="login-dialog-email-password" type="password"></input></p>
-            <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
-          </div>
+          <p>
+            <div class="btn block" id="login-button-email" href="#">
+              <img src="img/googleplus.svg">
+              <span id="login-email-state">mit Email einloggen</span>
+            </div>
+            <div id="login-dialog-email" class="login-dialog">
+              <table>
+                <tr id="login-dialog-email-username">
+                  <td> Nutzername: </td>
+                  <td> <input id="login-dialog-email-username-text" type="text" autocomplete="on"></input></td>
+                </tr>
+                <tr>
+                  <td>Email:</td>
+                  <td><input id="login-dialog-email-text" type="email" autocomplete="on"></input></td>
+                </tr>
+                <tr>
+                  <td> Passwort: </td>
+                  <td> <input id="login-dialog-email-password" type="password"></input></td>
+                </tr>
+                <tr id="login-dialog-email-password-repeat">
+                  <td> Passwort bestätigen: </td>
+                  <td> <input id="login-dialog-email-password-repeat-text" type="password"></input> </td>
+                </tr>
+              </table>
+              <p><div class="btn block" id="login-email-submit"><span>Einloggen</span></div></p>
+              <p><div class="btn block" id="login-email-register"><span>Neu anmelden</span></div></p>
+            </div>
+          </p>
           <p><div class="btn block"><img src="img/googleplus.svg"> <span>mit Google+ einloggen</span></div></p>
           <p><div class="btn block"><img src="img/facebook.svg"> <span>mit facebook einloggen</span></div></p>
           <br>

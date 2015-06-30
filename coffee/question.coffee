@@ -1,6 +1,5 @@
 window.WWWW ?= {}
 
-WWWW.DRY_RUN = true
 WWWW.TEST_RUN = true
 WWWW.TEST_START_ID = 0
 
@@ -312,7 +311,6 @@ class WWWW.QuestionHandler
     score = Math.round((Math.pow(spatialScore, 3) + Math.pow(yearScore, 3)) / 2 * @_maxScore)
 
     $("#answer-total-score").html score
-    $("#answer-total-score-label").html if score is 1 then "Erreichter Punkt" else "Erreichte Punkte"
     $("#answer-max-score").html @_maxScore
 
     @_totalScore += score
@@ -324,25 +322,39 @@ class WWWW.QuestionHandler
     @_currentAnswer.round_count = @_roundCount
     @_currentAnswer.q_id = @_currentQuestion.id
 
-    scoreRequest = {}
-    scoreRequest["Data"] = {}
-    scoreRequest["Data"]["question_#{@_currentQuestion.id}"] = "#{score}"
-
-    console.log scoreRequest
     if exports.settings.session_ticket?
-      exports.client.UpdateUserData scoreRequest,
+      idString = "q_#{@_currentQuestion.id}"
+
+      scoreRequest = {}
+      scoreRequest["Keys"] = [idString]
+      console.log scoreRequest
+      exports.client.GetUserData scoreRequest,
         (error, result) =>
           console.log error
           console.log result
+
+          previousScore = 0
+          if result?.Data[idString]?.Value?
+            previousScore = result.Data[idString].Value
+            $("#answer-previous-score").html "Dein Bestes: #{previousScore}"
+
+
+          if score > previousScore
+            udpateRequest = {}
+            udpateRequest["Data"] = {}
+            udpateRequest["Data"][idString] = "#{score}"
+
+            exports.client.UpdateUserData udpateRequest,
+              (error, result) =>
+                console.log error
+                console.log result
+
 
 
     @_questionCount += 1
 
     $("#submit-answer").addClass("hidden");
     @_mapMarker.hide();
-
-    unless WWWW.DRY_RUN
-      @submitAnswer()
 
     window.setTimeout () =>
       @_currentQuestionRating = null
