@@ -32,7 +32,14 @@
 
     var ratio = Math.min(w_ratio, h_ratio);
 
+    var userMail = "";
+
     $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no');
+
+    function updateCookies() {
+      WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
+      WWWW.setCookie("wwww-user-mail", userMail, 10);
+    }
 
     $(document).ready(function($) {
 
@@ -46,7 +53,8 @@
       $("body").addClass("mobile");
 
       var cached_ticket = WWWW.getCookie("wwww-session-ticket");
-      var userMail = WWWW.getCookie("wwww-user-mail")
+      userMail = WWWW.getCookie("wwww-user-mail")
+
       $("#login-dialog-email-text").val(userMail)
 
       if (cached_ticket != "") {
@@ -81,12 +89,8 @@
               $("#login-email-state").html("mit Email eingeloggt");
               $("#login-dialog-email").toggle();
               $("#login-button-email").addClass("success");
-              exports.client.GetUserData(null,
-                function(error, result) {
-                  console.log(error);
-                  console.log(result);
-                }
-              );
+
+              updateCookies();
             }
           }
         );
@@ -123,6 +127,8 @@
                   $("#login-email-state").html("mit Email eingeloggt");
                   $("#login-dialog-email").toggle();
                   $("#login-button-email").addClass("success");
+
+                  updateCookies();
                 }
               }
             );
@@ -133,11 +139,7 @@
       $("#start-button").click(function() {
         $("#title-screen").fadeOut();
         $("#link-imprint").hide();
-        // $("#question-screen").show();
-        if (exports.settings.session_ticket) {
-          WWWW.setCookie("wwww-session-ticket", exports.settings.session_ticket, 1);
-          WWWW.setCookie("wwww-user-mail", userMail, 10);
-        }
+
         theapp.run();
 
         $("#question-progress").css({width:'100%'});
