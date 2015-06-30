@@ -23,3 +23,17 @@
 @import "marker.less";
 @import "pulse_dot.less";
 @import "zoom_control.less";
+@import "version.less";
+
+#version {
+  right:2px;
+  bottom:1px;
+  position:absolute;
+  color:rgba(0,0,0,0.7);
+  font-size:0.8em;
+  z-index:100;
+
+  &:after {
+    content: @version;
+  }
+}
