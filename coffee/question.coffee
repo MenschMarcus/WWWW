@@ -131,16 +131,14 @@ class WWWW.QuestionHandler
       axis: "x"
       containment: "parent"
       drag: (event)=>
-        @_updateTimeline()
+        @_updateTime()
       stop: (event)=>
-        @_updateTimeline()
+        @_updateTime()
 
     $("#tl-zoom-plus").click () =>
-
       unless @_questionAnswered
         pos = $("#tl-zoom-handle-outer").offset().left -
-              $("#tl-zoom-slider").offset().left +
-              $("#tl-zoom-handle-outer").width() / 2
+              $("#tl-zoom-slider").offset().left
 
         currentYear = @_pixelToTime pos
         new_year = Math.min @_timeline.max_year, currentYear + 1
@@ -149,14 +147,12 @@ class WWWW.QuestionHandler
         $("#tl-zoom-handle-outer").offset
           left : new_pos
 
-        @_updateTimeline()
+        @_updateTime()
 
     $("#tl-zoom-minus").click () =>
-
       unless @_questionAnswered
         pos = $("#tl-zoom-handle-outer").offset().left -
-              $("#tl-zoom-slider").offset().left +
-              $("#tl-zoom-handle-outer").width() / 2
+              $("#tl-zoom-slider").offset().left
 
         currentYear = @_pixelToTime pos
         new_year = Math.max @_timeline.min_year, currentYear - 1
@@ -165,21 +161,26 @@ class WWWW.QuestionHandler
         $("#tl-zoom-handle-outer").offset
           left : new_pos
 
-        @_updateTimeline()
+        @_updateTime()
+
 
     $("#tl-zoom-slider").click (event) =>
-
       unless @_questionAnswered
         pos = event.pageX -
               $("#tl-zoom-slider").offset().left -
               $("#tl-zoom-handle-outer").outerWidth() / 2
 
+        new_year = @_pixelToTime pos
+        new_year = Math.max Math.min(new_year, @_timeline.max_year), @_timeline.min_year
+        new_pos = @_timeToPixel new_year
+        new_pos -= $("#tl-zoom-slider").offset().left
+
         property =
-          left: pos
+          left: new_pos
 
         opts =
           step: () =>
-            @_updateTimeline()
+            @_updateTime()
           duration : 200
 
         $("#tl-zoom-handle-outer").animate property, opts
@@ -337,7 +338,7 @@ class WWWW.QuestionHandler
 
     @_questionCount += 1
 
-    $("#submit-answer").hide("fast");
+    $("#submit-answer").addClass("hidden");
     @_mapMarker.hide();
 
     unless WWWW.DRY_RUN
@@ -346,7 +347,16 @@ class WWWW.QuestionHandler
     window.setTimeout () =>
       @_currentQuestionRating = null
       $("#next-question").removeClass("invisible");
-      $("#top-bar").css({top: -$("#question").outerHeight() - 9 + "px"});
+
+      hidePos = -$("#question").outerHeight() - 9 + "px"
+
+      $("#top-bar").css({
+        '-webkit-transform' : 'translateY(' + hidePos + ')',
+        '-moz-transform'    : 'translateY(' + hidePos + ')',
+        '-ms-transform'     : 'translateY(' + hidePos + ')',
+        '-o-transform'      : 'translateY(' + hidePos + ')',
+        'transform'         : 'translateY(' + hidePos + ')'
+      });
       $("#results").removeClass("hidden");
     , 2000
 
@@ -359,12 +369,19 @@ class WWWW.QuestionHandler
       @_barDiv.css "width", "100%"
 
       $("#results").addClass("hidden");
-      $("#top-bar").css({top: "0px"});
+
+      $("#top-bar").css({
+        '-webkit-transform' : 'translateY(0px)',
+        '-moz-transform'    : 'translateY(0px)',
+        '-ms-transform'     : 'translateY(0px)',
+        '-o-transform'      : 'translateY(0px)',
+        'transform'         : 'translateY(0px)'
+      });
 
       $("#next-question").addClass("invisible");
       $("#next-round").addClass("invisible");
       $("#round-end").addClass("invisible");
-      $("#submit-answer").show("fast");
+      $("#submit-answer").removeClass("hidden");
 
       $("#tl-chosen").removeClass("right");
       $("#tl-chosen").removeClass("left");
@@ -523,7 +540,7 @@ class WWWW.QuestionHandler
     $("#tl-zoom-handle-outer").offset
       left : startPos + $("#tl-zoom-line").offset().left
 
-    @_updateTimeline()
+    @_updateTime()
 
   _updateMapZoomHandle: (zoom) =>
 
@@ -536,7 +553,7 @@ class WWWW.QuestionHandler
     # $("#map-zoom-handle-outer").offset
     #   top: relativePos + $("#map-zoom-slider").offset().top
 
-  _updateTimeline: () =>
+  _updateTime: () =>
     pos = $("#tl-zoom-handle-outer").offset().left -
           $("#tl-zoom-slider").offset().left
 
