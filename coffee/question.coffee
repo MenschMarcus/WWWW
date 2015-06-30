@@ -52,7 +52,9 @@ class WWWW.QuestionHandler
       dragging: true
       touchZoom: true
       scrollWheelZoom: false
-      doubleClickZoom: false
+      doubleClickZoom: true
+      worldCopyJump: true
+      bounceAtZoomLimits: false
       boxZoom: false
       keyboard: false
 
