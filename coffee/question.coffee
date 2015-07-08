@@ -432,6 +432,8 @@ class WWWW.QuestionHandler
         @_currentQuestion = @_questions[newQuestionIndex]
 
       # update question year
+
+      @_currentQuestion.year = parseInt @_currentQuestion.year  # prevents adding "1" to string
       if @_currentQuestion.year < 0
         @_currentQuestion.year += 1
 
